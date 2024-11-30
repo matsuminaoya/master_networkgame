@@ -63,13 +63,11 @@ def Initialize_value_zero(): #ok1130
 def Initialize_value_eleven():#ok1130
     return np.full(n, 1.1)
 
-def Initialize_values_le(inivalue):#TODO:#新規作成関数
+def Initialize_values_le(inivalue):#TODO:#新規作成関数,leのみ
+    global tc,tl
     tc = eval("Initialize_value_"+inivalue)()#フレキシブル化#pok
     tl = eval("Initialize_value_"+inivalue)()#フレキシブル化#pok 
 
-def tctltf(type):
-    if type == "leave":
-        return tc,tf
 
 
 #name = "Initialize_value_eleven"
