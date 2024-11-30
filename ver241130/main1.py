@@ -1016,7 +1016,7 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
                 tc,tl,tf = Selection_tc_tl_tf(m_random=m_random, count_poff_ge=count_poff_ge, cho=cho, tc_pre=tc, tl_pre=tl, tf_pre=tf)
                 tc,tl,tf = Mutation_tc_tl_tf(m_random=m_random,tc_pre=tc,tl_pre=tl,tf_pre=tf)
             #graph
-            # 平均値を入れる/全部入れる
+            # geにおいて、平均値を入れる/全部入れる
             if lorf == "leave":
                 tc_avr_ges.append(mean(tc)) #ok
                 tl_avr_ges.append(mean(tl))
@@ -1042,6 +1042,7 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
                 ln_all_ges.append(ln)#各geでの全員のリンク数、1ge1234人目,2ge1234人目
             #if tr == 0:
             #    linkmatrix_ges_tr0.append(linkmatrix) #トライアル0の場合は全ての世代でのネットワークを保存
+        #trにおいて、ためる/解除してためる
         if lorf == "leave":
             tc_avr_ges_trs.append(tc_avr_ges) #ok
             tl_avr_ges_trs.append(tl_avr_ges)
