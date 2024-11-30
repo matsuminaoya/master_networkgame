@@ -1,3 +1,5 @@
+#TODO:チョイスを修正、初期値揃える（フレキシブル化）←ココ、gをずらす、間違いを探す、最初と最後だけ別に出力
+
 #python.exe -m pip install --upgrade pip
 #import gc
 import time
@@ -30,13 +32,14 @@ g_step = 100 #100
 ani_step = 100 #100
 
 #for testing
-# n = 3
-# trial = 2
-# generation = 51
-# roound = 2
-# work = 2
-# g_step = 10
-# ani_step = 10
+n = 3
+generation = 51
+trial = 2
+roound = 2
+work = 2
+g_step = 10
+ani_step = 10
+
 
 #define
 def Randomn(): #ok
@@ -49,13 +52,22 @@ def Sigmoid(x): #ok
 def Initialize_value(): #ok
     rng = np.random.default_rng()
     return 0.1*rng.integers(12,size=(1,n))[0]
+def Initialize_value_zero(): #ok1130
+    return np.zeros(n)
+def Initialize_value_eleven():#ok1130
+    return np.full(n, 1.1)
+
+#name = "Initialize_value_eleven"
+#print(eval(name)())
 
 def Initialize_linkmatrix_full(): #ok
     linkmatrix_rvs = np.identity(n)
     return np.where(linkmatrix_rvs==0,1,0)
 def Initialize_linkmatrix_null(): #ok
     return np.zeros((n,n),dtype=np.int16)
-#def ba done
+def Initialize_linkmatrix_ba(): #完成
+    ba = nx.barabasi_albert_graph(n,bam) #n=node number, m=new node's link number
+    return nx.to_numpy_array(ba, dtype=int)
 
 def Calculate_cnum(coop_ro, linkmatrix): #ok
     coop_ro_rvs = np.where(coop_ro==0,1,0) #ok
@@ -78,10 +90,10 @@ def Calculate_poff_ro(coop_ro, lnum_ro, cnum_ro): #ok #利得は人数で割っ�
 # def Initialize_count_game_ge_null(): #ok
 #     return np.zeros((1,n))[0]
 
-def Linked_choice(linkmatrix, count_poff_ge, cho): #ok #cho=[]
-    linked_poff = linkmatrix*count_poff_ge #ok # TODO: ここあってるん？
+def Linked_choice(linkmatrix, cho): #ok #cho=[]
+    #linked_poff = linkmatrix*count_poff_ge #ok # TODO:利得最大の人の真似をするのが残ってた
     for k in range(n):
-        linked_cho = linked_poff[k].nonzero()
+        linked_cho = linkmatrix[k].nonzero()
         if len(linked_cho[0]) == 0: #自分をついか
             cho.append(k)
         else:
@@ -90,7 +102,7 @@ def Linked_choice(linkmatrix, count_poff_ge, cho): #ok #cho=[]
     return cho
 
 def Selection_tc_tl_tf(m_random, count_poff_ge, cho, tc_pre, tl_pre, tf_pre): #okok
-    fermi = Sigmoid(1.0*a*(count_poff_ge[cho]-count_poff_ge)) #引き算の大きさが影響してる？フェルミの傾き
+    fermi = Sigmoid(1.0*a*(count_poff_ge[cho]-count_poff_ge)) #TODO:引き算の大きさが影響してる？フェルミの傾き
     f_random = Randomn()
     tc = np.where(((mutation<=m_random)&(f_random<fermi)), tc_pre[cho], tc_pre)
     f_random = Randomn()
@@ -152,7 +164,7 @@ def Coop_ro_nonzero(cnum_ro, lnum_ro, tc): #okok
     coop_ro = np.where(((lnum_ro==0)&(tc>tc_random)), 0, coop_ro_2)
     return coop_ro
 
-def Leave_Form_tl_tf(linkmatrix, coop_ratio, tl, tf): #TODO: きりはりだとｔｃがさがる、ｇが少ないと協力的、ｇが100000、500、100・・・900,gが少ないとfullだと非協力的に、平均と累積べつべつ、
+def Leave_Form_tl_tf(work, linkmatrix, coop_ratio, tl, tf): #workを明示#TODO: きりはりだとｔｃがさがる、ｇが少ないと協力的、ｇが100000、500、100・・・900,gが少ないとfullだと非協力的に、平均と累積べつべつ、
     rng = np.random.default_rng()
     pair_index = np.triu_indices(n, k=1)
     x = rng.integers(((n-1)*n/2),size=(1,work))[0]
@@ -167,7 +179,7 @@ def Leave_Form_tl_tf(linkmatrix, coop_ratio, tl, tf): #TODO: きりはりだと�
         linkmatrix[pair[0][mask_f],pair[1][mask_f]] = 1
         linkmatrix[pair[1][mask_f],pair[0][mask_f]] = 1
     return linkmatrix
-def Leave_Form_tl(linkmatrix, coop_ratio, tl): #ok
+def Leave_Form_tl(work, linkmatrix, coop_ratio, tl): #ok#workを明示
     rng = np.random.default_rng()
     pair_index = np.triu_indices(n, k=1)
     x = rng.integers(((n-1)*n/2),size=(1,work))[0]
@@ -178,7 +190,7 @@ def Leave_Form_tl(linkmatrix, coop_ratio, tl): #ok
     linkmatrix[pair[0][mask_l],pair[1][mask_l]] = 0
     linkmatrix[pair[1][mask_l],pair[0][mask_l]] = 0
     return linkmatrix
-def Leave_Form_tf(linkmatrix, coop_ratio, tf): #ok
+def Leave_Form_tf(work, linkmatrix, coop_ratio, tf): #ok#workを明示
     rng = np.random.default_rng()
     pair_index = np.triu_indices(n, k=1)
     x = rng.integers(((n-1)*n/2),size=(1,work))[0]
@@ -378,12 +390,12 @@ def start_bo_full():#ok
                     count_poff_ge += poff_ro
                 if ro < roound-1:
                     coop_ratio = np.divide(count_coop_game_ge, count_game_ge, where=count_game_ge>0)
-                    linkmatrix = Leave_Form_tl_tf(linkmatrix=linkmatrix,coop_ratio=coop_ratio, tl=tl, tf=tf)
+                    linkmatrix = Leave_Form_tl_tf(work=work,linkmatrix=linkmatrix,coop_ratio=coop_ratio, tl=tl, tf=tf)
             print(str(tr)+"tr-"+str(ge)+"ge")
             ln = np.sum(linkmatrix,axis=1)
             #sellection
             m_random = Randomn()
-            cho = Linked_choice(linkmatrix, count_poff_ge, cho=[])
+            cho = Linked_choice(linkmatrix, cho=[])
             tc,tl,tf = Selection_tc_tl_tf(m_random=m_random,count_poff_ge=count_poff_ge,cho=cho,tc_pre=tc,tl_pre=tl,tf_pre=tf)
             #mutation
             tc,tl,tf = Mutation_tc_tl_tf(m_random=m_random,tc_pre=tc,tl_pre=tl,tf_pre=tf)
@@ -444,7 +456,6 @@ def start_bo_full():#ok
     time7 = time.time()
     print("ani"+Elapsed_time_hms(time7-time6))
     print("all"+Elapsed_time_hms(time7-time0))
-#start_bo_full()
 
 def start_le_full():#ok
     name = inspect.currentframe().f_code.co_name
@@ -478,7 +489,7 @@ def start_le_full():#ok
                     count_poff_ge += poff_ro
                 if ro < roound-1:
                     coop_ratio = np.divide(count_coop_game_ge, count_game_ge, where=count_game_ge>0)
-                    linkmatrix = Leave_Form_tl(linkmatrix=linkmatrix,coop_ratio=coop_ratio, tl=tl)
+                    linkmatrix = Leave_Form_tl(work=work,linkmatrix=linkmatrix,coop_ratio=coop_ratio, tl=tl)
             print(str(tr)+"tr-"+str(ge)+"ge")
             ln = np.sum(linkmatrix,axis=1)
             #sellection
@@ -537,7 +548,6 @@ def start_le_full():#ok
     time7 = time.time()
     print("ani"+Elapsed_time_hms(time7-time6))
     print("all"+Elapsed_time_hms(time7-time0))
-#start_le_full()
 
 def start_fo_null(): #ok based
     name = inspect.currentframe().f_code.co_name
@@ -571,12 +581,12 @@ def start_fo_null(): #ok based
                     count_poff_ge += poff_ro
                 if ro < roound-1:
                     coop_ratio = np.divide(count_coop_game_ge, count_game_ge, where=count_game_ge>0)
-                    linkmatrix = Leave_Form_tf(linkmatrix=linkmatrix,coop_ratio=coop_ratio, tf=tf)
+                    linkmatrix = Leave_Form_tf(work=work,linkmatrix=linkmatrix,coop_ratio=coop_ratio, tf=tf)
             print(str(tr)+"tr-"+str(ge)+"ge")
             ln = np.sum(linkmatrix,axis=1)
             #sellection
             m_random = Randomn()
-            cho = Linked_choice(linkmatrix, count_poff_ge, cho=[])
+            cho = Linked_choice(linkmatrix, cho=[])
             tc,tf = Selection_tc_tf(m_random=m_random, count_poff_ge=count_poff_ge, cho=cho, tc_pre=tc, tf_pre=tf)
             #mutation
             tc,tf = Mutation_tc_tf(m_random=m_random,tc_pre=tc,tf_pre=tf)
@@ -630,13 +640,7 @@ def start_fo_null(): #ok based
     time7 = time.time()
     print("ani"+Elapsed_time_hms(time7-time6))
     print("all"+Elapsed_time_hms(time7-time0))
-#start_fo_null()
 
-
-#1122-
-def Initialize_linkmatrix_ba(): #完成
-    ba = nx.barabasi_albert_graph(n,bam) #n=node number, m=new node's link number
-    return nx.to_numpy_array(ba, dtype=int)
 def start_bo_ba():
     name = inspect.currentframe().f_code.co_name
     tc_avr_ges_trs,tl_avr_ges_trs,tf_avr_ges_trs,ln_avr_ges_trs = [],[],[],[]
@@ -670,12 +674,12 @@ def start_bo_ba():
                     count_poff_ge += poff_ro
                 if ro < roound-1:
                     coop_ratio = np.divide(count_coop_game_ge, count_game_ge, where=count_game_ge>0)
-                    linkmatrix = Leave_Form_tl_tf(linkmatrix=linkmatrix,coop_ratio=coop_ratio, tl=tl, tf=tf)
+                    linkmatrix = Leave_Form_tl_tf(work=work,linkmatrix=linkmatrix,coop_ratio=coop_ratio, tl=tl, tf=tf)
             print(str(tr)+"tr-"+str(ge)+"ge")
             ln = np.sum(linkmatrix,axis=1)
             #sellection
             m_random = Randomn()
-            cho = Linked_choice(linkmatrix, count_poff_ge, cho=[])
+            cho = Linked_choice(linkmatrix, cho=[])
             tc,tl,tf = Selection_tc_tl_tf(m_random=m_random,count_poff_ge=count_poff_ge,cho=cho,tc_pre=tc,tl_pre=tl,tf_pre=tf)
             #mutation
             tc,tl,tf = Mutation_tc_tl_tf(m_random=m_random,tc_pre=tc,tl_pre=tl,tf_pre=tf)
@@ -736,7 +740,6 @@ def start_bo_ba():
     time7 = time.time()
     print("ani"+Elapsed_time_hms(time7-time6))
     print("all"+Elapsed_time_hms(time7-time0))
-start_bo_ba()
 
 def start_bo_null():
     name = inspect.currentframe().f_code.co_name
@@ -771,12 +774,12 @@ def start_bo_null():
                     count_poff_ge += poff_ro
                 if ro < roound-1:
                     coop_ratio = np.divide(count_coop_game_ge, count_game_ge, where=count_game_ge>0)
-                    linkmatrix = Leave_Form_tl_tf(linkmatrix=linkmatrix,coop_ratio=coop_ratio, tl=tl, tf=tf)
+                    linkmatrix = Leave_Form_tl_tf(work=work,linkmatrix=linkmatrix,coop_ratio=coop_ratio, tl=tl, tf=tf)
             print(str(tr)+"tr-"+str(ge)+"ge")
             ln = np.sum(linkmatrix,axis=1)
             #sellection
             m_random = Randomn()
-            cho = Linked_choice(linkmatrix, count_poff_ge, cho=[])
+            cho = Linked_choice(linkmatrix, cho=[])
             tc,tl,tf = Selection_tc_tl_tf(m_random=m_random,count_poff_ge=count_poff_ge,cho=cho,tc_pre=tc,tl_pre=tl,tf_pre=tf)
             #mutation
             tc,tl,tf = Mutation_tc_tl_tf(m_random=m_random,tc_pre=tc,tl_pre=tl,tf_pre=tf)
@@ -837,9 +840,110 @@ def start_bo_null():
     time7 = time.time()
     print("ani"+Elapsed_time_hms(time7-time6))
     print("all"+Elapsed_time_hms(time7-time0))
-start_bo_null()
 
-###note
+#TODO:実行
+#start_le_full()
+#start_fo_null()
+#start_bo_null()
+#start_bo_full()
+#start_bo_ba()
+
+#初期値0揃え
+inivalue = "zero"
+ininet = "full"
+
+def start_le(ininet = ininet, inivalue = inivalue):
+    name = inspect.currentframe().f_code.co_name
+    name = name+"_"+ininet+"_"+inivalue #フレキシブル名称変更
+    tc_avr_ges_trs=tl_avr_ges_trs=ln_avr_ges_trs=tc_all_ges_trs=tl_all_ges_trs=ln_all_ges_trs=linkmatrix_ges_tr0=[]#一行に変更
+    for tr in range(trial):
+        tc = eval("Initialize_value_"+inivalue)()#フレキシブル化#pok
+        tl = eval("Initialize_value_"+inivalue)()#フレキシブル化#pok
+        linkmatrix = eval("Initialize_linkmatrix_"+ininet)()#フレキシブル化#pok
+        tc_avr_ges=tl_avr_ges=ln_avr_ges=tc_all_ges=tl_all_ges=ln_all_ges=[]#一行に変更
+        for ge in range(generation):
+            for ro in range(roound):
+                if ro == 0:#1122変更
+                    lnum_ro = np.sum(linkmatrix,axis=1) #追加,今回のリンク数を調べる
+                    coop_ro = Coop_ro_zero(tc) #これだけで自分の協力非協力決める
+                    cnum_ro = Calculate_cnum(coop_ro=coop_ro,linkmatrix=linkmatrix) #変更後の協力数調べる
+                    poff_ro = Calculate_poff_ro(coop_ro=coop_ro,lnum_ro=lnum_ro,cnum_ro=cnum_ro) #変更
+                    count_game_ge = np.where(lnum_ro>0, 1, 0) #変更
+                    count_coop_game_ge = np.where((lnum_ro>0)&(coop_ro==1), 1, 0) #変更
+                    count_poff_ge = poff_ro
+                if ro > 0:#1122変更
+                    lnum_ro = np.sum(linkmatrix,axis=1) #今回のリンク数調べる
+                    cnum_ro = Calculate_cnum(coop_ro=coop_ro,linkmatrix=linkmatrix) #変更前の協力数調べる
+                    coop_ro = Coop_ro_nonzero(cnum_ro=cnum_ro,lnum_ro=lnum_ro, tc=tc) #それで自分の協力非協力きめる
+                    cnum_ro = Calculate_cnum(coop_ro=coop_ro,linkmatrix=linkmatrix) #変更後の協力数調べる
+                    poff_ro = Calculate_poff_ro(coop_ro=coop_ro,lnum_ro=lnum_ro,cnum_ro=cnum_ro) #利得求める
+                    count_game_ge += np.where(lnum_ro>0, 1, 0)
+                    count_coop_game_ge += np.where((lnum_ro>0)&(coop_ro==1), 1, 0)
+                    count_poff_ge += poff_ro
+                if ro < roound-1:
+                    coop_ratio = np.divide(count_coop_game_ge, count_game_ge, where=count_game_ge>0)
+                    linkmatrix = Leave_Form_tl(work=work,linkmatrix=linkmatrix,coop_ratio=coop_ratio, tl=tl)
+            print(str(tr)+"tr-"+str(ge)+"ge")
+            ln = np.sum(linkmatrix,axis=1)
+            #sellection, mutation
+            m_random = Randomn()
+            cho = Linked_choice(linkmatrix, cho=[])#修正
+            tc,tl = Selection_tc_tl(m_random=m_random, count_poff_ge=count_poff_ge, cho=cho, tc_pre=tc, tl_pre=tl)
+            tc,tl = Mutation_tc_tl(m_random=m_random,tc_pre=tc,tl_pre=tl)
+            #graph
+            tc_avr_ges.append(mean(tc)) #ok
+            tl_avr_ges.append(mean(tl))
+            ln_avr_ges.append(mean(ln))
+            tc_all_ges.append(tc)
+            tl_all_ges.append(tl)
+            ln_all_ges.append(ln)
+            #if tr == 0:
+            #    linkmatrix_ges_tr0.append(linkmatrix) #トライアル0の場合は全ての世代でのネットワークを保存
+        tc_avr_ges_trs.append(tc_avr_ges) #ok
+        tl_avr_ges_trs.append(tl_avr_ges)
+        ln_avr_ges_trs.append(ln_avr_ges)
+        tc_all_ges_trs.extend(tc_all_ges)
+        tl_all_ges_trs.extend(tl_all_ges)
+        ln_all_ges_trs.extend(ln_all_ges)
+    # time1 = time.time()#new
+    # print("sim"+Elapsed_time_hms(elapsed_time=(time1-time0)))#new
+    #oresen
+    ge_ges = np.arange(generation)
+    ln_avr_ges_trs_avr = np.mean(ln_avr_ges_trs, axis=0)
+    tc_avr_ges_trs_avr = np.mean(tc_avr_ges_trs, axis=0)
+    tl_avr_ges_trs_avr = np.mean(tl_avr_ges_trs, axis=0)
+    df = pd.DataFrame({"ge":ge_ges,"tc":tc_avr_ges_trs_avr,"tl":tl_avr_ges_trs_avr, "ln":ln_avr_ges_trs_avr})
+    df.to_csv(name + "_avr.csv")
+    Graph_avr_tc_tl(name + "_avr.csv").savefig(name + "_avr.png")
+    #vio box
+    tr_trs_repeat = np.repeat(np.arange(trial),generation)
+    ge_ges_repeat = np.tile(ge_ges, trial)
+    df = pd.DataFrame({"tr":tr_trs_repeat, "ge":ge_ges_repeat, "tc":tc_all_ges_trs, "tl":tl_all_ges_trs, "ln":ln_all_ges_trs})
+    df.to_csv(name + "_all.csv")
+    df = Graph_all_tc_tl_dfexplode(name + "_all.csv")
+    # time2 = time.time()
+    # Graph_all_vio(df, ylabel="tc").savefig(name + "_all_vio_tc.png")
+    # time3 = time.time()
+    # print("vio"+Elapsed_time_hms(time3-time2))
+    # Graph_all_vio(df, ylabel="tl").savefig(name + "_all_vio_tl.png")
+    # Graph_all_vio(df, ylabel="ln").savefig(name + "_all_vio_ln.png")
+    # time4 = time.time()
+    Graph_all_box(df, ylabel="tc").savefig(name + "_all_box_tc.png")
+    # time5 = time.time()
+    # print("box"+Elapsed_time_hms(time5-time4))
+    Graph_all_box(df, ylabel="tl").savefig(name + "_all_box_tl.png")
+    Graph_all_box(df, ylabel="ln").savefig(name + "_all_box_ln.png")
+    #network gif
+    #df = pd.DataFrame({"ge":ge_ges, "linkmatrix":linkmatrix_ges_tr0})
+    #df.to_csv(name + "_tr0_network.csv")
+    #time6 = time.time()
+    #Graph_network_ani(linkmatrix_ges=linkmatrix_ges_tr0).save(name + "_tr0_network.gif", writer='pillow', fps=60)
+    time7 = time.time()
+    #print("ani"+Elapsed_time_hms(time7-time6))
+    print("all"+Elapsed_time_hms(time7-time0))
+
+start_le()
+###note-1123まで
 # np.array([0,0],[0,0])でリストからナンパイ
 # tc,tl,tf = selection
 # gameカウントはリンクが繋がっている回数
@@ -854,3 +958,4 @@ start_bo_null()
 #1122 前回貰った改善点を列挙しておこう
 #1123 tlは0.5安定で、tfが暴れるのはtfは繋がっているから真似するセレクションの影響が強い、利得は最初しか変わらないから、そいつの初期値に依存する？
 #全員0.5スタートやってみてもいいかも
+#eval(関数名文字列)()で実行できるスゲー
