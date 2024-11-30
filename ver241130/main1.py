@@ -33,8 +33,8 @@ ani_step = 100 #100
 
 #for testing
 n = 3
+trial = 1
 generation = 11
-trial = 2
 roound = 2
 work = 2
 g_step = 10
