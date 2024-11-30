@@ -893,7 +893,7 @@ def start_le(ininet = ininet, inivalue = inivalue):
             #graph
             tc_avr_ges.append(mean(tc)) #ok
             tl_avr_ges.append(mean(tl))
-            ln_avr_ges.append(mean(ln))
+            ln_avr_ges.append(mean(ln))#各ラウンドでの全員の平均リンクを入れていく
             tc_all_ges.append(tc)
             tl_all_ges.append(tl)
             ln_all_ges.append(ln)
