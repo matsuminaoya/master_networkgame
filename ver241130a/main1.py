@@ -1131,6 +1131,7 @@ roound = 2
 work = 2
 g_step = 2
 ani_step = 2
+
 start(lorf="leave",ininet="full", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=trial, work=work)
 
 ###note-1123まで
