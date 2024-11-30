@@ -962,7 +962,7 @@ def start(type = "leave", ininet = "ininet", inivalue = "inivalue", trial = 0, w
     for tr in range(trial):
         # tc = eval("Initialize_value_"+inivalue)()#フレキシブル化#pok#TODO:
         # tl = eval("Initialize_value_"+inivalue)()#フレキシブル化#pok#TODO:
-        eval("Initialize_values_"+type)(inivalue)
+        eval("Initialize_values_"+type+"("+inivalue+")")
         print(tc)
         print(tl)
         linkmatrix = eval("Initialize_linkmatrix_"+ininet)()#フレキシブル化#pok
