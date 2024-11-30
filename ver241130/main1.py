@@ -962,7 +962,7 @@ def le(ininet = "ininet", inivalue = "inivalue", trial = 0, work = 0):
 
 def start(type = "leave", ininet = "ininet", inivalue = "inivalue", trial = 0, work = 0):
     name = "t"+str(trial)+"_w"+str(work)+"_" + type + "_"+ininet+"_"+inivalue #フレキシブル名称変更
-    os.makedirs(name, exist_ok=False) #フォルダ作成、同じ名前があるとエラー
+    os.makedirs(name, exist_ok=True)#TODO: #フォルダ作成、同じ名前があるとエラー
     tc_avr_ges_trs,tl_avr_ges_trs,ln_avr_ges_trs,tc_all_ges_trs,tl_all_ges_trs,ln_all_ges_trs,linkmatrix_ges_tr0 = [],[],[],[],[],[],[]#一行に変更#TODO:
     for tr in range(trial):
         # tc = eval("Initialize_value_"+inivalue)()#フレキシブル化#pok#TODO:
