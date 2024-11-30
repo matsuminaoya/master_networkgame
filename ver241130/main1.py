@@ -1023,6 +1023,22 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
                 tc_all_ges.append(tc)
                 tl_all_ges.append(tl)#TODO:
                 ln_all_ges.append(ln)#各geでの全員のリンク数、1ge1234人目,2ge1234人目
+            if lorf == "form":
+                tc_avr_ges.append(mean(tc)) #ok
+                tf_avr_ges.append(mean(tf))
+                ln_avr_ges.append(mean(ln))#各geでの全員の平均リンクを入れていく
+                tc_all_ges.append(tc)
+                tf_all_ges.append(tf)#TODO:
+                ln_all_ges.append(ln)#各geでの全員のリンク数、1ge1234人目,2ge1234人目
+            if lorf == "leave":
+                tc_avr_ges.append(mean(tc)) #ok
+                tl_avr_ges.append(mean(tl))
+                tf_avr_ges.append(mean(tf))
+                ln_avr_ges.append(mean(ln))#各geでの全員の平均リンクを入れていく
+                tc_all_ges.append(tc)
+                tl_all_ges.append(tl)#TODO:
+                tf_all_ges.append(tf)#TODO:
+                ln_all_ges.append(ln)#各geでの全員のリンク数、1ge1234人目,2ge1234人目
             #if tr == 0:
             #    linkmatrix_ges_tr0.append(linkmatrix) #トライアル0の場合は全ての世代でのネットワークを保存
         tc_avr_ges_trs.append(tc_avr_ges) #ok
