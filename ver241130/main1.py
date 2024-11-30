@@ -33,9 +33,6 @@ g_step = 100 #100
 ani_step = 100 #100
 
 #必要不可欠なglobal変数
-tc = []
-tl = []
-tf = []
 
 #for testing
 n = 4
