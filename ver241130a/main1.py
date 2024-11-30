@@ -991,7 +991,12 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
                     count_poff_ge += poff_ro
                 if ro < roound-1:
                     coop_ratio = np.divide(count_coop_game_ge, count_game_ge, where=count_game_ge>0)
-                    linkmatrix = Leave_Form_tl(work=work,linkmatrix=linkmatrix,coop_ratio=coop_ratio, tl=tl)
+                    if lorf == "leave":
+                        linkmatrix = Leave_Form_tl(work=work,linkmatrix=linkmatrix,coop_ratio=coop_ratio, tl=tl)
+                    if lorf == "form":
+                        linkmatrix = Leave_Form_tf(work=work,linkmatrix=linkmatrix,coop_ratio=coop_ratio, tf=tf)
+                    if lorf == "both":
+                        linkmatrix = Leave_Form_tl_tf(work=work,linkmatrix=linkmatrix,coop_ratio=coop_ratio, tl=tl, tf=tf)
             print(str(tr)+"tr-"+str(ge)+"ge")
             ln = np.sum(linkmatrix,axis=1)
             #sellection and mutation
