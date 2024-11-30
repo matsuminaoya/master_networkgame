@@ -915,14 +915,14 @@ def le(ininet = "ininet", inivalue = "inivalue", trial = 0, work = 0):
     tc_avr_ges_trs_avr = np.mean(tc_avr_ges_trs, axis=0)
     tl_avr_ges_trs_avr = np.mean(tl_avr_ges_trs, axis=0)
     df = pd.DataFrame({"ge":ge_ges,"tc":tc_avr_ges_trs_avr,"tl":tl_avr_ges_trs_avr, "ln":ln_avr_ges_trs_avr})
-    df.to_csv(name+"/"+name+"_avr.csv")
-    Graph_avr_tc_tl(name+"/"+name+"_avr.csv").savefig(name+"/"+name+"_avr.png")
+    df.to_csv(name+"/"+name+"_avr.csv")#フォルダの中に格納
+    Graph_avr_tc_tl(name+"/"+name+"_avr.csv").savefig(name+"/"+name+"_avr.png")#フォルダの中に格納
     #vio box
     tr_trs_repeat = np.repeat(np.arange(trial),generation)
     ge_ges_repeat = np.tile(ge_ges, trial)
     df = pd.DataFrame({"tr":tr_trs_repeat, "ge":ge_ges_repeat, "tc":tc_all_ges_trs, "tl":tl_all_ges_trs, "ln":ln_all_ges_trs})
-    df.to_csv(name+"/"+name+"_all.csv")
-    df = Graph_all_tc_tl_dfexplode(name+"/"+name+"_all.csv")
+    df.to_csv(name+"/"+name+"_all.csv")#フォルダの中に格納
+    df = Graph_all_tc_tl_dfexplode(name+"/"+name+"_all.csv")#フォルダの中に格納
     # time2 = time.time()
     # Graph_all_vio(df, ylabel="tc").savefig(name + "_all_vio_tc.png")
     # time3 = time.time()
@@ -930,11 +930,11 @@ def le(ininet = "ininet", inivalue = "inivalue", trial = 0, work = 0):
     # Graph_all_vio(df, ylabel="tl").savefig(name + "_all_vio_tl.png")
     # Graph_all_vio(df, ylabel="ln").savefig(name + "_all_vio_ln.png")
     # time4 = time.time()
-    Graph_all_box(df, ylabel="tc").savefig(name+"/"+name+"_all_box_tc.png")
+    Graph_all_box(df, ylabel="tc").savefig(name+"/"+name+"_all_box_tc.png")#フォルダの中に格納
     # time5 = time.time()
     # print("box"+Elapsed_time_hms(time5-time4))
-    Graph_all_box(df, ylabel="tl").savefig(name+"/"+name+"_all_box_tl.png")
-    Graph_all_box(df, ylabel="ln").savefig(name+"/"+name+"_all_box_ln.png")
+    Graph_all_box(df, ylabel="tl").savefig(name+"/"+name+"_all_box_tl.png")#フォルダの中に格納
+    Graph_all_box(df, ylabel="ln").savefig(name+"/"+name+"_all_box_ln.png")#フォルダの中に格納
     #network gif
     #df = pd.DataFrame({"ge":ge_ges, "linkmatrix":linkmatrix_ges_tr0})
     #df.to_csv(name + "_tr0_network.csv")
