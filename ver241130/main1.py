@@ -958,6 +958,7 @@ def start(ininet = "ininet", inivalue = "inivalue", trial = 0, work = 0):
     for tr in range(trial):
         # tc = eval("Initialize_value_"+inivalue)()#フレキシブル化#pok#TODO:
         # tl = eval("Initialize_value_"+inivalue)()#フレキシブル化#pok#TODO:
+        
         linkmatrix = eval("Initialize_linkmatrix_"+ininet)()#フレキシブル化#pok
         tc_avr_ges,tl_avr_ges,ln_avr_ges,tc_all_ges,tl_all_ges,ln_all_ges = [],[],[],[],[],[]#一行に変更,=[]じゃダメ #TODO:
         for ge in range(generation):
