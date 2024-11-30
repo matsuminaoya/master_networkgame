@@ -63,7 +63,8 @@ def Initialize_values_le(inivalue):#TODO:#新規作成関数
     tl = eval("Initialize_value_"+inivalue)()#フレキシブル化#pok 
 
 def tctltf(type):
-    if 
+    if type == "leave":
+        return tc,tf
 
 
 #name = "Initialize_value_eleven"
