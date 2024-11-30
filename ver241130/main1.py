@@ -957,7 +957,7 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
     if lorf == "form":
         tc_avr_ges_trs,tf_avr_ges_trs,ln_avr_ges_trs, tc_all_ges_trs,tf_all_ges_trs,ln_all_ges_trs, linkmatrix_ges_tr0 =  [],[],[], [],[],[], []
     if lorf == "both":
-        
+        tc_avr_ges_trs,tl_avr_ges_trs,tf_avr_ges_trs,ln_avr_ges_trs, tc_all_ges_trs,tl_all_ges_trs,tf_all_ges_trs,ln_all_ges_trs, linkmatrix_ges_tr0 = [],[],[],[], [],[],[],[], [],
     for tr in range(trial):
         if lorf == "leave":
             tc = eval("Initialize_value_"+tcinivalue)()#フレキシブル化#pok#TODO:
