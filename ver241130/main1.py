@@ -972,7 +972,7 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
         # tc = eval("Initialize_value_"+inivalue)()#フレキシブル化#pok#TODO:
         # tl = eval("Initialize_value_"+inivalue)()#フレキシブル化#pok#TODO:
         global tc, tl, tf
-        Initialize_values(lorf=lorf, tc=tc, tf=tf, tl=tl, tcinivalue=tcinivalue, tlinivalue=tlinivalue, tfinivalue=tfinivalue)
+        Initialize_values(lorf=lorf, tc=tc, tl=tl, tf=tf, tcinivalue=tcinivalue, tlinivalue=tlinivalue, tfinivalue=tfinivalue)
         print(tc)
         print(tl)
         linkmatrix = eval("Initialize_linkmatrix_"+ininet)()#フレキシブル化#pok
