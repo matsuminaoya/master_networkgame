@@ -1132,7 +1132,7 @@ work = 2
 g_step = 2
 ani_step = 2
 
-start(lorf="leave",ininet="full", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=trial, work=work)
+# ok start(lorf="leave",ininet="full", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=trial, work=work)
 start(lorf="leave",ininet="full", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=trial, work=work)
 
 ###note-1123まで
