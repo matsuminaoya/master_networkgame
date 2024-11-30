@@ -58,15 +58,15 @@ def Initialize_value_zero(): #ok1130
 def Initialize_value_eleven():#ok1130
     return np.full(n, 1.1)
 
-def Initialize_values(type, inivalue):#TODO:#新規作成関数,leのみ
+def Initialize_values(type, tcinivalue, tlinivalue, tfinivalue):#TODO:#新規作成関数,leのみ
     if type == "leave":
         global tc, tl
-        tc = eval("Initialize_value_"+inivalue)()#フレキシブル化#pok
-        tl = eval("Initialize_value_"+inivalue)()#フレキシブル化#pok 
+        tc = eval("Initialize_value_"+tcinivalue)()#フレキシブル化#pok
+        tl = eval("Initialize_value_"+tlinivalue)()#フレキシブル化#pok 
     if type == "form":
         global tc, tf
-        tc = eval("Initialize_value_"+inivalue)()
-        tf = eval("Initialize_value_"+inivalue)()
+        tc = eval("Initialize_value_"+tcinivalue)()
+        tf = eval("Initialize_value_"+tfinivalue)()
 
 
 
@@ -960,7 +960,7 @@ def le(ininet = "ininet", inivalue = "inivalue", trial = 0, work = 0):
 #le(ininet="full", inivalue="eleven")
 
 
-def start(type = "leave", ininet = "ininet", inivalue = "inivalue", trial = 0, work = 0):
+def start(type = "leave", ininet = "ininet", tcinivalue = "tcinivalue", trial = 0, work = 0):
     name = "t"+str(trial)+"_w"+str(work)+"_" + type + "_"+ininet+"_"+inivalue #フレキシブル名称変更
     os.makedirs(name, exist_ok=True)#TODO: #フォルダ作成、同じ名前があるとエラー
     tc,tl,tf, tc_avr_ges_trs,tl_avr_ges_trs,ln_avr_ges_trs, tc_all_ges_trs,tl_all_ges_trs,ln_all_ges_trs, linkmatrix_ges_tr0 = [],[],[], [],[],[], [],[],[], []#一行に変更#TODO:
