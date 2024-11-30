@@ -1102,9 +1102,12 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
     if lorf == "both":
         df = pd.DataFrame({"tr":tr_trs_repeat, "ge":ge_ges_repeat, "tc":tc_all_ges_trs, "tl":tl_all_ges_trs, "tf":tf_all_ges_trs, "ln":ln_all_ges_trs})#TODO:
     df.to_csv(name+"/"+name+"_all.csv")#フォルダの中に格納
-    if lorf == "leave": df = Graph_all_tc_tl_dfexplode(name+"/"+name+"_all.csv")#フォルダの中に格納
-    if lorf == "form": df = Graph_all_tc_tf_dfexplode(name+"/"+name+"_all.csv")#フォルダの中に格納
-    if lorf == "both": df = Graph_all_tc_tl_tf_dfexplode(name+"/"+name+"_all.csv")#フォルダの中に格納
+    if lorf == "leave":
+        df = Graph_all_tc_tl_dfexplode(name+"/"+name+"_all.csv")#フォルダの中に格納
+    if lorf == "form":
+        df = Graph_all_tc_tf_dfexplode(name+"/"+name+"_all.csv")#フォルダの中に格納
+    if lorf == "both":
+        df = Graph_all_tc_tl_tf_dfexplode(name+"/"+name+"_all.csv")#フォルダの中に格納
     # time2 = time.time()
     # Graph_all_vio(df, ylabel="tc").savefig(name + "_all_vio_tc.png")
     # time3 = time.time()
