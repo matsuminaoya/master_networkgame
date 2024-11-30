@@ -1070,7 +1070,7 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
     # print("sim"+Elapsed_time_hms(elapsed_time=(time1-time0)))#new
     #oresen
     ge_ges = np.arange(generation)
-    #各ラウンドでの全員の平均、の試行平均
+    #各ラウンドでの全員の平均、の試行平均でdf
     if lorf == "leave":
         ln_avr_ges_trs_avr = np.mean(ln_avr_ges_trs, axis=0)#各ラウンドでの全員の平気利得、の試行平均
         tc_avr_ges_trs_avr = np.mean(tc_avr_ges_trs, axis=0)
@@ -1092,6 +1092,7 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
     #vio box
     tr_trs_repeat = np.repeat(np.arange(trial),generation)
     ge_ges_repeat = np.tile(ge_ges, trial)
+    #全員のge×tr全てでdf
     if lorf == "leave":
         df = pd.DataFrame({"tr":tr_trs_repeat, "ge":ge_ges_repeat, "tc":tc_all_ges_trs, "tl":tl_all_ges_trs, "ln":ln_all_ges_trs})#TODO:
     if lorf == "form":
