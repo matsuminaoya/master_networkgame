@@ -33,13 +33,13 @@ g_step = 100 #100
 ani_step = 100 #100
 
 #for testing
-# n = 4
-# trial = 2
-# generation = 3
-# roound = 2
-# work = 2
-# g_step = 2
-# ani_step = 2
+n = 4
+trial = 2
+generation = 3
+roound = 2
+work = 2
+g_step = 2
+ani_step = 2
 
 
 #define
@@ -58,6 +58,9 @@ def Initialize_value_zero(): #ok1130
 def Initialize_value_eleven():#ok1130
     return np.full(n, 1.1)
 
+def Initialize_values_le(inivalue):#TODO:#新規作成関数
+    tc = eval("Initialize_value_"+inivalue)()#フレキシブル化#pok
+    tl = eval("Initialize_value_"+inivalue)()#フレキシブル化#pok 
 #name = "Initialize_value_eleven"
 #print(eval(name)())
 
@@ -856,11 +859,12 @@ def start_bo_null():
 
 def le(ininet = "ininet", inivalue = "inivalue", trial = 0, work = 0):
     name = "t"+str(trial)+"_w"+str(work)+"_" + inspect.currentframe().f_code.co_name + "_"+ininet+"_"+inivalue #フレキシブル名称変更
-    os.makedirs(name, exist_ok=False) #フォルダ作成、同じ名前があるとエラー
+    os.makedirs(name, exist_ok=True) #フォルダ作成、同じ名前があるとエラー
     tc_avr_ges_trs,tl_avr_ges_trs,ln_avr_ges_trs,tc_all_ges_trs,tl_all_ges_trs,ln_all_ges_trs,linkmatrix_ges_tr0 = [],[],[],[],[],[],[]#一行に変更
     for tr in range(trial):
-        tc = eval("Initialize_value_"+inivalue)()#フレキシブル化#pok
-        tl = eval("Initialize_value_"+inivalue)()#フレキシブル化#pok #TODO:
+        # tc = eval("Initialize_value_"+inivalue)()#フレキシブル化#pok
+        # tl = eval("Initialize_value_"+inivalue)()#フレキシブル化#pok #TODO:
+        
         linkmatrix = eval("Initialize_linkmatrix_"+ininet)()#フレキシブル化#pok
         tc_avr_ges,tl_avr_ges,ln_avr_ges,tc_all_ges,tl_all_ges,ln_all_ges = [],[],[],[],[],[]#一行に変更,=[]じゃダメ #TODO:
         for ge in range(generation):
