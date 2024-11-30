@@ -60,17 +60,14 @@ def Initialize_value_zero(): #ok1130
 def Initialize_value_eleven():#ok1130
     return np.full(n, 1.1)
 
-def Initialize_values(lorf, tcinivalue, tlinivalue, tfinivalue):#TODO:#新規作成関数
+def Initialize_values(lorf, tc, tl, tf, tcinivalue, tlinivalue, tfinivalue):#TODO:#新規作成関数
     if lorf == "leave":
-        global tc, tl
         tc = eval("Initialize_value_"+tcinivalue)()#フレキシブル化#pok
         tl = eval("Initialize_value_"+tlinivalue)()#フレキシブル化#pok 
     if lorf == "form":
-        global tc, tf
         tc = eval("Initialize_value_"+tcinivalue)()
         tf = eval("Initialize_value_"+tfinivalue)()
     if lorf == "both":
-        global tc, tl, tf
         tc = eval("Initialize_value_"+tcinivalue)()
         tl = eval("Initialize_value_"+tlinivalue)()
         tf = eval("Initialize_value_"+tfinivalue)()
@@ -975,7 +972,7 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
         # tc = eval("Initialize_value_"+inivalue)()#フレキシブル化#pok#TODO:
         # tl = eval("Initialize_value_"+inivalue)()#フレキシブル化#pok#TODO:
         global tc, tl, tf
-        Initialize_values(lorf=lorf, tcinivalue=tcinivalue, tlinivalue=tlinivalue, tfinivalue=tfinivalue)
+        Initialize_values(lorf=lorf, tc=tc, tf=tf, tl=tl, tcinivalue=tcinivalue, tlinivalue=tlinivalue, tfinivalue=tfinivalue)
         print(tc)
         print(tl)
         linkmatrix = eval("Initialize_linkmatrix_"+ininet)()#フレキシブル化#pok
