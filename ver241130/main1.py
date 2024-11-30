@@ -849,8 +849,8 @@ def start_bo_null():
 #start_bo_ba()
 
 #初期値0揃え
-# inivalue = "zero"
-# ininet = "full"
+# inivalue = "zero" / "eleven"
+# ininet = "full" / "null"
 
 def start_le(ininet = "ininet", inivalue = "inivalue", tr = 0):
     name = inspect.currentframe().f_code.co_name
