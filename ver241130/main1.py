@@ -33,7 +33,7 @@ ani_step = 100 #100
 
 #for testing
 n = 3
-generation = 51
+generation = 11
 trial = 2
 roound = 2
 work = 2
