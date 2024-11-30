@@ -862,9 +862,8 @@ def le(ininet = "ininet", inivalue = "inivalue", trial = 0, work = 0):
     os.makedirs(name, exist_ok=False) #フォルダ作成、同じ名前があるとエラー
     tc_avr_ges_trs,tl_avr_ges_trs,ln_avr_ges_trs,tc_all_ges_trs,tl_all_ges_trs,ln_all_ges_trs,linkmatrix_ges_tr0 = [],[],[],[],[],[],[]#一行に変更
     for tr in range(trial):
-        # tc = eval("Initialize_value_"+inivalue)()#フレキシブル化#pok
-        # tl = eval("Initialize_value_"+inivalue)()#フレキシブル化#pok #TODO:
-        Initialize_values_le
+        tc = eval("Initialize_value_"+inivalue)()#フレキシブル化#pok
+        tl = eval("Initialize_value_"+inivalue)()#フレキシブル化#pok #TODO:
         linkmatrix = eval("Initialize_linkmatrix_"+ininet)()#フレキシブル化#pok
         tc_avr_ges,tl_avr_ges,ln_avr_ges,tc_all_ges,tl_all_ges,ln_all_ges = [],[],[],[],[],[]#一行に変更,=[]じゃダメ #TODO:
         for ge in range(generation):
@@ -950,6 +949,98 @@ def le(ininet = "ininet", inivalue = "inivalue", trial = 0, work = 0):
 
 #le(ininet="full", inivalue="zero", trial=trial, work=work)
 #le(ininet="full", inivalue="eleven")
+
+
+def start(ininet = "ininet", inivalue = "inivalue", trial = 0, work = 0):
+    name = "t"+str(trial)+"_w"+str(work)+"_" + inspect.currentframe().f_code.co_name + "_"+ininet+"_"+inivalue #フレキシブル名称変更
+    os.makedirs(name, exist_ok=False) #フォルダ作成、同じ名前があるとエラー
+    tc_avr_ges_trs,tl_avr_ges_trs,ln_avr_ges_trs,tc_all_ges_trs,tl_all_ges_trs,ln_all_ges_trs,linkmatrix_ges_tr0 = [],[],[],[],[],[],[]#一行に変更
+    for tr in range(trial):
+        # tc = eval("Initialize_value_"+inivalue)()#フレキシブル化#pok#TODO:
+        # tl = eval("Initialize_value_"+inivalue)()#フレキシブル化#pok#TODO:
+        linkmatrix = eval("Initialize_linkmatrix_"+ininet)()#フレキシブル化#pok
+        tc_avr_ges,tl_avr_ges,ln_avr_ges,tc_all_ges,tl_all_ges,ln_all_ges = [],[],[],[],[],[]#一行に変更,=[]じゃダメ #TODO:
+        for ge in range(generation):
+            for ro in range(roound):
+                if ro == 0:#1122変更
+                    lnum_ro = np.sum(linkmatrix,axis=1) #追加,今回のリンク数を調べる
+                    coop_ro = Coop_ro_zero(tc) #これだけで自分の協力非協力決める
+                    cnum_ro = Calculate_cnum(coop_ro=coop_ro,linkmatrix=linkmatrix) #変更後の協力数調べる
+                    poff_ro = Calculate_poff_ro(coop_ro=coop_ro,lnum_ro=lnum_ro,cnum_ro=cnum_ro) #変更
+                    count_game_ge = np.where(lnum_ro>0, 1, 0) #変更
+                    count_coop_game_ge = np.where((lnum_ro>0)&(coop_ro==1), 1, 0) #変更
+                    count_poff_ge = poff_ro
+                if ro > 0:#1122変更
+                    lnum_ro = np.sum(linkmatrix,axis=1) #今回のリンク数調べる
+                    cnum_ro = Calculate_cnum(coop_ro=coop_ro,linkmatrix=linkmatrix) #変更前の協力数調べる
+                    coop_ro = Coop_ro_nonzero(cnum_ro=cnum_ro,lnum_ro=lnum_ro, tc=tc) #それで自分の協力非協力きめる
+                    cnum_ro = Calculate_cnum(coop_ro=coop_ro,linkmatrix=linkmatrix) #変更後の協力数調べる
+                    poff_ro = Calculate_poff_ro(coop_ro=coop_ro,lnum_ro=lnum_ro,cnum_ro=cnum_ro) #利得求める
+                    count_game_ge += np.where(lnum_ro>0, 1, 0)
+                    count_coop_game_ge += np.where((lnum_ro>0)&(coop_ro==1), 1, 0)
+                    count_poff_ge += poff_ro
+                if ro < roound-1:
+                    coop_ratio = np.divide(count_coop_game_ge, count_game_ge, where=count_game_ge>0)
+                    linkmatrix = Leave_Form_tl(work=work,linkmatrix=linkmatrix,coop_ratio=coop_ratio, tl=tl)
+            print(str(tr)+"tr-"+str(ge)+"ge")
+            ln = np.sum(linkmatrix,axis=1)
+            #sellection, mutation
+            m_random = Randomn()
+            cho = Linked_choice(linkmatrix, cho=[])#修正
+            tc,tl = Selection_tc_tl(m_random=m_random, count_poff_ge=count_poff_ge, cho=cho, tc_pre=tc, tl_pre=tl)
+            tc,tl = Mutation_tc_tl(m_random=m_random,tc_pre=tc,tl_pre=tl) #TODO:
+            #graph
+            tc_avr_ges.append(mean(tc)) #ok
+            tl_avr_ges.append(mean(tl))
+            ln_avr_ges.append(mean(ln))#各geでの全員の平均リンクを入れていく
+            tc_all_ges.append(tc)
+            tl_all_ges.append(tl)#TODO:
+            ln_all_ges.append(ln)#各geでの全員のリンク数、1ge1234人目,2ge1234人目
+            #if tr == 0:
+            #    linkmatrix_ges_tr0.append(linkmatrix) #トライアル0の場合は全ての世代でのネットワークを保存
+        tc_avr_ges_trs.append(tc_avr_ges) #ok
+        tl_avr_ges_trs.append(tl_avr_ges)
+        ln_avr_ges_trs.append(ln_avr_ges)#[1試行目の各geでの全員の平均利得],[2試行目の...
+        tc_all_ges_trs.extend(tc_all_ges)
+        tl_all_ges_trs.extend(tl_all_ges)#TODO:
+        ln_all_ges_trs.extend(ln_all_ges)#1試行目の1ge1234人目,2ge1234人目,2試行目の...[]解除
+    # time1 = time.time()#new
+    # print("sim"+Elapsed_time_hms(elapsed_time=(time1-time0)))#new
+    #oresen
+    ge_ges = np.arange(generation)
+    ln_avr_ges_trs_avr = np.mean(ln_avr_ges_trs, axis=0)#各ラウンドでの全員の平気利得、の試行平均
+    tc_avr_ges_trs_avr = np.mean(tc_avr_ges_trs, axis=0)
+    tl_avr_ges_trs_avr = np.mean(tl_avr_ges_trs, axis=0)#TODO:
+    df = pd.DataFrame({"ge":ge_ges,"tc":tc_avr_ges_trs_avr,"tl":tl_avr_ges_trs_avr, "ln":ln_avr_ges_trs_avr})#TODO:
+    df.to_csv(name+"/"+name+"_avr.csv")#フォルダの中に格納
+    Graph_avr_tc_tl(name+"/"+name+"_avr.csv").savefig(name+"/"+name+"_avr.png")#フォルダの中に格納
+    #vio box
+    tr_trs_repeat = np.repeat(np.arange(trial),generation)
+    ge_ges_repeat = np.tile(ge_ges, trial)
+    df = pd.DataFrame({"tr":tr_trs_repeat, "ge":ge_ges_repeat, "tc":tc_all_ges_trs, "tl":tl_all_ges_trs, "ln":ln_all_ges_trs})#TODO:
+    df.to_csv(name+"/"+name+"_all.csv")#フォルダの中に格納
+    df = Graph_all_tc_tl_dfexplode(name+"/"+name+"_all.csv")#フォルダの中に格納
+    # time2 = time.time()
+    # Graph_all_vio(df, ylabel="tc").savefig(name + "_all_vio_tc.png")
+    # time3 = time.time()
+    # print("vio"+Elapsed_time_hms(time3-time2))
+    # Graph_all_vio(df, ylabel="tl").savefig(name + "_all_vio_tl.png")
+    # Graph_all_vio(df, ylabel="ln").savefig(name + "_all_vio_ln.png")
+    # time4 = time.time()
+    Graph_all_box(df, ylabel="tc").savefig(name+"/"+name+"_all_box_tc.png")#フォルダの中に格納
+    # time5 = time.time()
+    # print("box"+Elapsed_time_hms(time5-time4))
+    Graph_all_box(df, ylabel="tl").savefig(name+"/"+name+"_all_box_tl.png")#フォルダの中に格納
+    Graph_all_box(df, ylabel="ln").savefig(name+"/"+name+"_all_box_ln.png")#フォルダの中に格納#TODO:
+    #network gif
+    #df = pd.DataFrame({"ge":ge_ges, "linkmatrix":linkmatrix_ges_tr0})
+    #df.to_csv(name + "_tr0_network.csv")
+    #time6 = time.time()
+    #Graph_network_ani(linkmatrix_ges=linkmatrix_ges_tr0).save(name + "_tr0_network.gif", writer='pillow', fps=60)
+    time7 = time.time()
+    #print("ani"+Elapsed_time_hms(time7-time6))
+    print("all"+Elapsed_time_hms(time7-time0))
+
 
 ###note-1123まで
 # np.array([0,0],[0,0])でリストからナンパイ
