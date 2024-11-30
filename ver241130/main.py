@@ -9,6 +9,7 @@ import seaborn as sns #pip install seaborn
 from statistics import mean
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
+import networkx as nx #pip install networkx
 time0 = time.time()
 
 #grobal value
@@ -26,6 +27,14 @@ work = 5000 #5000
 #graph_step
 g_step = 100 #100
 ani_step = 100 #100
+
+n = 3
+trial = 2
+generation = 51
+roound = 2
+work = 2
+g_step = 10
+ani_step = 10
 
 #define
 def Randomn(): #ok
