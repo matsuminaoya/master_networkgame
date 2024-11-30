@@ -942,7 +942,8 @@ def start_le(ininet = ininet, inivalue = inivalue):
     #print("ani"+Elapsed_time_hms(time7-time6))
     print("all"+Elapsed_time_hms(time7-time0))
 
-start_le()
+start_le(ininet="zero", inivalue="full")
+start_le(ininet="eleven", inivalue="full")
 ###note-1123まで
 # np.array([0,0],[0,0])でリストからナンパイ
 # tc,tl,tf = selection
