@@ -1,7 +1,7 @@
 #TODO:チョイスを修正、初期値揃える（フレキシブル化）←ココ、gをずらす、間違いを探す、最初と最後だけ別に出力
 
 #python.exe -m pip install --upgrade pip
-#import gc
+import gc
 import os
 import time
 import random
@@ -1132,10 +1132,13 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
     print("all"+Elapsed_time_hms(time7-time0))
 
 start(lorf="leave",ininet="full", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=1, work=5000)
+gc.collect()
 start(lorf="form",ininet="null", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=1, work=5000)
+gc.collect()
 start(lorf="both",ininet="full", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=1, work=5000)
+gc.collect()
 start(lorf="both",ininet="null", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=1, work=5000)
-
+gc.collect()
 
 
 
