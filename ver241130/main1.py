@@ -33,6 +33,8 @@ g_step = 100 #100
 ani_step = 100 #100
 
 tc = []
+tl = []
+tf = []
 
 #for testing
 n = 4
