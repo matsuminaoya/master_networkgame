@@ -951,7 +951,7 @@ def le(ininet = "ininet", inivalue = "inivalue", trial = 0, work = 0):
 
 def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalue = "tcinivalue", tfinivalue = "tcinivalue", trial = 0, work = 0):
     name = "t"+str(trial)+"_w"+str(work)+"_" + lorf + "_"+ininet+"_"+tcinivalue+tlinivalue+tfinivalue #フレキシブル名称変更
-    os.makedirs(name, exist_ok=True)#TODO: #フォルダ作成、同じ名前があるとエラー
+    os.makedirs(name, exist_ok=False)#TODO: #フォルダ作成、同じ名前があるとエラー
     #make tr[] for stack data
     if lorf == "leave":
         tc_avr_ges_trs,tl_avr_ges_trs,ln_avr_ges_trs, tc_all_ges_trs,tl_all_ges_trs,ln_all_ges_trs, linkmatrix_ges_tr0 =  [],[],[], [],[],[], []#一行に変更#TODO:
@@ -1108,11 +1108,20 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
     # Graph_all_vio(df, ylabel="tl").savefig(name + "_all_vio_tl.png")
     # Graph_all_vio(df, ylabel="ln").savefig(name + "_all_vio_ln.png")
     # time4 = time.time()
-    Graph_all_box(df, ylabel="tc").savefig(name+"/"+name+"_all_box_tc.png")#フォルダの中に格納
-    # time5 = time.time()
-    # print("box"+Elapsed_time_hms(time5-time4))
-    Graph_all_box(df, ylabel="tl").savefig(name+"/"+name+"_all_box_tl.png")#フォルダの中に格納
-    Graph_all_box(df, ylabel="ln").savefig(name+"/"+name+"_all_box_ln.png")#フォルダの中に格納#TODO:
+    #box graph
+    if lorf == "leave":
+        Graph_all_box(df, ylabel="tc").savefig(name+"/"+name+"_all_box_tc.png")#フォルダの中に格納
+        Graph_all_box(df, ylabel="tl").savefig(name+"/"+name+"_all_box_tl.png")#フォルダの中に格納
+        Graph_all_box(df, ylabel="ln").savefig(name+"/"+name+"_all_box_ln.png")#フォルダの中に格納#TODO:
+    if lorf == "form":
+        Graph_all_box(df, ylabel="tc").savefig(name+"/"+name+"_all_box_tc.png")#フォルダの中に格納
+        Graph_all_box(df, ylabel="tf").savefig(name+"/"+name+"_all_box_tf.png")#フォルダの中に格納
+        Graph_all_box(df, ylabel="ln").savefig(name+"/"+name+"_all_box_ln.png")#フォルダの中に格納#TODO:
+    if lorf == "both":
+        Graph_all_box(df, ylabel="tc").savefig(name+"/"+name+"_all_box_tc.png")#フォルダの中に格納
+        Graph_all_box(df, ylabel="tl").savefig(name+"/"+name+"_all_box_tl.png")#フォルダの中に格納
+        Graph_all_box(df, ylabel="tf").savefig(name+"/"+name+"_all_box_tf.png")#フォルダの中に格納
+        Graph_all_box(df, ylabel="ln").savefig(name+"/"+name+"_all_box_ln.png")#フォルダの中に格納#TODO:
     #network gif
     #df = pd.DataFrame({"ge":ge_ges, "linkmatrix":linkmatrix_ges_tr0})
     #df.to_csv(name + "_tr0_network.csv")
