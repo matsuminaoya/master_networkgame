@@ -934,7 +934,7 @@ def le(ininet = "ininet", inivalue = "inivalue", trial = 0, work = 0):
     # time5 = time.time()
     # print("box"+Elapsed_time_hms(time5-time4))
     Graph_all_box(df, ylabel="tl").savefig(name+"/"+name+"_all_box_tl.png")#フォルダの中に格納
-    Graph_all_box(df, ylabel="ln").savefig(name+"/"+name+"_all_box_ln.png")#フォルダの中に格納
+    Graph_all_box(df, ylabel="ln").savefig(name+"/"+name+"_all_box_ln.png")#フォルダの中に格納#TODO:
     #network gif
     #df = pd.DataFrame({"ge":ge_ges, "linkmatrix":linkmatrix_ges_tr0})
     #df.to_csv(name + "_tr0_network.csv")
