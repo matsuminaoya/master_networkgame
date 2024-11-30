@@ -897,7 +897,7 @@ def le(ininet = "ininet", inivalue = "inivalue", trial = 0, work = 0):
             tl_avr_ges.append(mean(tl))
             ln_avr_ges.append(mean(ln))#各geでの全員の平均リンクを入れていく
             tc_all_ges.append(tc)
-            tl_all_ges.append(tl)
+            tl_all_ges.append(tl)#TODO:
             ln_all_ges.append(ln)#各geでの全員のリンク数、1ge1234人目,2ge1234人目
             #if tr == 0:
             #    linkmatrix_ges_tr0.append(linkmatrix) #トライアル0の場合は全ての世代でのネットワークを保存
@@ -905,7 +905,7 @@ def le(ininet = "ininet", inivalue = "inivalue", trial = 0, work = 0):
         tl_avr_ges_trs.append(tl_avr_ges)
         ln_avr_ges_trs.append(ln_avr_ges)#[1試行目の各geでの全員の平均利得],[2試行目の...
         tc_all_ges_trs.extend(tc_all_ges)
-        tl_all_ges_trs.extend(tl_all_ges)
+        tl_all_ges_trs.extend(tl_all_ges)#TODO:
         ln_all_ges_trs.extend(ln_all_ges)#1試行目の1ge1234人目,2ge1234人目,2試行目の...[]解除
     # time1 = time.time()#new
     # print("sim"+Elapsed_time_hms(elapsed_time=(time1-time0)))#new
@@ -913,8 +913,8 @@ def le(ininet = "ininet", inivalue = "inivalue", trial = 0, work = 0):
     ge_ges = np.arange(generation)
     ln_avr_ges_trs_avr = np.mean(ln_avr_ges_trs, axis=0)#各ラウンドでの全員の平気利得、の試行平均
     tc_avr_ges_trs_avr = np.mean(tc_avr_ges_trs, axis=0)
-    tl_avr_ges_trs_avr = np.mean(tl_avr_ges_trs, axis=0)
-    df = pd.DataFrame({"ge":ge_ges,"tc":tc_avr_ges_trs_avr,"tl":tl_avr_ges_trs_avr, "ln":ln_avr_ges_trs_avr})
+    tl_avr_ges_trs_avr = np.mean(tl_avr_ges_trs, axis=0)#TODO:
+    df = pd.DataFrame({"ge":ge_ges,"tc":tc_avr_ges_trs_avr,"tl":tl_avr_ges_trs_avr, "ln":ln_avr_ges_trs_avr})#TODO:
     df.to_csv(name+"/"+name+"_avr.csv")#フォルダの中に格納
     Graph_avr_tc_tl(name+"/"+name+"_avr.csv").savefig(name+"/"+name+"_avr.png")#フォルダの中に格納
     #vio box
