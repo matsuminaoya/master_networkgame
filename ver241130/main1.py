@@ -1058,7 +1058,7 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
     #print("ani"+Elapsed_time_hms(time7-time6))
     print("all"+Elapsed_time_hms(time7-time0))
 
-start(lorf="leave",ininet="full", inivalue="zero", trial=trial, work=work)
+start(lorf="leave",ininet="full", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=trial, work=work)
 
 ###note-1123まで
 # np.array([0,0],[0,0])でリストからナンパイ
