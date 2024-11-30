@@ -852,7 +852,7 @@ def start_bo_null():
 # inivalue = "zero"
 # ininet = "full"
 
-def start_le(ininet = "ininet", inivalue = "inivalue"):
+def start_le(ininet = "ininet", inivalue = "inivalue", tr = 0):
     name = inspect.currentframe().f_code.co_name
     name = name+"_"+ininet+"_"+inivalue #フレキシブル名称変更
     tc_avr_ges_trs,tl_avr_ges_trs,ln_avr_ges_trs,tc_all_ges_trs,tl_all_ges_trs,ln_all_ges_trs,linkmatrix_ges_tr0 = [],[],[],[],[],[],[]#一行に変更
