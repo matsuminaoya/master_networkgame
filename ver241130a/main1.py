@@ -1031,7 +1031,7 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
                 tc_all_ges.append(tc)
                 tf_all_ges.append(tf)#TODO:
                 ln_all_ges.append(ln)#各geでの全員のリンク数、1ge1234人目,2ge1234人目
-            if lorf == "leave":
+            if lorf == "both":
                 tc_avr_ges.append(mean(tc)) #ok
                 tl_avr_ges.append(mean(tl))
                 tf_avr_ges.append(mean(tf))
