@@ -63,7 +63,7 @@ def Initialize_value_zero(): #ok1130
 def Initialize_value_eleven():#ok1130
     return np.full(n, 1.1)
 
-def Initialize_values_le(inivalue):#TODO:#新規作成関数,leのみ
+def Initialize_values_leave(inivalue):#TODO:#新規作成関数,leのみ
     global tc,tl
     tc = eval("Initialize_value_"+inivalue)()#フレキシブル化#pok
     tl = eval("Initialize_value_"+inivalue)()#フレキシブル化#pok 
@@ -967,7 +967,9 @@ def start(type = "leave", ininet = "ininet", inivalue = "inivalue", trial = 0, w
     for tr in range(trial):
         # tc = eval("Initialize_value_"+inivalue)()#フレキシブル化#pok#TODO:
         # tl = eval("Initialize_value_"+inivalue)()#フレキシブル化#pok#TODO:
-
+        eval("Initialize_values_"+type)
+        print(tc)
+        print(tl)
         linkmatrix = eval("Initialize_linkmatrix_"+ininet)()#フレキシブル化#pok
         tc_avr_ges,tl_avr_ges,ln_avr_ges,tc_all_ges,tl_all_ges,ln_all_ges = [],[],[],[],[],[]#一行に変更,=[]じゃダメ #TODO:
         for ge in range(generation):
@@ -1051,6 +1053,7 @@ def start(type = "leave", ininet = "ininet", inivalue = "inivalue", trial = 0, w
     #print("ani"+Elapsed_time_hms(time7-time6))
     print("all"+Elapsed_time_hms(time7-time0))
 
+start(type="leave",ininet="full", inivalue="zero", trial=trial, work=work)
 
 ###note-1123まで
 # np.array([0,0],[0,0])でリストからナンパイ
