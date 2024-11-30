@@ -974,6 +974,7 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
     for tr in range(trial):
         # tc = eval("Initialize_value_"+inivalue)()#フレキシブル化#pok#TODO:
         # tl = eval("Initialize_value_"+inivalue)()#フレキシブル化#pok#TODO:
+        global tc, tl, tf
         Initialize_values(lorf=lorf, tcinivalue=tcinivalue, tlinivalue=tlinivalue, tfinivalue=tfinivalue)
         print(tc)
         print(tl)
