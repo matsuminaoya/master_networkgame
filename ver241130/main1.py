@@ -49,7 +49,7 @@ def Randomn(): #ok
 def Sigmoid(x): #ok
     return np.exp(np.minimum(x,0)) / (1 + np.exp(-np.abs(x)))
 
-def Initialize_value(): #ok
+def Initialize_value_random(): #ok#TODO:名称変更
     rng = np.random.default_rng()
     return 0.1*rng.integers(12,size=(1,n))[0]
 def Initialize_value_zero(): #ok1130
@@ -911,7 +911,7 @@ def start_le(ininet = ininet, inivalue = inivalue):
     #oresen
     ge_ges = np.arange(generation)
     print(ln_avr_ges_trs)
-    ln_avr_ges_trs_avr = np.mean(ln_avr_ges_trs, axis=0)
+    ln_avr_ges_trs_avr = np.mean(ln_avr_ges_trs, axis=0)#各ラウンドでの全員の平気利得、の試行平均
     tc_avr_ges_trs_avr = np.mean(tc_avr_ges_trs, axis=0)
     tl_avr_ges_trs_avr = np.mean(tl_avr_ges_trs, axis=0)
     df = pd.DataFrame({"ge":ge_ges,"tc":tc_avr_ges_trs_avr,"tl":tl_avr_ges_trs_avr, "ln":ln_avr_ges_trs_avr})
