@@ -32,15 +32,6 @@ roound = 100 #100
 g_step = 100 #100
 ani_step = 100 #100
 
-#for testing
-n = 4
-trial = 2
-generation = 3
-roound = 2
-work = 2
-g_step = 2
-ani_step = 2
-
 
 #define
 def Randomn(): #ok
@@ -1131,6 +1122,15 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
     #print("ani"+Elapsed_time_hms(time7-time6))
     print("all"+Elapsed_time_hms(time7-time0))
 
+
+#for testing
+n = 4
+trial = 2
+generation = 3
+roound = 2
+work = 2
+g_step = 2
+ani_step = 2
 start(lorf="leave",ininet="full", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=trial, work=work)
 
 ###note-1123まで
