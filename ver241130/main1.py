@@ -893,15 +893,15 @@ def start_le(ininet = ininet, inivalue = inivalue):
             #graph
             tc_avr_ges.append(mean(tc)) #ok
             tl_avr_ges.append(mean(tl))
-            ln_avr_ges.append(mean(ln))#各ラウンドでの全員の平均リンクを入れていく
+            ln_avr_ges.append(mean(ln))#各geでの全員の平均リンクを入れていく
             tc_all_ges.append(tc)
             tl_all_ges.append(tl)
-            ln_all_ges.append(ln)#各ラウンドでの全員のリンク数、1ラウンド1234人目,2ラウンド1234人目
+            ln_all_ges.append(ln)#各geでの全員のリンク数、1ge1234人目,2ge1234人目
             #if tr == 0:
             #    linkmatrix_ges_tr0.append(linkmatrix) #トライアル0の場合は全ての世代でのネットワークを保存
         tc_avr_ges_trs.append(tc_avr_ges) #ok
         tl_avr_ges_trs.append(tl_avr_ges)
-        ln_avr_ges_trs.append(ln_avr_ges)#1試行目の各ラウンドでの全員の平均利得,2試行目の...
+        ln_avr_ges_trs.append(ln_avr_ges)#1試行目の各geでの全員の平均利得,2試行目の...
         tc_all_ges_trs.extend(tc_all_ges)
         tl_all_ges_trs.extend(tl_all_ges)
         ln_all_ges_trs.extend(ln_all_ges)#
