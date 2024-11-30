@@ -952,23 +952,13 @@ def le(ininet = "ininet", inivalue = "inivalue", trial = 0, work = 0):
 def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalue = "tcinivalue", tfinivalue = "tcinivalue", trial = 0, work = 0):
     name = "t"+str(trial)+"_w"+str(work)+"_" + lorf + "_"+ininet+"_"+tcinivalue+tlinivalue+tfinivalue #フレキシブル名称変更
     os.makedirs(name, exist_ok=True)#TODO: #フォルダ作成、同じ名前があるとエラー
-    if lorf == "leave":
-        tc_avr_ges_trs,tl_avr_ges_trs,ln_avr_ges_trs, tc_all_ges_trs,tl_all_ges_trs,ln_all_ges_trs, linkmatrix_ges_tr0 =  [],[],[], [],[],[], []#一行に変更#TODO:
-    if lorf == "form":
-        tc_avr_ges_trs,tf_avr_ges_trs,ln_avr_ges_trs, tc_all_ges_trs,tf_all_ges_trs,ln_all_ges_trs, linkmatrix_ges_tr0 =  [],[],[], [],[],[], []
-    if lorf == "both":
-        tc_avr_ges_trs,tl_avr_ges_trs,tf_avr_ges_trs,ln_avr_ges_trs, tc_all_ges_trs,tl_all_ges_trs,tf_all_ges_trs,ln_all_ges_trs, linkmatrix_ges_tr0 = [],[],[],[], [],[],[],[], [],
+    if lorf == "leave": tc_avr_ges_trs,tl_avr_ges_trs,ln_avr_ges_trs, tc_all_ges_trs,tl_all_ges_trs,ln_all_ges_trs, linkmatrix_ges_tr0 =  [],[],[], [],[],[], []#一行に変更#TODO:
+    if lorf == "form": tc_avr_ges_trs,tf_avr_ges_trs,ln_avr_ges_trs, tc_all_ges_trs,tf_all_ges_trs,ln_all_ges_trs, linkmatrix_ges_tr0 =  [],[],[], [],[],[], []
+    if lorf == "both": tc_avr_ges_trs,tl_avr_ges_trs,tf_avr_ges_trs,ln_avr_ges_trs, tc_all_ges_trs,tl_all_ges_trs,tf_all_ges_trs,ln_all_ges_trs, linkmatrix_ges_tr0 = [],[],[],[], [],[],[],[], [],
     for tr in range(trial):
-        if lorf == "leave":
-            tc = eval("Initialize_value_"+tcinivalue)()#フレキシブル化#pok#TODO:
-            tl = eval("Initialize_value_"+tlinivalue)()#フレキシブル化#pok#TODO:
-        if lorf == "form":
-            tc = eval("Initialize_value_"+tcinivalue)()#フレキシブル化#pok#TODO:
-            tf = eval("Initialize_value_"+tfinivalue)()
-        if lorf == "both":
-            tc = eval("Initialize_value_"+tcinivalue)()#フレキシブル化#pok#TODO:
-            tl = eval("Initialize_value_"+tlinivalue)()#フレキシブル化#pok#TODO:
-            tf = eval("Initialize_value_"+tfinivalue)()
+        if lorf == "leave": tc = eval("Initialize_value_"+tcinivalue)(), tl = eval("Initialize_value_"+tlinivalue)()#フレキシブル化#pok#TODO:
+        if lorf == "form": tc = eval("Initialize_value_"+tcinivalue)(), tf = eval("Initialize_value_"+tfinivalue)()
+        if lorf == "both": tc = eval("Initialize_value_"+tcinivalue)(), tl = eval("Initialize_value_"+tlinivalue)(), tf = eval("Initialize_value_"+tfinivalue)()
         linkmatrix = eval("Initialize_linkmatrix_"+ininet)()#フレキシブル化#pok
         # if lorf == "leave":
         #     tc_avr_ges,tl_avr_ges,ln_avr_ges, tc_all_ges,tl_all_ges,ln_all_ges = [],[],[], [],[],[]#一行に変更,=[]じゃダメ #TODO:
@@ -1000,11 +990,12 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
                     linkmatrix = Leave_Form_tl(work=work,linkmatrix=linkmatrix,coop_ratio=coop_ratio, tl=tl)
             print(str(tr)+"tr-"+str(ge)+"ge")
             ln = np.sum(linkmatrix,axis=1)
-            #sellection, mutation
+            #sellection and mutation
             m_random = Randomn()
             cho = Linked_choice(linkmatrix, cho=[])#修正
-            tc,tl = Selection_tc_tl(m_random=m_random, count_poff_ge=count_poff_ge, cho=cho, tc_pre=tc, tl_pre=tl)
-            tc,tl = Mutation_tc_tl(m_random=m_random,tc_pre=tc,tl_pre=tl) #TODO:
+            if lorf == "leave": tc,tl = Selection_tc_tl(m_random=m_random, count_poff_ge=count_poff_ge, cho=cho, tc_pre=tc, tl_pre=tl), tc,tl = Mutation_tc_tl(m_random=m_random,tc_pre=tc,tl_pre=tl) #TODO:
+            if lorf == "form": tc,tf = Selection_tc_tf(m_random=m_random, count_poff_ge=count_poff_ge, cho=cho, tc_pre=tc, tf_pre=tf), tc,tf = Mutation_tc_tf(m_random=m_random,tc_pre=tc,tf_pre=tf)
+            if lorf == "both": tc,tl,tf = Selection_tc_tl_tf(m_random=m_random, count_poff_ge=count_poff_ge, cho=cho, tc_pre=tc, tl_pre=tl, tf_pre=tf), tc,tl,tf = Mutation_tc_tl_tf(m_random=m_random,tc_pre=tc,tl_pre=tl,tf_pre=tf)
             #graph
             tc_avr_ges.append(mean(tc)) #ok
             tl_avr_ges.append(mean(tl))
