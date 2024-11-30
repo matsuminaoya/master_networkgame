@@ -904,7 +904,7 @@ def start_le(ininet = ininet, inivalue = inivalue):
         ln_avr_ges_trs.append(ln_avr_ges)#1試行目の各ラウンドでの全員の平均利得,2試行目の...
         tc_all_ges_trs.extend(tc_all_ges)
         tl_all_ges_trs.extend(tl_all_ges)
-        ln_all_ges_trs.extend(ln_all_ges)
+        ln_all_ges_trs.extend(ln_all_ges)#
     # time1 = time.time()#new
     # print("sim"+Elapsed_time_hms(elapsed_time=(time1-time0)))#new
     #oresen
