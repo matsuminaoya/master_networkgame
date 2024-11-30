@@ -1,11 +1,11 @@
+#python.exe -m pip install --upgrade pip
 #import gc
 import time
 import random
 import inspect
-import numpy as np
-import pandas as pd
-import seaborn as sns
-import networkx as nx
+import numpy as np #pip install numpy
+import pandas as pd #pip install pandas
+import seaborn as sns #pip install seaborn
 from statistics import mean
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
