@@ -855,12 +855,12 @@ ininet = "full"
 def start_le(ininet = ininet, inivalue = inivalue):
     name = inspect.currentframe().f_code.co_name
     name = name+"_"+ininet+"_"+inivalue #フレキシブル名称変更
-    tc_avr_ges_trs=tl_avr_ges_trs=ln_avr_ges_trs=tc_all_ges_trs=tl_all_ges_trs=ln_all_ges_trs=linkmatrix_ges_tr0=[]#一行に変更
+    tc_avr_ges_trs,tl_avr_ges_trs,ln_avr_ges_trs=tc_all_ges_trs,tl_all_ges_trs,ln_all_ges_trs,linkmatrix_ges_tr0 = [],[],[],[],[],[]#一行に変更
     for tr in range(trial):
         tc = eval("Initialize_value_"+inivalue)()#フレキシブル化#pok
         tl = eval("Initialize_value_"+inivalue)()#フレキシブル化#pok
         linkmatrix = eval("Initialize_linkmatrix_"+ininet)()#フレキシブル化#pok
-        tc_avr_ges=tl_avr_ges=ln_avr_ges=tc_all_ges=tl_all_ges=ln_all_ges=[]#一行に変更
+        tc_avr_ges,tl_avr_ges,ln_avr_ges,tc_all_ges,tl_all_ges,ln_all_ges = [],[],[],[],[],[]#一行に変更
         for ge in range(generation):
             for ro in range(roound):
                 if ro == 0:#1122変更
