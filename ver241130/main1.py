@@ -58,20 +58,6 @@ def Initialize_value_zero(): #ok1130
 def Initialize_value_eleven():#ok1130
     return np.full(n, 1.1)
 
-def Initialize_values(lorf, tcinivalue, tlinivalue, tfinivalue):#TODO:#新規作成関数
-    global tc, tl, tf
-    if lorf == "leave":
-        tc = eval("Initialize_value_"+tcinivalue)()#フレキシブル化#pok
-        tl = eval("Initialize_value_"+tlinivalue)()#フレキシブル化#pok 
-    if lorf == "form":
-        tc = eval("Initialize_value_"+tcinivalue)()
-        tf = eval("Initialize_value_"+tfinivalue)()
-    if lorf == "both":
-        tc = eval("Initialize_value_"+tcinivalue)()
-        tl = eval("Initialize_value_"+tlinivalue)()
-        tf = eval("Initialize_value_"+tfinivalue)()
-
-
 
 #name = "Initialize_value_eleven"
 #print(eval(name)())
@@ -970,9 +956,8 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
     for tr in range(trial):
         # tc = eval("Initialize_value_"+inivalue)()#フレキシブル化#pok#TODO:
         # tl = eval("Initialize_value_"+inivalue)()#フレキシブル化#pok#TODO:
-        Initialize_values(lorf=lorf, tcinivalue=tcinivalue, tlinivalue=tlinivalue, tfinivalue=tfinivalue)
-        print(tc)
-        print(tl)
+
+
         linkmatrix = eval("Initialize_linkmatrix_"+ininet)()#フレキシブル化#pok
         tc_avr_ges,tl_avr_ges,ln_avr_ges, tc_all_ges,tl_all_ges,ln_all_ges = [],[],[],[],[],[]#一行に変更,=[]じゃダメ #TODO:
         for ge in range(generation):
