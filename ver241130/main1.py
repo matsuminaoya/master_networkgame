@@ -909,6 +909,7 @@ def start_le(ininet = ininet, inivalue = inivalue):
     # print("sim"+Elapsed_time_hms(elapsed_time=(time1-time0)))#new
     #oresen
     ge_ges = np.arange(generation)
+    print(ln_avr_ges_trs)
     ln_avr_ges_trs_avr = np.mean(ln_avr_ges_trs, axis=0)
     tc_avr_ges_trs_avr = np.mean(tc_avr_ges_trs, axis=0)
     tl_avr_ges_trs_avr = np.mean(tl_avr_ges_trs, axis=0)
