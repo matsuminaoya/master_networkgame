@@ -32,8 +32,6 @@ roound = 100 #100
 g_step = 100 #100
 ani_step = 100 #100
 
-#必要不可欠なglobal変数
-
 #for testing
 n = 4
 trial = 2
@@ -968,7 +966,7 @@ def start(type = "leave", ininet = "ininet", inivalue = "inivalue", trial = 0, w
         print(tc)
         print(tl)
         linkmatrix = eval("Initialize_linkmatrix_"+ininet)()#フレキシブル化#pok
-        tc_avr_ges,tl_avr_ges,ln_avr_ges,tc_all_ges,tl_all_ges,ln_all_ges = [],[],[],[],[],[]#一行に変更,=[]じゃダメ #TODO:
+        tc,tl,tf, tc_avr_ges,tl_avr_ges,ln_avr_ges, tc_all_ges,tl_all_ges,ln_all_ges = [],[],[],[],[],[],[],[],[]#一行に変更,=[]じゃダメ #TODO:
         for ge in range(generation):
             for ro in range(roound):
                 if ro == 0:#1122変更
