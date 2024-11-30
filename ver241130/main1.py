@@ -32,7 +32,7 @@ g_step = 100 #100
 ani_step = 100 #100
 
 #for testing
-n = 3
+n = 4
 trial = 1
 generation = 3
 roound = 2
