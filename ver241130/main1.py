@@ -860,9 +860,9 @@ def le(ininet = "ininet", inivalue = "inivalue", trial = 0, work = 0):
     tc_avr_ges_trs,tl_avr_ges_trs,ln_avr_ges_trs,tc_all_ges_trs,tl_all_ges_trs,ln_all_ges_trs,linkmatrix_ges_tr0 = [],[],[],[],[],[],[]#一行に変更
     for tr in range(trial):
         tc = eval("Initialize_value_"+inivalue)()#フレキシブル化#pok
-        tl = eval("Initialize_value_"+inivalue)()#フレキシブル化#pok
+        tl = eval("Initialize_value_"+inivalue)()#フレキシブル化#pok #TODO:
         linkmatrix = eval("Initialize_linkmatrix_"+ininet)()#フレキシブル化#pok
-        tc_avr_ges,tl_avr_ges,ln_avr_ges,tc_all_ges,tl_all_ges,ln_all_ges = [],[],[],[],[],[]#一行に変更,=[]じゃダメ
+        tc_avr_ges,tl_avr_ges,ln_avr_ges,tc_all_ges,tl_all_ges,ln_all_ges = [],[],[],[],[],[]#一行に変更,=[]じゃダメ #TODO:
         for ge in range(generation):
             for ro in range(roound):
                 if ro == 0:#1122変更
@@ -891,7 +891,7 @@ def le(ininet = "ininet", inivalue = "inivalue", trial = 0, work = 0):
             m_random = Randomn()
             cho = Linked_choice(linkmatrix, cho=[])#修正
             tc,tl = Selection_tc_tl(m_random=m_random, count_poff_ge=count_poff_ge, cho=cho, tc_pre=tc, tl_pre=tl)
-            tc,tl = Mutation_tc_tl(m_random=m_random,tc_pre=tc,tl_pre=tl)
+            tc,tl = Mutation_tc_tl(m_random=m_random,tc_pre=tc,tl_pre=tl) #TODO:
             #graph
             tc_avr_ges.append(mean(tc)) #ok
             tl_avr_ges.append(mean(tl))
