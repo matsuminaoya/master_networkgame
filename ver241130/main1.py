@@ -2,6 +2,7 @@
 
 #python.exe -m pip install --upgrade pip
 #import gc
+import os
 import time
 import random
 import inspect
@@ -855,6 +856,7 @@ def start_bo_null():
 
 def le(ininet = "ininet", inivalue = "inivalue", trial = 0, work = 0):
     name = "t"+str(trial)+"_w"+str(work)+"_" + inspect.currentframe().f_code.co_name + "_"+ininet+"_"+inivalue #フレキシブル名称変更
+    os.
     tc_avr_ges_trs,tl_avr_ges_trs,ln_avr_ges_trs,tc_all_ges_trs,tl_all_ges_trs,ln_all_ges_trs,linkmatrix_ges_tr0 = [],[],[],[],[],[],[]#一行に変更
     for tr in range(trial):
         tc = eval("Initialize_value_"+inivalue)()#フレキシブル化#pok
