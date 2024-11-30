@@ -59,7 +59,7 @@ def Initialize_value_eleven():#ok1130
     return np.full(n, 1.1)
 
 def Initialize_values_leave(inivalue):#TODO:#新規作成関数,leのみ
-    global tc,tl
+    global tc, tl
     tc = eval("Initialize_value_"+inivalue)()#フレキシブル化#pok
     tl = eval("Initialize_value_"+inivalue)()#フレキシブル化#pok 
 
