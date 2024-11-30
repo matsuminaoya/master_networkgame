@@ -1070,9 +1070,19 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
     # print("sim"+Elapsed_time_hms(elapsed_time=(time1-time0)))#new
     #oresen
     ge_ges = np.arange(generation)
-    ln_avr_ges_trs_avr = np.mean(ln_avr_ges_trs, axis=0)#各ラウンドでの全員の平気利得、の試行平均
-    tc_avr_ges_trs_avr = np.mean(tc_avr_ges_trs, axis=0)
-    tl_avr_ges_trs_avr = np.mean(tl_avr_ges_trs, axis=0)#TODO:
+    if lorf == "leave":
+        ln_avr_ges_trs_avr = np.mean(ln_avr_ges_trs, axis=0)#各ラウンドでの全員の平気利得、の試行平均
+        tc_avr_ges_trs_avr = np.mean(tc_avr_ges_trs, axis=0)
+        tl_avr_ges_trs_avr = np.mean(tl_avr_ges_trs, axis=0)#TODO:
+    if lorf == "form":
+        ln_avr_ges_trs_avr = np.mean(ln_avr_ges_trs, axis=0)#各ラウンドでの全員の平気利得、の試行平均
+        tc_avr_ges_trs_avr = np.mean(tc_avr_ges_trs, axis=0)
+        tf_avr_ges_trs_avr = np.mean(tf_avr_ges_trs, axis=0)#TODO:
+    if lorf == "both":
+        ln_avr_ges_trs_avr = np.mean(ln_avr_ges_trs, axis=0)#各ラウンドでの全員の平気利得、の試行平均
+        tc_avr_ges_trs_avr = np.mean(tc_avr_ges_trs, axis=0)
+        tl_avr_ges_trs_avr = np.mean(tl_avr_ges_trs, axis=0)#TODO:
+        tf_avr_ges_trs_avr = np.mean(tf_avr_ges_trs, axis=0)
     df = pd.DataFrame({"ge":ge_ges,"tc":tc_avr_ges_trs_avr,"tl":tl_avr_ges_trs_avr, "ln":ln_avr_ges_trs_avr})#TODO:
     df.to_csv(name+"/"+name+"_avr.csv")#フォルダの中に格納
     Graph_avr_tc_tl(name+"/"+name+"_avr.csv").savefig(name+"/"+name+"_avr.png")#フォルダの中に格納
