@@ -33,13 +33,13 @@ g_step = 100 #100
 ani_step = 100 #100
 
 #for testing
-n = 4
-trial = 2
-generation = 3
-roound = 2
-work = 2
-g_step = 2
-ani_step = 2
+# n = 4
+# trial = 2
+# generation = 3
+# roound = 2
+# work = 2
+# g_step = 2
+# ani_step = 2
 
 
 #define
