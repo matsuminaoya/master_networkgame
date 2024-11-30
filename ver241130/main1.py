@@ -922,7 +922,7 @@ def le(ininet = "ininet", inivalue = "inivalue", trial = 0, work = 0):
     ge_ges_repeat = np.tile(ge_ges, trial)
     df = pd.DataFrame({"tr":tr_trs_repeat, "ge":ge_ges_repeat, "tc":tc_all_ges_trs, "tl":tl_all_ges_trs, "ln":ln_all_ges_trs})
     df.to_csv(name+"/"+name+"_all.csv")
-    df = Graph_all_tc_tl_dfexplode(name + "_all.csv")
+    df = Graph_all_tc_tl_dfexplode(name+"/"+name+"_all.csv")
     # time2 = time.time()
     # Graph_all_vio(df, ylabel="tc").savefig(name + "_all_vio_tc.png")
     # time3 = time.time()
