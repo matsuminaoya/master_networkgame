@@ -857,7 +857,7 @@ def start_bo_null():
 # ininet = "full" / "null" / "ba"？
 # 
 
-def start(ininet = "ininet", inivalue = "inivalue", trial = 0, work = 0):
+def le(ininet = "ininet", inivalue = "inivalue", trial = 0, work = 0):
     name = "t"+str(trial)+"_w"+str(work)+"_" + inspect.currentframe().f_code.co_name + "_"+ininet+"_"+inivalue #フレキシブル名称変更
     os.makedirs(name, exist_ok=False) #フォルダ作成、同じ名前があるとエラー
     tc_avr_ges_trs,tl_avr_ges_trs,ln_avr_ges_trs,tc_all_ges_trs,tl_all_ges_trs,ln_all_ges_trs,linkmatrix_ges_tr0 = [],[],[],[],[],[],[]#一行に変更
@@ -948,7 +948,7 @@ def start(ininet = "ininet", inivalue = "inivalue", trial = 0, work = 0):
     #print("ani"+Elapsed_time_hms(time7-time6))
     print("all"+Elapsed_time_hms(time7-time0))
 
-le(ininet="full", inivalue="zero", trial=trial, work=work)
+#le(ininet="full", inivalue="zero", trial=trial, work=work)
 #le(ininet="full", inivalue="eleven")
 
 ###note-1123まで
