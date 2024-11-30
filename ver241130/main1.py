@@ -920,7 +920,7 @@ def le(ininet = "ininet", inivalue = "inivalue", trial = 0, work = 0):
     #vio box
     tr_trs_repeat = np.repeat(np.arange(trial),generation)
     ge_ges_repeat = np.tile(ge_ges, trial)
-    df = pd.DataFrame({"tr":tr_trs_repeat, "ge":ge_ges_repeat, "tc":tc_all_ges_trs, "tl":tl_all_ges_trs, "ln":ln_all_ges_trs})
+    df = pd.DataFrame({"tr":tr_trs_repeat, "ge":ge_ges_repeat, "tc":tc_all_ges_trs, "tl":tl_all_ges_trs, "ln":ln_all_ges_trs})#TODO:
     df.to_csv(name+"/"+name+"_all.csv")#フォルダの中に格納
     df = Graph_all_tc_tl_dfexplode(name+"/"+name+"_all.csv")#フォルダの中に格納
     # time2 = time.time()
