@@ -860,7 +860,7 @@ def start_le(ininet = ininet, inivalue = inivalue):
         tc = eval("Initialize_value_"+inivalue)()#フレキシブル化#pok
         tl = eval("Initialize_value_"+inivalue)()#フレキシブル化#pok
         linkmatrix = eval("Initialize_linkmatrix_"+ininet)()#フレキシブル化#pok
-        tc_avr_ges,tl_avr_ges,ln_avr_ges,tc_all_ges,tl_all_ges,ln_all_ges = [],[],[],[],[],[]#一行に変更
+        tc_avr_ges,tl_avr_ges,ln_avr_ges,tc_all_ges,tl_all_ges,ln_all_ges = [],[],[],[],[],[]#一行に変更,=[]じゃダメ
         for ge in range(generation):
             for ro in range(roound):
                 if ro == 0:#1122変更
@@ -901,7 +901,6 @@ def start_le(ininet = ininet, inivalue = inivalue):
             #    linkmatrix_ges_tr0.append(linkmatrix) #トライアル0の場合は全ての世代でのネットワークを保存
         tc_avr_ges_trs.append(tc_avr_ges) #ok
         tl_avr_ges_trs.append(tl_avr_ges)
-        print(ln_avr_ges)
         ln_avr_ges_trs.append(ln_avr_ges)#1試行目の各ラウンドでの全員の平均利得,2試行目の...
         tc_all_ges_trs.extend(tc_all_ges)
         tl_all_ges_trs.extend(tl_all_ges)
@@ -910,7 +909,6 @@ def start_le(ininet = ininet, inivalue = inivalue):
     # print("sim"+Elapsed_time_hms(elapsed_time=(time1-time0)))#new
     #oresen
     ge_ges = np.arange(generation)
-    print(ln_avr_ges_trs)
     ln_avr_ges_trs_avr = np.mean(ln_avr_ges_trs, axis=0)#各ラウンドでの全員の平気利得、の試行平均
     tc_avr_ges_trs_avr = np.mean(tc_avr_ges_trs, axis=0)
     tl_avr_ges_trs_avr = np.mean(tl_avr_ges_trs, axis=0)
