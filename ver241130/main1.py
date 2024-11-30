@@ -32,10 +32,6 @@ roound = 100 #100
 g_step = 100 #100
 ani_step = 100 #100
 
-tc = []
-tl = []
-tf = []
-
 #for testing
 n = 4
 trial = 2
@@ -62,7 +58,8 @@ def Initialize_value_zero(): #ok1130
 def Initialize_value_eleven():#ok1130
     return np.full(n, 1.1)
 
-def Initialize_values(lorf, tc, tl, tf, tcinivalue, tlinivalue, tfinivalue):#TODO:#新規作成関数
+def Initialize_values(lorf, tcinivalue, tlinivalue, tfinivalue):#TODO:#新規作成関数
+    global tc, tl, tf
     if lorf == "leave":
         tc = eval("Initialize_value_"+tcinivalue)()#フレキシブル化#pok
         tl = eval("Initialize_value_"+tlinivalue)()#フレキシブル化#pok 
@@ -973,8 +970,7 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
     for tr in range(trial):
         # tc = eval("Initialize_value_"+inivalue)()#フレキシブル化#pok#TODO:
         # tl = eval("Initialize_value_"+inivalue)()#フレキシブル化#pok#TODO:
-        global tc, tl, tf
-        Initialize_values(lorf=lorf, tc=tc, tl=tl, tf=tf, tcinivalue=tcinivalue, tlinivalue=tlinivalue, tfinivalue=tfinivalue)
+        Initialize_values(lorf=lorf, tcinivalue=tcinivalue, tlinivalue=tlinivalue, tfinivalue=tfinivalue)
         print(tc)
         print(tl)
         linkmatrix = eval("Initialize_linkmatrix_"+ininet)()#フレキシブル化#pok
