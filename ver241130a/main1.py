@@ -1147,10 +1147,9 @@ roound = 2
 work = 2
 g_step = 2
 ani_step = 2
-
 start(lorf="leave",ininet="full", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=trial, work=work)
 start(lorf="leave",ininet="full", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=trial, work=work)
-start(lorf="form",ininet="null", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="zero", trial=trial, work=work)
+start(lorf="form",ininet="null", tcinivalue="zero", tlinivalue="eleven", tfinivalue="random", trial=trial, work=work)
 start(lorf="both",ininet="ba", tcinivalue="random", tlinivalue="random", tfinivalue="random", trial=trial, work=work)
 
 ###note-1123まで
