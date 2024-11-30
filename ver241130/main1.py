@@ -970,7 +970,12 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
             tl = eval("Initialize_value_"+tlinivalue)()#フレキシブル化#pok#TODO:
             tf = eval("Initialize_value_"+tfinivalue)()
         linkmatrix = eval("Initialize_linkmatrix_"+ininet)()#フレキシブル化#pok
-        tc_avr_ges,tl_avr_ges,ln_avr_ges, tc_all_ges,tl_all_ges,ln_all_ges = [],[],[], [],[],[]#一行に変更,=[]じゃダメ #TODO:
+        if lorf == "leave":
+            tc_avr_ges,tl_avr_ges,ln_avr_ges, tc_all_ges,tl_all_ges,ln_all_ges = [],[],[], [],[],[]#一行に変更,=[]じゃダメ #TODO:
+        if lorf == "form":
+            tc_avr_ges,tf_avr_ges,ln_avr_ges, tc_all_ges,tf_all_ges,ln_all_ges = [],[],[], [],[],[]
+        if lorf == "both":
+            tc_avr_ges,tl_avr_ges,tf_avr_ges,ln_avr_ges, tc_all_ges,tl_all_ges,tf_all_ges,ln_all_ges = [],[],[],[], [],[],[],[]
         for ge in range(generation):
             for ro in range(roound):
                 if ro == 0:#1122変更
