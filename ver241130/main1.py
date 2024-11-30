@@ -1016,6 +1016,7 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
                 tc,tl,tf = Selection_tc_tl_tf(m_random=m_random, count_poff_ge=count_poff_ge, cho=cho, tc_pre=tc, tl_pre=tl, tf_pre=tf)
                 tc,tl,tf = Mutation_tc_tl_tf(m_random=m_random,tc_pre=tc,tl_pre=tl,tf_pre=tf)
             #graph
+            # 平均値を入れる/全部入れる
             if lorf == "leave":
                 tc_avr_ges.append(mean(tc)) #ok
                 tl_avr_ges.append(mean(tl))
@@ -1041,12 +1042,29 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
                 ln_all_ges.append(ln)#各geでの全員のリンク数、1ge1234人目,2ge1234人目
             #if tr == 0:
             #    linkmatrix_ges_tr0.append(linkmatrix) #トライアル0の場合は全ての世代でのネットワークを保存
-        tc_avr_ges_trs.append(tc_avr_ges) #ok
-        tl_avr_ges_trs.append(tl_avr_ges)
-        ln_avr_ges_trs.append(ln_avr_ges)#[1試行目の各geでの全員の平均利得],[2試行目の...
-        tc_all_ges_trs.extend(tc_all_ges)
-        tl_all_ges_trs.extend(tl_all_ges)#TODO:
-        ln_all_ges_trs.extend(ln_all_ges)#1試行目の1ge1234人目,2ge1234人目,2試行目の...[]解除
+        if lorf == "leave":
+            tc_avr_ges_trs.append(tc_avr_ges) #ok
+            tl_avr_ges_trs.append(tl_avr_ges)
+            ln_avr_ges_trs.append(ln_avr_ges)#[1試行目の各geでの全員の平均利得],[2試行目の...
+            tc_all_ges_trs.extend(tc_all_ges)
+            tl_all_ges_trs.extend(tl_all_ges)#TODO:
+            ln_all_ges_trs.extend(ln_all_ges)#1試行目の1ge1234人目,2ge1234人目,2試行目の...[]解除
+        if lorf == "form":
+            tc_avr_ges_trs.append(tc_avr_ges) #ok
+            tf_avr_ges_trs.append(tf_avr_ges)
+            ln_avr_ges_trs.append(ln_avr_ges)#[1試行目の各geでの全員の平均利得],[2試行目の...
+            tc_all_ges_trs.extend(tc_all_ges)
+            tf_all_ges_trs.extend(tf_all_ges)#TODO:
+            ln_all_ges_trs.extend(ln_all_ges)#1試行目の1ge1234人目,2ge1234人目,2試行目の...[]解除
+        if lorf == "both":
+            tc_avr_ges_trs.append(tc_avr_ges) #ok
+            tl_avr_ges_trs.append(tl_avr_ges)
+            tf_avr_ges_trs.append(tf_avr_ges)
+            ln_avr_ges_trs.append(ln_avr_ges)#[1試行目の各geでの全員の平均利得],[2試行目の...
+            tc_all_ges_trs.extend(tc_all_ges)
+            tl_all_ges_trs.extend(tl_all_ges)#TODO:
+            tf_all_ges_trs.extend(tf_all_ges)#TODO:
+            ln_all_ges_trs.extend(ln_all_ges)#1試行目の1ge1234人目,2ge1234人目,2試行目の...[]解除
     # time1 = time.time()#new
     # print("sim"+Elapsed_time_hms(elapsed_time=(time1-time0)))#new
     #oresen
