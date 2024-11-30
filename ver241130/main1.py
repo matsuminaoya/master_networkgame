@@ -58,10 +58,15 @@ def Initialize_value_zero(): #ok1130
 def Initialize_value_eleven():#ok1130
     return np.full(n, 1.1)
 
-def Initialize_values_leave(inivalue):#TODO:#新規作成関数,leのみ
-    global tc, tl
-    tc = eval("Initialize_value_"+inivalue)()#フレキシブル化#pok
-    tl = eval("Initialize_value_"+inivalue)()#フレキシブル化#pok 
+def Initialize_values(type, inivalue):#TODO:#新規作成関数,leのみ
+    if type == "leave":
+        global tc, tl
+        tc = eval("Initialize_value_"+inivalue)()#フレキシブル化#pok
+        tl = eval("Initialize_value_"+inivalue)()#フレキシブル化#pok 
+    if type == "form":
+        global tc, tf
+        tc = eval("Initialize_value_"+inivalue)()
+        tf = eval("Initialize_value_"+inivalue)()
 
 
 
@@ -962,7 +967,7 @@ def start(type = "leave", ininet = "ininet", inivalue = "inivalue", trial = 0, w
     for tr in range(trial):
         # tc = eval("Initialize_value_"+inivalue)()#フレキシブル化#pok#TODO:
         # tl = eval("Initialize_value_"+inivalue)()#フレキシブル化#pok#TODO:
-        eval("Initialize_values_"+type+"("+inivalue+")")
+        
         print(tc)
         print(tl)
         linkmatrix = eval("Initialize_linkmatrix_"+ininet)()#フレキシブル化#pok
