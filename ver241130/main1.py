@@ -33,13 +33,13 @@ g_step = 100 #100
 ani_step = 100 #100
 
 #for testing
-# n = 4
-# trial = 2
-# generation = 3
-# roound = 2
-# work = 2
-# g_step = 2
-# ani_step = 2
+n = 4
+trial = 2
+generation = 3
+roound = 2
+work = 2
+g_step = 2
+ani_step = 2
 
 
 #define
@@ -856,7 +856,7 @@ def start_bo_null():
 
 def le(ininet = "ininet", inivalue = "inivalue", trial = 0, work = 0):
     name = "t"+str(trial)+"_w"+str(work)+"_" + inspect.currentframe().f_code.co_name + "_"+ininet+"_"+inivalue #フレキシブル名称変更
-    os.
+    os.makedirs(name, exist_ok=False) #フォルダ作成、同じ名前があるとエラー
     tc_avr_ges_trs,tl_avr_ges_trs,ln_avr_ges_trs,tc_all_ges_trs,tl_all_ges_trs,ln_all_ges_trs,linkmatrix_ges_tr0 = [],[],[],[],[],[],[]#一行に変更
     for tr in range(trial):
         tc = eval("Initialize_value_"+inivalue)()#フレキシブル化#pok
@@ -915,13 +915,13 @@ def le(ininet = "ininet", inivalue = "inivalue", trial = 0, work = 0):
     tc_avr_ges_trs_avr = np.mean(tc_avr_ges_trs, axis=0)
     tl_avr_ges_trs_avr = np.mean(tl_avr_ges_trs, axis=0)
     df = pd.DataFrame({"ge":ge_ges,"tc":tc_avr_ges_trs_avr,"tl":tl_avr_ges_trs_avr, "ln":ln_avr_ges_trs_avr})
-    df.to_csv(name + "_avr.csv")
-    Graph_avr_tc_tl(name + "_avr.csv").savefig(name + "_avr.png")
+    df.to_csv(name+"/"+name+"_avr.csv")
+    Graph_avr_tc_tl(name+"/"+name+"_avr.csv").savefig(name+"/"+name+"_avr.png")
     #vio box
     tr_trs_repeat = np.repeat(np.arange(trial),generation)
     ge_ges_repeat = np.tile(ge_ges, trial)
     df = pd.DataFrame({"tr":tr_trs_repeat, "ge":ge_ges_repeat, "tc":tc_all_ges_trs, "tl":tl_all_ges_trs, "ln":ln_all_ges_trs})
-    df.to_csv(name + "_all.csv")
+    df.to_csv(name+"/"+name+"_all.csv")
     df = Graph_all_tc_tl_dfexplode(name + "_all.csv")
     # time2 = time.time()
     # Graph_all_vio(df, ylabel="tc").savefig(name + "_all_vio_tc.png")
@@ -930,11 +930,11 @@ def le(ininet = "ininet", inivalue = "inivalue", trial = 0, work = 0):
     # Graph_all_vio(df, ylabel="tl").savefig(name + "_all_vio_tl.png")
     # Graph_all_vio(df, ylabel="ln").savefig(name + "_all_vio_ln.png")
     # time4 = time.time()
-    Graph_all_box(df, ylabel="tc").savefig(name + "_all_box_tc.png")
+    Graph_all_box(df, ylabel="tc").savefig(name+"/"+name+"_all_box_tc.png")
     # time5 = time.time()
     # print("box"+Elapsed_time_hms(time5-time4))
-    Graph_all_box(df, ylabel="tl").savefig(name + "_all_box_tl.png")
-    Graph_all_box(df, ylabel="ln").savefig(name + "_all_box_ln.png")
+    Graph_all_box(df, ylabel="tl").savefig(name+"/"+name+"_all_box_tl.png")
+    Graph_all_box(df, ylabel="ln").savefig(name+"/"+name+"_all_box_ln.png")
     #network gif
     #df = pd.DataFrame({"ge":ge_ges, "linkmatrix":linkmatrix_ges_tr0})
     #df.to_csv(name + "_tr0_network.csv")
@@ -944,8 +944,9 @@ def le(ininet = "ininet", inivalue = "inivalue", trial = 0, work = 0):
     #print("ani"+Elapsed_time_hms(time7-time6))
     print("all"+Elapsed_time_hms(time7-time0))
 
-start_le(ininet="full", inivalue="zero")
-start_le(ininet="full", inivalue="eleven")
+le(ininet="full", inivalue="zero", trial=trial, work=work)
+#le(ininet="full", inivalue="eleven")
+
 ###note-1123まで
 # np.array([0,0],[0,0])でリストからナンパイ
 # tc,tl,tf = selection
