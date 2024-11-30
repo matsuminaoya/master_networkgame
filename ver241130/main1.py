@@ -32,6 +32,8 @@ roound = 100 #100
 g_step = 100 #100
 ani_step = 100 #100
 
+tc = []
+
 #for testing
 n = 4
 trial = 2
