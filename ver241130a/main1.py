@@ -1084,9 +1084,13 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
         tf_avr_ges_trs_avr = np.mean(tf_avr_ges_trs, axis=0)
         df = pd.DataFrame({"ge":ge_ges,"tc":tc_avr_ges_trs_avr,"tl":tl_avr_ges_trs_avr,"tf":tf_avr_ges_trs_avr,"ln":ln_avr_ges_trs_avr})#TODO:
     df.to_csv(name+"/"+name+"_avr.csv")#フォルダの中に格納
-    if lorf == "leave": Graph_avr_tc_tl(name+"/"+name+"_avr.csv").savefig(name+"/"+name+"_avr.png")#フォルダの中に格納
-    if lorf == "form": Graph_avr_tc_tf(name+"/"+name+"_avr.csv").savefig(name+"/"+name+"_avr.png")#フォルダの中に格納
-    if lorf == "both": Graph_avr_tc_tl_tf(name+"/"+name+"_avr.csv").savefig(name+"/"+name+"_avr.png")#フォルダの中に格納
+    #csvからpng書く
+    if lorf == "leave":
+        Graph_avr_tc_tl(name+"/"+name+"_avr.csv").savefig(name+"/"+name+"_avr.png")#フォルダの中に格納
+    if lorf == "form":
+        Graph_avr_tc_tf(name+"/"+name+"_avr.csv").savefig(name+"/"+name+"_avr.png")#フォルダの中に格納
+    if lorf == "both":
+        Graph_avr_tc_tl_tf(name+"/"+name+"_avr.csv").savefig(name+"/"+name+"_avr.png")#フォルダの中に格納
     #vio box
     tr_trs_repeat = np.repeat(np.arange(trial),generation)
     ge_ges_repeat = np.tile(ge_ges, trial)
