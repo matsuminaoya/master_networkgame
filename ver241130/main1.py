@@ -23,10 +23,10 @@ bene = 2.0
 cost = 1.0
 mutation = 0.01
 #tr>ge>ro>work
-trial = 1 #1,10 #2
+#trial = 1 #1,10 #2
 generation = 5001 #5001 #3 #mod(ani_step)=1ないとエラーが発生するので注意
 roound = 100 #100
-work = 5000 #5000
+#work = 5000 #5000
 #graph_step
 g_step = 100 #100
 ani_step = 100 #100
@@ -853,7 +853,7 @@ def start_bo_null():
 # ininet = "full" / "null" / "ba"？
 # 
 
-def start_le(ininet = "ininet", inivalue = "inivalue", tr = 0, work = 0):
+def start_le(ininet = "ininet", inivalue = "inivalue", trial = 0, work = 0):
     name = inspect.currentframe().f_code.co_name
     name = name+"_"+ininet+"_"+inivalue #フレキシブル名称変更
     tc_avr_ges_trs,tl_avr_ges_trs,ln_avr_ges_trs,tc_all_ges_trs,tl_all_ges_trs,ln_all_ges_trs,linkmatrix_ges_tr0 = [],[],[],[],[],[],[]#一行に変更
