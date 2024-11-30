@@ -34,11 +34,11 @@ ani_step = 100 #100
 #for testing
 n = 3
 trial = 1
-generation = 11
+generation = 3
 roound = 2
 work = 2
-g_step = 10
-ani_step = 10
+g_step = 2
+ani_step = 2
 
 
 #define
@@ -901,6 +901,7 @@ def start_le(ininet = ininet, inivalue = inivalue):
             #    linkmatrix_ges_tr0.append(linkmatrix) #トライアル0の場合は全ての世代でのネットワークを保存
         tc_avr_ges_trs.append(tc_avr_ges) #ok
         tl_avr_ges_trs.append(tl_avr_ges)
+        print(ln_avr_ges)
         ln_avr_ges_trs.append(ln_avr_ges)
         tc_all_ges_trs.extend(tc_all_ges)
         tl_all_ges_trs.extend(tl_all_ges)
