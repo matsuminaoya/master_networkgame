@@ -1202,3 +1202,5 @@ start(lorf="both",ininet="ba", tcinivalue="zero", tlinivalue="eleven", tfinivalu
 #1123 tlは0.5安定で、tfが暴れるのはtfは繋がっているから真似するセレクションの影響が強い、利得は最初しか変わらないから、そいつの初期値に依存する？
 #全員0.5スタートやってみてもいいかも
 #eval(関数名文字列)()で実行できるスゲー
+
+#This probably means that Tcl wasn't installed properly.このエラーがでたら、tclのパスが通ってない。
