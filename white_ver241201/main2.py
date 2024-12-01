@@ -1,5 +1,8 @@
-#TODO:チョイスを修正、初期値揃えよう、フレキシブル化してみた、初期値は三つ別に選択にしたこれで論文書けるかも、←ココ、gをずらす、間違いを探す、最初と最後だけ別に出力
+#TODO:チョイスを修正、初期値揃えよう、フレキシブル化してみた、初期値は三つ別に選択にしたこれで論文書けるかも、リストappendではなくnumpyarryで最初に枠決めて高速化←ココ、gをずらす、間違いを探す、最初と最後だけ別に出力
 
+#whiteはpy3.13.0
+#.\venv\Scripts\activate.ps1 仮想環境明示
+#pip install は必ず仮想環境で、（venv）を必ず確認
 #python.exe -m pip install --upgrade pip
 import gc
 import os
@@ -17,9 +20,9 @@ from matplotlib.animation import FuncAnimation
 time0 = time.time()
 
 #grobal value
-n = 100 #100 #4
-bam = 2 #banetwork'S new node's link number
-a = 1.0
+n = 100 #OK#100 #4
+bam = 2 #OK#banetwork'S new node's link number
+a = 1.0 
 bene = 2.0
 cost = 1.0
 mutation = 0.01
@@ -63,13 +66,13 @@ def Initialize_linkmatrix_ba(): #完成
 
 def Calculate_cnum(coop_ro, linkmatrix): #ok
     coop_ro_rvs = np.where(coop_ro==0,1,0) #ok
-    noncoop_index_ro = np.nonzero(coop_ro_rvs) #ok
+    noncoop_index_ro = np.nonzero(coop_ro_rvs) #ok 3ゼロでないところしかピックできない
     linkmatrix_del = np.delete(linkmatrix, noncoop_index_ro, 1) #非協力者の列削除
     cnum_ro = np.sum(linkmatrix_del,axis=1)
     return cnum_ro
 def Calculate_poff_ro(coop_ro, lnum_ro, cnum_ro): #ok #利得は人数で割ってる
-    poff_ro_accu = np.where(coop_ro==1, (cnum_ro*bene)-(lnum_ro*cost), cnum_ro*bene)
-    poff_ro = np.divide(poff_ro_accu, lnum_ro, out=poff_ro_accu, where=(lnum_ro!=0))
+    poff_ro_nodiv = np.where(coop_ro==1, (cnum_ro*bene)-(lnum_ro*cost), cnum_ro*bene)
+    poff_ro = np.divide(poff_ro_nodiv, lnum_ro, out=poff_ro_nodiv, where=(lnum_ro!=0))
     return poff_ro
 
 # def Initialize_poff_full(coop_ro, cnum_ro): #ok
@@ -151,9 +154,9 @@ def Coop_ro_zero(tc): #ok
 def Coop_ro_nonzero(cnum_ro, lnum_ro, tc): #okok
     tc_random = Randomn()
     ratio_clink = np.divide(cnum_ro, lnum_ro, where=lnum_ro>0)
-    coop_ro_1 = np.where(((lnum_ro>0)&(ratio_clink>=tc)), 1, 0)
+    coop_ro_1 = np.where(((lnum_ro>0)&(tc<=ratio_clink)), 1, 0)
     coop_ro_2 = np.where(((lnum_ro==0)&(tc<=tc_random)), 1, coop_ro_1)
-    coop_ro = np.where(((lnum_ro==0)&(tc>tc_random)), 0, coop_ro_2)
+    coop_ro = np.where(((lnum_ro==0)&(tc_random<tc)), 0, coop_ro_2)
     return coop_ro
 
 def Leave_Form_tl_tf(work, linkmatrix, coop_ratio, tl, tf): #workを明示#TODO: きりはりだとｔｃがさがる、ｇが少ないと協力的、ｇが100000、500、100・・・900,gが少ないとfullだと非協力的に、平均と累積べつべつ、
@@ -162,15 +165,16 @@ def Leave_Form_tl_tf(work, linkmatrix, coop_ratio, tl, tf): #workを明示#TODO:
     x = rng.integers(((n-1)*n/2),size=(1,work))[0]
     i = (pair_index[0][x])
     j = (pair_index[1][x])
-    for k in range(work):
+    for k in range(work): #TODO:実験
         pair = (i[k],j[k])
-        mask_l = ((linkmatrix[pair]==1) & ((coop_ratio[pair[0]]<tl[pair[1]]) | (coop_ratio[pair[1]]<tl[pair[0]])))
         mask_f = ((linkmatrix[pair]==0) & ((coop_ratio[pair[0]]>=tf[pair[1]]) & (coop_ratio[pair[1]]>=tf[pair[0]])))
-        linkmatrix[pair[0][mask_l],pair[1][mask_l]] = 0
-        linkmatrix[pair[1][mask_l],pair[0][mask_l]] = 0
+        mask_l = ((linkmatrix[pair]==1) & ((coop_ratio[pair[0]]<tl[pair[1]]) | (coop_ratio[pair[1]]<tl[pair[0]])))
         linkmatrix[pair[0][mask_f],pair[1][mask_f]] = 1
         linkmatrix[pair[1][mask_f],pair[0][mask_f]] = 1
+        linkmatrix[pair[0][mask_l],pair[1][mask_l]] = 0
+        linkmatrix[pair[1][mask_l],pair[0][mask_l]] = 0
     return linkmatrix
+
 def Leave_Form_tl(work, linkmatrix, coop_ratio, tl): #ok#workを明示
     rng = np.random.default_rng()
     pair_index = np.triu_indices(n, k=1)
@@ -944,11 +948,11 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
     os.makedirs(name, exist_ok=False)#TODO: #フォルダ作成、同じ名前があるとエラー
     #make tr[] for stack data
     if lorf == "leave":
-        tc_avr_ges_trs,tl_avr_ges_trs,ln_avr_ges_trs, tc_all_ges_trs,tl_all_ges_trs,ln_all_ges_trs, linkmatrix_ges_tr0 =  [],[],[], [],[],[], []#一行に変更#TODO:
-    if lorf == "form":
-        tc_avr_ges_trs,tf_avr_ges_trs,ln_avr_ges_trs, tc_all_ges_trs,tf_all_ges_trs,ln_all_ges_trs, linkmatrix_ges_tr0 =  [],[],[], [],[],[], []
-    if lorf == "both":
-        tc_avr_ges_trs,tl_avr_ges_trs,tf_avr_ges_trs,ln_avr_ges_trs, tc_all_ges_trs,tl_all_ges_trs,tf_all_ges_trs,ln_all_ges_trs, linkmatrix_ges_tr0 = [],[],[],[], [],[],[],[], [],
+        tc_avr_ges_trs,tl_avr_ges_trs,ln_avr_ges_trs, tc_all_ges_trs,tl_all_ges_trs,ln_all_ges_trs, linkmatrix_ges_tr0 =  np.zeros(trial),np.zeros(trial),np.zeros(trial), np.array([]),np.array([]),np.array([]), np.zeros(1)#一行に変更#TODO:リストの中にリストを外して入れるextendをnpでやるnp.concatenate()を使うためにゼロで埋めない
+    elif lorf == "form":
+        tc_avr_ges_trs,tf_avr_ges_trs,ln_avr_ges_trs, tc_all_ges_trs,tf_all_ges_trs,ln_all_ges_trs, linkmatrix_ges_tr0 =  np.zeros(trial),np.zeros(trial),np.zeros(trial), np.array([]),np.array([]),np.array([]), np.zeros(1)
+    elif lorf == "both":
+        tc_avr_ges_trs,tl_avr_ges_trs,tf_avr_ges_trs,ln_avr_ges_trs, tc_all_ges_trs,tl_all_ges_trs,tf_all_ges_trs,ln_all_ges_trs, linkmatrix_ges_tr0 = np.zeros(trial),np.zeros(trial),np.zeros(trial),np.zeros(trial), np.array([]),np.array([]),np.array([]),np.array([]), np.zeros(1) #TODO:linkmatrix_ges_tr0は後で考える
     for tr in range(trial):
         #Initialize_values
         if lorf == "leave":
@@ -964,11 +968,11 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
         linkmatrix = eval("Initialize_linkmatrix_"+ininet)()#フレキシブル化#pok
         #make ge[] for stack data
         if lorf == "leave":
-            tc_avr_ges,tl_avr_ges,ln_avr_ges, tc_all_ges,tl_all_ges,ln_all_ges = [],[],[], [],[],[]#一行に変更,=[]じゃダメ #TODO:
+            tc_avr_ges,tl_avr_ges,ln_avr_ges, tc_all_ges,tl_all_ges,ln_all_ges = np.zeros(generation),np.zeros(generation),np.zeros(generation), np.zeros(generation),np.zeros(generation),np.zeros(generation)#一行に変更,=[]じゃダメ #TODO:リストappendではなく、npでゼロの場所確保してgeで格納
         if lorf == "form":
-            tc_avr_ges,tf_avr_ges,ln_avr_ges, tc_all_ges,tf_all_ges,ln_all_ges = [],[],[], [],[],[]
+            tc_avr_ges,tf_avr_ges,ln_avr_ges, tc_all_ges,tf_all_ges,ln_all_ges = np.zeros(generation),np.zeros(generation),np.zeros(generation), np.zeros(generation),np.zeros(generation),np.zeros(generation)
         if lorf == "both":
-            tc_avr_ges,tl_avr_ges,tf_avr_ges,ln_avr_ges, tc_all_ges,tl_all_ges,tf_all_ges,ln_all_ges = [],[],[],[], [],[],[],[]
+            tc_avr_ges,tl_avr_ges,tf_avr_ges,ln_avr_ges, tc_all_ges,tl_all_ges,tf_all_ges,ln_all_ges = np.zeros(generation),np.zeros(generation),np.zeros(generation),np.zeros(generation), np.zeros(generation),np.zeros(generation),np.zeros(generation),np.zeros(generation)
         for ge in range(generation):
             for ro in range(roound):
                 if ro == 0:#1122変更
@@ -1012,55 +1016,78 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
                 tc,tl,tf = Mutation_tc_tl_tf(m_random=m_random,tc_pre=tc,tl_pre=tl,tf_pre=tf)
             #graph
             # geにおいて、平均値を入れる/全部入れる
+            # if lorf == "leave":
+            #     tc_avr_ges.append(mean(tc)) #ok
+            #     tl_avr_ges.append(mean(tl))
+            #     ln_avr_ges.append(mean(ln))#各geでの全員の平均リンクを入れていく
+            #     tc_all_ges.append(tc)
+            #     tl_all_ges.append(tl)#TODO:
+            #     ln_all_ges.append(ln)#各geでの全員のリンク数、1ge1234人目,2ge1234人目
+            # if lorf == "form":
+            #     tc_avr_ges.append(mean(tc)) #ok
+            #     tf_avr_ges.append(mean(tf))
+            #     ln_avr_ges.append(mean(ln))#各geでの全員の平均リンクを入れていく
+            #     tc_all_ges.append(tc)
+            #     tf_all_ges.append(tf)#TODO:
+            #     ln_all_ges.append(ln)#各geでの全員のリンク数、1ge1234人目,2ge1234人目
+            # if lorf == "both":
+            #     tc_avr_ges.append(mean(tc)) #ok
+            #     tl_avr_ges.append(mean(tl))
+            #     tf_avr_ges.append(mean(tf))
+            #     ln_avr_ges.append(mean(ln))#各geでの全員の平均リンクを入れていく
+            #     tc_all_ges.append(tc)
+            #     tl_all_ges.append(tl)#TODO:
+            #     tf_all_ges.append(tf)#TODO:
+            #     ln_all_ges.append(ln)#各geでの全員のリンク数、1ge1234人目,2ge1234人目
             if lorf == "leave":
-                tc_avr_ges.append(mean(tc)) #ok
-                tl_avr_ges.append(mean(tl))
-                ln_avr_ges.append(mean(ln))#各geでの全員の平均リンクを入れていく
-                tc_all_ges.append(tc)
-                tl_all_ges.append(tl)#TODO:
-                ln_all_ges.append(ln)#各geでの全員のリンク数、1ge1234人目,2ge1234人目
+                tc_avr_ges[ge] = np.mean(tc)#ok
+                tl_avr_ges[ge] = np.mean(tl)
+                ln_avr_ges[ge] = np.mean(ln)#各geでの全員の平均リンクを入れていく
+                tc_all_ges[ge] = tc
+                tl_all_ges[ge] = tl#TODO:
+                ln_all_ges[ge] = ln#各geでの全員のリンク数、1ge1234人目,2ge1234人目
             if lorf == "form":
-                tc_avr_ges.append(mean(tc)) #ok
-                tf_avr_ges.append(mean(tf))
-                ln_avr_ges.append(mean(ln))#各geでの全員の平均リンクを入れていく
-                tc_all_ges.append(tc)
-                tf_all_ges.append(tf)#TODO:
-                ln_all_ges.append(ln)#各geでの全員のリンク数、1ge1234人目,2ge1234人目
+                tc_avr_ges[ge] = np.mean(tc)#ok
+                tf_avr_ges[ge] = np.mean(tf)
+                ln_avr_ges[ge] = np.mean(ln)#各geでの全員の平均リンクを入れていく
+                tc_all_ges[ge] = tc
+                tf_all_ges[ge] = tf#TODO:
+                ln_all_ges[ge] = ln#各geでの全員のリンク数、1ge1234人目,2ge1234人目
             if lorf == "both":
-                tc_avr_ges.append(mean(tc)) #ok
-                tl_avr_ges.append(mean(tl))
-                tf_avr_ges.append(mean(tf))
-                ln_avr_ges.append(mean(ln))#各geでの全員の平均リンクを入れていく
-                tc_all_ges.append(tc)
-                tl_all_ges.append(tl)#TODO:
-                tf_all_ges.append(tf)#TODO:
-                ln_all_ges.append(ln)#各geでの全員のリンク数、1ge1234人目,2ge1234人目
+                tc_avr_ges[ge] = np.mean(tc)#ok
+                tl_avr_ges[ge] = np.mean(tl)
+                tf_avr_ges[ge] = np.mean(tf)
+                ln_avr_ges[ge] = np.mean(ln)#各geでの全員の平均リンクを入れていく
+                tc_all_ges[ge] = tc
+                tl_all_ges[ge] = tl#TODO:
+                tf_all_ges[ge] = tf#TODO:
+                ln_all_ges[ge] = ln#各geでの全員のリンク数、1ge1234人目,2ge1234人目
             #if tr == 0:
             #    linkmatrix_ges_tr0.append(linkmatrix) #トライアル0の場合は全ての世代でのネットワークを保存
         #trにおいて、ためる/解除してためる
         if lorf == "leave":
-            tc_avr_ges_trs.append(tc_avr_ges) #ok
-            tl_avr_ges_trs.append(tl_avr_ges)
-            ln_avr_ges_trs.append(ln_avr_ges)#[1試行目の各geでの全員の平均利得],[2試行目の...
-            tc_all_ges_trs.extend(tc_all_ges)
-            tl_all_ges_trs.extend(tl_all_ges)#TODO:
-            ln_all_ges_trs.extend(ln_all_ges)#1試行目の1ge1234人目,2ge1234人目,2試行目の...[]解除
+            tc_avr_ges_trs[tr] = tc_avr_ges #ok
+            tl_avr_ges_trs[tr] = tl_avr_ges
+            ln_avr_ges_trs[tr] = ln_avr_ges#[1試行目の各geでの全員の平均利得],[2試行目の...
+            tc_all_ges_trs = np.concatenate((tc_all_ges_trs, tc_all_ges))
+            tl_all_ges_trs = np.concatenate((tl_all_ges_trs, tl_all_ges))#TODO:
+            ln_all_ges_trs = np.concatenate((ln_all_ges_trs, ln_all_ges))#1試行目の1ge1234人目,2ge1234人目,2試行目の...[]解除
         if lorf == "form":
-            tc_avr_ges_trs.append(tc_avr_ges) #ok
-            tf_avr_ges_trs.append(tf_avr_ges)
-            ln_avr_ges_trs.append(ln_avr_ges)#[1試行目の各geでの全員の平均利得],[2試行目の...
-            tc_all_ges_trs.extend(tc_all_ges)
-            tf_all_ges_trs.extend(tf_all_ges)#TODO:
-            ln_all_ges_trs.extend(ln_all_ges)#1試行目の1ge1234人目,2ge1234人目,2試行目の...[]解除
+            tc_avr_ges_trs[tr] = tc_avr_ges #ok
+            tf_avr_ges_trs[tr] = tf_avr_ges
+            ln_avr_ges_trs[tr] = ln_avr_ges#[1試行目の各geでの全員の平均利得],[2試行目の...
+            tc_all_ges_trs = np.concatenate((tc_all_ges_trs, tc_all_ges))
+            tf_all_ges_trs = np.concatenate((tf_all_ges_trs, tf_all_ges))#TODO:
+            ln_all_ges_trs = np.concatenate((ln_all_ges_trs, ln_all_ges))#1試行目の1ge1234人目,2ge1234人目,2試行目の...[]解除
         if lorf == "both":
-            tc_avr_ges_trs.append(tc_avr_ges) #ok
-            tl_avr_ges_trs.append(tl_avr_ges)
-            tf_avr_ges_trs.append(tf_avr_ges)
-            ln_avr_ges_trs.append(ln_avr_ges)#[1試行目の各geでの全員の平均利得],[2試行目の...
-            tc_all_ges_trs.extend(tc_all_ges)
-            tl_all_ges_trs.extend(tl_all_ges)#TODO:
-            tf_all_ges_trs.extend(tf_all_ges)#TODO:
-            ln_all_ges_trs.extend(ln_all_ges)#1試行目の1ge1234人目,2ge1234人目,2試行目の...[]解除
+            tc_avr_ges_trs[tr] = tc_avr_ges #ok
+            tl_avr_ges_trs[tr] = tl_avr_ges
+            tf_avr_ges_trs[tr] = tf_avr_ges
+            ln_avr_ges_trs[tr] = ln_avr_ges#[1試行目の各geでの全員の平均利得],[2試行目の...
+            tc_all_ges_trs = np.concatenate((tc_all_ges_trs, tc_all_ges))
+            tl_all_ges_trs = np.concatenate((tl_all_ges_trs, tl_all_ges))#TODO:
+            tf_all_ges_trs = np.concatenate((tf_all_ges_trs, tf_all_ges))#TODO:
+            ln_all_ges_trs = np.concatenate((ln_all_ges_trs, ln_all_ges))#1試行目の1ge1234人目,2ge1234人目,2試行目の...[]解除
     # time1 = time.time()#new
     # print("sim"+Elapsed_time_hms(elapsed_time=(time1-time0)))#new
     #oresen
