@@ -258,41 +258,41 @@ def Graph_avr_tc_tf(csv): #
     print(inspect.currentframe().f_code.co_name)
     return plt
 
-def Graph_all_tc_tl_tf_dfexplode(csv): #
+def Graph_all_tc_tl_tf_dfgstep(csv): #TODO:名称変更、機能変わったからね
     df = pd.read_csv(csv)
     df = df[df["ge"]%g_step==0]
-    df["tc"] = df["tc"].apply(lambda x: np.fromstring(x.strip("[]"), sep=" "))
-    df["tl"] = df["tl"].apply(lambda x: np.fromstring(x.strip("[]"), sep=" "))
-    df["tf"] = df["tf"].apply(lambda x: np.fromstring(x.strip("[]"), sep=" "))
-    df["ln"] = df["ln"].apply(lambda x: np.fromstring(x.strip("[]"), sep=" "))
-    df = df.explode(["tc", "tl", "tf", "ln"], ignore_index=True)
-    df["tc"] = df["tc"].astype(float)
-    df["tl"] = df["tl"].astype(float)
-    df["tf"] = df["tf"].astype(float)
-    df["ln"] = df["ln"].astype(float)
+    # df["tc"] = df["tc"].apply(lambda x: np.fromstring(x.strip("[]"), sep=" "))
+    # df["tl"] = df["tl"].apply(lambda x: np.fromstring(x.strip("[]"), sep=" "))
+    # df["tf"] = df["tf"].apply(lambda x: np.fromstring(x.strip("[]"), sep=" "))
+    # df["ln"] = df["ln"].apply(lambda x: np.fromstring(x.strip("[]"), sep=" "))
+    # df = df.explode(["tc", "tl", "tf", "ln"], ignore_index=True)
+    # df["tc"] = df["tc"].astype(float)
+    # df["tl"] = df["tl"].astype(float)
+    # df["tf"] = df["tf"].astype(float)
+    # df["ln"] = df["ln"].astype(float)
     print(inspect.currentframe().f_code.co_name)
     return df
-def Graph_all_tc_tl_dfexplode(csv): #
+def Graph_all_tc_tl_dfgstep(csv): #
     df = pd.read_csv(csv)
-    df = df[df["ge"]%g_step==0]
-    df["tc"] = df["tc"].apply(lambda x: np.fromstring(x.strip("[]"), sep=" "))
-    df["tl"] = df["tl"].apply(lambda x: np.fromstring(x.strip("[]"), sep=" "))
-    df["ln"] = df["ln"].apply(lambda x: np.fromstring(x.strip("[]"), sep=" "))
-    df = df.explode(["tc", "tl", "ln"], ignore_index=True)
-    df["tc"] = df["tc"].astype(float)
-    df["tl"] = df["tl"].astype(float)
+    df = df[df["ge"]%g_step==0] #TODO:フィルタリング
+    # df["tc"] = df["tc"].apply(lambda x: np.fromstring(x.strip("[]"), sep=" "))
+    # df["tl"] = df["tl"].apply(lambda x: np.fromstring(x.strip("[]"), sep=" "))
+    # df["ln"] = df["ln"].apply(lambda x: np.fromstring(x.strip("[]"), sep=" "))
+    # df = df.explode(["tc", "tl", "ln"], ignore_index=True)
+    # df["tc"] = df["tc"].astype(float)
+    # df["tl"] = df["tl"].astype(float) #TODO:リストをnpにしてたぽいけどもういらない
     print(inspect.currentframe().f_code.co_name)
     return df
-def Graph_all_tc_tf_dfexplode(csv): #
+def Graph_all_tc_tf_dfgstep(csv): #
     df = pd.read_csv(csv)
     df = df[df["ge"]%g_step==0]
-    df["tc"] = df["tc"].apply(lambda x: np.fromstring(x.strip("[]"), sep=" "))
-    df["tf"] = df["tf"].apply(lambda x: np.fromstring(x.strip("[]"), sep=" "))
-    df["ln"] = df["ln"].apply(lambda x: np.fromstring(x.strip("[]"), sep=" "))
-    df = df.explode(["tc", "tf", "ln"], ignore_index=True)
-    df["tc"] = df["tc"].astype(float)
-    df["tf"] = df["tf"].astype(float)
-    df["ln"] = df["ln"].astype(float)
+    # df["tc"] = df["tc"].apply(lambda x: np.fromstring(x.strip("[]"), sep=" "))
+    # df["tf"] = df["tf"].apply(lambda x: np.fromstring(x.strip("[]"), sep=" "))
+    # df["ln"] = df["ln"].apply(lambda x: np.fromstring(x.strip("[]"), sep=" "))
+    # df = df.explode(["tc", "tf", "ln"], ignore_index=True)
+    # df["tc"] = df["tc"].astype(float)
+    # df["tf"] = df["tf"].astype(float)
+    # df["ln"] = df["ln"].astype(float)
     print(inspect.currentframe().f_code.co_name)
     return df
 
@@ -1070,9 +1070,9 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
             tc_avr_ges_trs[tr] = tc_avr_ges #ok[[np.float64(0.0), np.float64(0.0), np.float64(0.0)], [np.float64(0.0), np.float64(0.025), np.float64(0.025)]]トライアル行ジェネレーション列
             tl_avr_ges_trs[tr] = tl_avr_ges
             ln_avr_ges_trs[tr] = ln_avr_ges#[1試行目の各geでの全員の平均利得],[2試行目の...
-            tc_all_ges_trs[:, tr*(n*generation):tr*(n*generation)+(n*generation)] = tc_all_ges.reshape(-1) #TODO:.ravelで配列をコピーせずに一次元の一つの配列にする。
-            tl_all_ges_trs[:, tr*(n*generation):tr*(n*generation)+(n*generation)] = tl_all_ges.reshape(-1)#TODO:#[array([0., 0., 0., 0.]), array([0., 0., 0., 0.]), array([0., 0., 0., 0.]), array([0., 0., 0., 0.]), array([0. , 0. , 0. , 0.1]), array([0. , 0. , 0.1, 0. ])]
-            ln_all_ges_trs[:, tr*(n*generation):tr*(n*generation)+(n*generation)] = ln_all_ges.reshape(-1)#1試行目の1ge1234人目,2ge1234人目,2試行目の...[]解除、トライアルではまとめないジェネレーションではまとめる
+            tc_all_ges_trs[tr*(n*generation):tr*(n*generation)+(n*generation)] = tc_all_ges.reshape(-1) #TODO:.ravelで配列をコピーせずに一次元の一つの配列にする。
+            tl_all_ges_trs[tr*(n*generation):tr*(n*generation)+(n*generation)] = tl_all_ges.reshape(-1)#TODO:#[array([0., 0., 0., 0.]), array([0., 0., 0., 0.]), array([0., 0., 0., 0.]), array([0., 0., 0., 0.]), array([0. , 0. , 0. , 0.1]), array([0. , 0. , 0.1, 0. ])]
+            ln_all_ges_trs[tr*(n*generation):tr*(n*generation)+(n*generation)] = ln_all_ges.reshape(-1)#1試行目の1ge1234人目,2ge1234人目,2試行目の...[]解除、トライアルではまとめないジェネレーションではまとめる
             # tc_all_ges_trs = np.vstack((tc_all_ges_trs, tc_all_ges)) #TODO:.ravelで配列をコピーせずに一次元の一つの配列にする。その前は、concateireみないなやつと,ravelみたいなやつの合わせてをやってた。
             # tl_all_ges_trs = np.vstack((tl_all_ges_trs, tl_all_ges))#TODO:#[array([0., 0., 0., 0.]), array([0., 0., 0., 0.]), array([0., 0., 0., 0.]), array([0., 0., 0., 0.]), array([0. , 0. , 0. , 0.1]), array([0. , 0. , 0.1, 0. ])]
             # ln_all_ges_trs = np.vstack((ln_all_ges_trs, ln_all_ges))#1試行目の1ge1234人目,2ge1234人目,2試行目の...[]解除、トライアルではまとめないジェネレーションではまとめる
@@ -1080,18 +1080,18 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
             tc_avr_ges_trs[tr] = tc_avr_ges #ok
             tf_avr_ges_trs[tr] = tf_avr_ges
             ln_avr_ges_trs[tr] = ln_avr_ges#[1試行目の各geでの全員の平均利得],[2試行目の...
-            tc_all_ges_trs[:, tr*(n*generation):tr*(n*generation)+(n*generation)] = tc_all_ges.reshape(-1)
-            tf_all_ges_trs[:, tr*(n*generation):tr*(n*generation)+(n*generation)] = tl_all_ges.reshape(-1)#TODO:一次元にしてから入れてるreshape(1,-1)→二次元になっちゃう
-            ln_all_ges_trs[:, tr*(n*generation):tr*(n*generation)+(n*generation)] = ln_all_ges.reshape(-1)#1試行目の1ge1234人目,2ge1234人目,2試行目の...[]解除
+            tc_all_ges_trs[tr*(n*generation):tr*(n*generation)+(n*generation)] = tc_all_ges.reshape(-1)
+            tf_all_ges_trs[tr*(n*generation):tr*(n*generation)+(n*generation)] = tl_all_ges.reshape(-1)#TODO:一次元にしてから入れてるreshape(1,-1)→二次元になっちゃう
+            ln_all_ges_trs[tr*(n*generation):tr*(n*generation)+(n*generation)] = ln_all_ges.reshape(-1)#1試行目の1ge1234人目,2ge1234人目,2試行目の...[]解除
         elif lorf == "both":
             tc_avr_ges_trs[tr] = tc_avr_ges #ok
             tl_avr_ges_trs[tr] = tl_avr_ges
             tf_avr_ges_trs[tr] = tf_avr_ges
             ln_avr_ges_trs[tr] = ln_avr_ges#[1試行目の各geでの全員の平均利得],[2試行目の...
-            tc_all_ges_trs[:, tr*(n*generation):tr*(n*generation)+(n*generation)] = tc_all_ges.reshape(-1)
-            tl_all_ges_trs[:, tr*(n*generation):tr*(n*generation)+(n*generation)] = tl_all_ges.reshape(-1)#TODO:
-            tf_all_ges_trs[:, tr*(n*generation):tr*(n*generation)+(n*generation)] = tf_all_ges.reshape(-1)#TODO:
-            ln_all_ges_trs[:, tr*(n*generation):tr*(n*generation)+(n*generation)] = ln_all_ges.reshape(-1)#1試行目の1ge1234人目,2ge1234人目,2試行目の...[]解除
+            tc_all_ges_trs[tr*(n*generation):tr*(n*generation)+(n*generation)] = tc_all_ges.reshape(-1)
+            tl_all_ges_trs[tr*(n*generation):tr*(n*generation)+(n*generation)] = tl_all_ges.reshape(-1)#TODO:
+            tf_all_ges_trs[tr*(n*generation):tr*(n*generation)+(n*generation)] = tf_all_ges.reshape(-1)#TODO:
+            ln_all_ges_trs[tr*(n*generation):tr*(n*generation)+(n*generation)] = ln_all_ges.reshape(-1)#1試行目の1ge1234人目,2ge1234人目,2試行目の...[]解除
     # time1 = time.time()#new
     # print("sim"+Elapsed_time_hms(elapsed_time=(time1-time0)))#new
     #oresen
@@ -1135,11 +1135,11 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
         df = pd.DataFrame({"tr":tr_trs_repeat, "ge":ge_ges_repeat, "tc":tc_all_ges_trs, "tl":tl_all_ges_trs, "tf":tf_all_ges_trs, "ln":ln_all_ges_trs})#TODO:
     df.to_csv(name+"/"+name+"_all.csv")#フォルダの中に格納
     if lorf == "leave":
-        df = Graph_all_tc_tl_dfexplode(name+"/"+name+"_all.csv")#フォルダの中に格納
+        df = Graph_all_tc_tl_dfgstep(name+"/"+name+"_all.csv")#フォルダの中に格納
     elif lorf == "form":
-        df = Graph_all_tc_tf_dfexplode(name+"/"+name+"_all.csv")#フォルダの中に格納
+        df = Graph_all_tc_tf_dfgstep(name+"/"+name+"_all.csv")#フォルダの中に格納
     elif lorf == "both":
-        df = Graph_all_tc_tl_tf_dfexplode(name+"/"+name+"_all.csv")#フォルダの中に格納
+        df = Graph_all_tc_tl_tf_dfgstep(name+"/"+name+"_all.csv")#フォルダの中に格納
     # time2 = time.time()
     # Graph_all_vio(df, ylabel="tc").savefig(name + "_all_vio_tc.png")
     # time3 = time.time()
