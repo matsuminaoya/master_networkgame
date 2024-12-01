@@ -1,4 +1,4 @@
-#TODO:チョイスを修正、初期値揃えよう、フレキシブル化してみた、初期値は三つ別に選択にしたこれで論文書けるかも、リストappendではなくnumpyarryで最初に枠決めて高速化、他に高速化できそうなとこ探してるcalculate_cnum簡略化、linkedchoice高速化、リンクマトリクス書き換え逐次最適化切り貼り動作確認okここのミスはない、簡単に動作確認できる。←ココ、gをずらす、間違いを探す、最初と最後だけ別に出力
+#TODO:チョイスを修正、初期値揃えよう、フレキシブル化してみた、初期値は三つ別に選択にしたこれで論文書けるかも、リストappendではなくnumpyarryで最初に枠決めて高速化、他に高速化できそうなとこ探してるcalculate_cnum簡略化、linkedchoice高速化、リンクマトリクス書き換え逐次最適化切り貼り動作確認okここのミスはない、簡単に動作確認できる。グラフ作成時のコメント削除、←ココ、gをずらす、間違いを探す、最初と最後だけ別に出力
 #30時間12分の処理→00時間42分14秒に
 
 #Tclエラーの対処法が課題→pythonのインストール時にtcl/tkにチェックしてるのにできない→pyのver下げたらいけるだろ→いけた。特にpathを通す必要とかはない。
@@ -6,7 +6,7 @@
 #.\venv\Scripts\activate.ps1 仮想環境明示
 #pip install は必ず仮想環境で、（venv）を必ず確認
 #python.exe -m pip install --upgrade pip
-import gc
+#import gc
 import os
 import time
 import random
@@ -66,8 +66,8 @@ def Initialize_linkmatrix_ba(): #完成
     ba = nx.barabasi_albert_graph(n,bam) #n=node number, m=new node's link number
     return nx.to_numpy_array(ba, dtype=int)
 
-def Calculate_cnum(coop_ro, linkmatrix): #ok
-    # coop_ro_rvs = np.where(coop_ro==0,1,0) #ok#TODO:簡略化#pok
+def Calculate_cnum(coop_ro, linkmatrix): #ok#TODO:簡略化#pok
+    # coop_ro_rvs = np.where(coop_ro==0,1,0) #ok
     # noncoop_index_ro = np.nonzero(coop_ro_rvs) #ok ゼロでないところしかピックできない
     # linkmatrix_del = np.delete(linkmatrix, noncoop_index_ro, 1) #非協力者の列削除
     # cnum_ro = np.sum(linkmatrix_del,axis=1)
@@ -175,7 +175,7 @@ def Coop_ro_nonzero(cnum_ro, lnum_ro, tc): #okok
     coop_ro = np.where(((lnum_ro==0)&(tc_random<tc)), 0, coop_ro_2)
     return coop_ro
 
-def Leave_Form_tl_tf(n, work, linkmatrix, coop_ratio, tl, tf): #workを明示#TODO: きりはりだとｔｃがさがる、ｇが少ないと協力的、ｇが100000、500、100・・・900,gが少ないとfullだと非協力的に、平均と累積べつべつ、
+def Leave_Form_tl_tf(n, work, linkmatrix, coop_ratio, tl, tf): #TODO:書き換え#workを明示#TODO: きりはりだとｔｃがさがる、ｇが少ないと協力的、ｇが100000、500、100・・・900,gが少ないとfullだと非協力的に、平均と累積べつべつ、
     # rng = np.random.default_rng()
     # pair_index = np.triu_indices(n, k=1)
     # x = rng.integers(((n-1)*n/2),size=(1,work))[0]
@@ -227,26 +227,88 @@ def Leave_Form_tl_tf(n, work, linkmatrix, coop_ratio, tl, tf): #workを明示#TO
     return linkmatrix
 
 def Leave_Form_tl(work, linkmatrix, coop_ratio, tl): #ok#workを明示
-    rng = np.random.default_rng()
-    pair_index = np.triu_indices(n, k=1)
-    x = rng.integers(((n-1)*n/2),size=(1,work))[0]
-    i = (pair_index[0][x])
-    j = (pair_index[1][x])
-    pair = (i,j)
-    mask_l = ((linkmatrix[pair]==1) & ((coop_ratio[pair[0]]<tl[pair[1]]) | (coop_ratio[pair[1]]<tl[pair[0]])))
-    linkmatrix[pair[0][mask_l],pair[1][mask_l]] = 0
-    linkmatrix[pair[1][mask_l],pair[0][mask_l]] = 0
+    # rng = np.random.default_rng()
+    # pair_index = np.triu_indices(n, k=1)
+    # x = rng.integers(((n-1)*n/2),size=(1,work))[0]
+    # i = (pair_index[0][x])
+    # j = (pair_index[1][x])
+    # pair = (i,j)
+    # mask_l = ((linkmatrix[pair]==1) & ((coop_ratio[pair[0]]<tl[pair[1]]) | (coop_ratio[pair[1]]<tl[pair[0]])))
+    # linkmatrix[pair[0][mask_l],pair[1][mask_l]] = 0
+    # linkmatrix[pair[1][mask_l],pair[0][mask_l]] = 0
+    # return linkmatrix
+    # ランダムなペアを生成
+    i = np.random.randint(0, n, size=work)
+    j = np.random.randint(0, n, size=work)
+    # 同じノード同士のペアを除外
+    mask_diff = i != j
+    i = i[mask_diff]
+    j = j[mask_diff]
+    # print(i)
+    # print(j)
+    # 事前にcoop_ratioを配列で取得しておく
+    coop_ratio_i = coop_ratio[i]
+    coop_ratio_j = coop_ratio[j]
+    # ペアごとにリンク形成・解除を逐次処理
+    for k in range(len(i)):
+        cratio_i, cratio_j = coop_ratio_i[k], coop_ratio_j[k]
+        #tf_i, tf_j = tf[i[k]], tf[j[k]]
+        tl_i, tl_j = tl[i[k]], tl[j[k]]
+        # print(f"ペアは（{i[k]} , {j[k]}）")
+        # リンクがない場合、リンクを作る
+        #if linkmatrix[i[k], j[k]] == 0:
+            #if (cratio_i >= tf_j) and (cratio_j >= tf_i):
+            #    linkmatrix[i[k], j[k]] = 1
+            #    linkmatrix[j[k], i[k]] = 1
+                # print(f"リンク接続: {i[k]} と {j[k]} のリンクを接続")
+        # リンクがある場合、リンクを解除する
+        if linkmatrix[i[k], j[k]] == 1:
+            if (cratio_i < tl_j) or (cratio_j < tl_i):
+                linkmatrix[i[k], j[k]] = 0
+                linkmatrix[j[k], i[k]] = 0
+                # print(f"リンク切断: {i[k]} と {j[k]} のリンクを切断")
     return linkmatrix
 def Leave_Form_tf(work, linkmatrix, coop_ratio, tf): #ok#workを明示
-    rng = np.random.default_rng()
-    pair_index = np.triu_indices(n, k=1)
-    x = rng.integers(((n-1)*n/2),size=(1,work))[0]
-    i = (pair_index[0][x])
-    j = (pair_index[1][x])
-    pair = (i,j)
-    mask_f = ((linkmatrix[pair]==0) & ((coop_ratio[pair[0]]>=tf[pair[1]]) & (coop_ratio[pair[1]]>=tf[pair[0]])))
-    linkmatrix[pair[0][mask_f],pair[1][mask_f]] = 1
-    linkmatrix[pair[1][mask_f],pair[0][mask_f]] = 1
+    # rng = np.random.default_rng()
+    # pair_index = np.triu_indices(n, k=1)
+    # x = rng.integers(((n-1)*n/2),size=(1,work))[0]
+    # i = (pair_index[0][x])
+    # j = (pair_index[1][x])
+    # pair = (i,j)
+    # mask_f = ((linkmatrix[pair]==0) & ((coop_ratio[pair[0]]>=tf[pair[1]]) & (coop_ratio[pair[1]]>=tf[pair[0]])))
+    # linkmatrix[pair[0][mask_f],pair[1][mask_f]] = 1
+    # linkmatrix[pair[1][mask_f],pair[0][mask_f]] = 1
+    # return linkmatrix
+    # ランダムなペアを生成
+    i = np.random.randint(0, n, size=work)
+    j = np.random.randint(0, n, size=work)
+    # 同じノード同士のペアを除外
+    mask_diff = i != j
+    i = i[mask_diff]
+    j = j[mask_diff]
+    # print(i)
+    # print(j)
+    # 事前にcoop_ratioを配列で取得しておく
+    coop_ratio_i = coop_ratio[i]
+    coop_ratio_j = coop_ratio[j]
+    # ペアごとにリンク形成・解除を逐次処理
+    for k in range(len(i)):
+        cratio_i, cratio_j = coop_ratio_i[k], coop_ratio_j[k]
+        tf_i, tf_j = tf[i[k]], tf[j[k]]
+        #tl_i, tl_j = tl[i[k]], tl[j[k]]
+        # print(f"ペアは（{i[k]} , {j[k]}）")
+        # リンクがない場合、リンクを作る
+        if linkmatrix[i[k], j[k]] == 0:
+            if (cratio_i >= tf_j) and (cratio_j >= tf_i):
+                linkmatrix[i[k], j[k]] = 1
+                linkmatrix[j[k], i[k]] = 1
+                # print(f"リンク接続: {i[k]} と {j[k]} のリンクを接続")
+        # リンクがある場合、リンクを解除する
+        # elif linkmatrix[i[k], j[k]] == 1:
+        #     if (cratio_i < tl_j) or (cratio_j < tl_i):
+        #         linkmatrix[i[k], j[k]] = 0
+        #         linkmatrix[j[k], i[k]] = 0
+                # print(f"リンク切断: {i[k]} と {j[k]} のリンクを切断")
     return linkmatrix
 
 def Graph_avr_tc_tl_tf(csv): #
@@ -267,7 +329,7 @@ def Graph_avr_tc_tl_tf(csv): #
     ax1.set_zorder(1)
     ax2.set_zorder(0)
     ax1.patch.set_alpha(0)
-    print(inspect.currentframe().f_code.co_name)
+    #print(inspect.currentframe().f_code.co_name)
     return plt
 def Graph_avr_tc_tl(csv): #
     df =pd.read_csv(csv)
@@ -286,7 +348,7 @@ def Graph_avr_tc_tl(csv): #
     ax1.set_zorder(1)
     ax2.set_zorder(0)
     ax1.patch.set_alpha(0)
-    print(inspect.currentframe().f_code.co_name)
+    #print(inspect.currentframe().f_code.co_name)
     return plt
 def Graph_avr_tc_tf(csv): #
     df = pd.read_csv(csv)
@@ -305,7 +367,7 @@ def Graph_avr_tc_tf(csv): #
     ax1.set_zorder(1)
     ax2.set_zorder(0)
     ax1.patch.set_alpha(0)
-    print(inspect.currentframe().f_code.co_name)
+    #print(inspect.currentframe().f_code.co_name)
     return plt
 
 def Graph_all_tc_tl_tf_dfgstep(csv): #TOD名称変更、機能変わったからね
@@ -320,7 +382,7 @@ def Graph_all_tc_tl_tf_dfgstep(csv): #TOD名称変更、機能変わったから
     # df["tl"] = df["tl"].astype(float)
     # df["tf"] = df["tf"].astype(float)
     # df["ln"] = df["ln"].astype(float)
-    print(inspect.currentframe().f_code.co_name)
+    #print(inspect.currentframe().f_code.co_name)
     return df
 def Graph_all_tc_tl_dfgstep(csv): #
     df = pd.read_csv(csv)
@@ -331,7 +393,7 @@ def Graph_all_tc_tl_dfgstep(csv): #
     # df = df.explode(["tc", "tl", "ln"], ignore_index=True)
     # df["tc"] = df["tc"].astype(float)
     # df["tl"] = df["tl"].astype(float) #TODリストをnpにしてたぽいけどもういらない
-    print(inspect.currentframe().f_code.co_name)
+    #print(inspect.currentframe().f_code.co_name)
     return df
 def Graph_all_tc_tf_dfgstep(csv): #
     df = pd.read_csv(csv)
@@ -343,7 +405,7 @@ def Graph_all_tc_tf_dfgstep(csv): #
     # df["tc"] = df["tc"].astype(float)
     # df["tf"] = df["tf"].astype(float)
     # df["ln"] = df["ln"].astype(float)
-    print(inspect.currentframe().f_code.co_name)
+    #print(inspect.currentframe().f_code.co_name)
     return df
 
 def Graph_all_vio(df, ylabel): #
@@ -351,7 +413,7 @@ def Graph_all_vio(df, ylabel): #
     plt.ylabel(ylabel)
     plt.xlabel("ge")
     sns.violinplot(x="ge",y=ylabel,data=df)
-    print(inspect.currentframe().f_code.co_name)
+    #print(inspect.currentframe().f_code.co_name)
     return plt
 def Graph_all_box(df, ylabel): #
     plt.figure(figsize=(20,10))
@@ -362,7 +424,7 @@ def Graph_all_box(df, ylabel): #
     plt.ylabel(ylabel)
     plt.xlabel("ge")
     sns.boxplot(x="ge", y=ylabel, data=df)
-    print(inspect.currentframe().f_code.co_name)
+    #print(inspect.currentframe().f_code.co_name)
     return plt
 def Graph_network_ani(linkmatrix_ges): #
     # グラフの描画設定
@@ -377,7 +439,7 @@ def Graph_network_ani(linkmatrix_ges): #
         ax.set_title(f"ge {frame*ani_step}")
     # アニメーションの設定
     ani = FuncAnimation(fig, update, frames=int(generation/ani_step)+1, repeat=True, interval=1000)
-    print(inspect.currentframe().f_code.co_name)
+    #print(inspect.currentframe().f_code.co_name)
     return ani
 
 def Elapsed_time_hms(elapsed_time): #ok
@@ -1018,7 +1080,7 @@ def le(ininet = "ininet", inivalue = "inivalue", trial = 0, work = 0):
 def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalue = "tcinivalue", tfinivalue = "tcinivalue", trial = 0, work = 0):
     print("start"+" "+lorf+" "+ininet+" "+tcinivalue+" "+tlinivalue+" "+tfinivalue+" t"+str(trial)+" w"+str(generation)+" :n="+str(n))#名前変更
     name = "t"+str(trial)+"_w"+str(work)+"_" + lorf + "_"+ininet+"_"+tcinivalue+tlinivalue+tfinivalue #フレキシブル名称変更
-    os.makedirs(name, exist_ok=True) #ifTRUEフォルダ作成、同じ名前があるとエラー
+    os.makedirs(name, exist_ok=False) #ifFalseフォルダ作成、同じ名前があるとエラー
     #make tr[] for stack data
     if lorf == "leave":
         tc_avr_ges_trs,tl_avr_ges_trs,ln_avr_ges_trs, tc_all_ges_trs,tl_all_ges_trs,ln_all_ges_trs, linkmatrix_ges_tr0 =  np.empty((trial,generation)),np.empty((trial,generation)),np.empty((trial,generation)), np.empty((n*generation*trial)),np.empty((n*generation*trial)),np.empty((n*generation*trial)), np.empty(1)#一行に変更リストの中にリストを外して入れるextendをnpでやるnp.concatenate()を使うためにゼロで埋めない→vstackにしたから、npzeroでもいけるはず、あとでやる
