@@ -949,11 +949,11 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
     os.makedirs(name, exist_ok=True)#TODO: #ifTRUEフォルダ作成、同じ名前があるとエラー
     #make tr[] for stack data
     if lorf == "leave":
-        tc_avr_ges_trs,tl_avr_ges_trs,ln_avr_ges_trs, tc_all_ges_trs,tl_all_ges_trs,ln_all_ges_trs, linkmatrix_ges_tr0 =  np.empty((trial,generation)),np.empty((trial,generation)),np.empty((trial,generation)), np.empty((generation*trial,n)),np.empty((generation*trial,n)),np.empty((generation*trial,n)), np.empty(1)#一行に変更#TODO:リストの中にリストを外して入れるextendをnpでやるnp.concatenate()を使うためにゼロで埋めない→vstackにしたから、npzeroでもいけるはず、あとでやる
+        tc_avr_ges_trs,tl_avr_ges_trs,ln_avr_ges_trs, tc_all_ges_trs,tl_all_ges_trs,ln_all_ges_trs, linkmatrix_ges_tr0 =  np.empty((trial,generation)),np.empty((trial,generation)),np.empty((trial,generation)), np.empty((1,n*generation*tr)),np.empty((1,n*generation*tr)),np.empty((1,n*generation*tr)), np.empty(1)#一行に変更#TODO:リストの中にリストを外して入れるextendをnpでやるnp.concatenate()を使うためにゼロで埋めない→vstackにしたから、npzeroでもいけるはず、あとでやる
     elif lorf == "form":
-        tc_avr_ges_trs,tf_avr_ges_trs,ln_avr_ges_trs, tc_all_ges_trs,tf_all_ges_trs,ln_all_ges_trs, linkmatrix_ges_tr0 =  np.empty((trial,generation)),np.empty((trial,generation)),np.empty((trial,generation)), np.empty((generation*trial,n)),np.empty((generation*trial,n)),np.empty((generation*trial,n)), np.empty(1)
+        tc_avr_ges_trs,tf_avr_ges_trs,ln_avr_ges_trs, tc_all_ges_trs,tf_all_ges_trs,ln_all_ges_trs, linkmatrix_ges_tr0 =  np.empty((trial,generation)),np.empty((trial,generation)),np.empty((trial,generation)), np.empty((1,n*generation*tr)),np.empty((1,n*generation*tr)),np.empty((1,n*generation*tr)), np.empty(1)
     elif lorf == "both":
-        tc_avr_ges_trs,tl_avr_ges_trs,tf_avr_ges_trs,ln_avr_ges_trs, tc_all_ges_trs,tl_all_ges_trs,tf_all_ges_trs,ln_all_ges_trs, linkmatrix_ges_tr0 = np.empty((trial,generation)),np.empty((trial,generation)),np.empty((trial,generation)),np.empty((trial,generation)), np.empty((generation*trial,n)),np.empty((generation*trial,n)),np.empty((generation*trial,n)),np.empty((generation*trial,n)), np.empty(1) #TODO:linkmatrix_ges_tr0は後で考える
+        tc_avr_ges_trs,tl_avr_ges_trs,tf_avr_ges_trs,ln_avr_ges_trs, tc_all_ges_trs,tl_all_ges_trs,tf_all_ges_trs,ln_all_ges_trs, linkmatrix_ges_tr0 = np.empty((trial,generation)),np.empty((trial,generation)),np.empty((trial,generation)),np.empty((trial,generation)), np.empty((1,n*generation*tr)),np.empty((1,n*generation*tr)),np.empty((1,n*generation*tr)),np.empty((1,n*generation*tr)), np.empty(1) #TODO:linkmatrix_ges_tr0は後で考える
     for tr in range(trial):
         #Initialize_values
         if lorf == "leave":
@@ -1070,9 +1070,9 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
             tc_avr_ges_trs[tr] = tc_avr_ges #ok[[np.float64(0.0), np.float64(0.0), np.float64(0.0)], [np.float64(0.0), np.float64(0.025), np.float64(0.025)]]トライアル行ジェネレーション列
             tl_avr_ges_trs[tr] = tl_avr_ges
             ln_avr_ges_trs[tr] = ln_avr_ges#[1試行目の各geでの全員の平均利得],[2試行目の...
-            tc_all_ges_trs[tr*generation:tr*generation+generation] = tc_all_ges #TODO:.ravelで配列をコピーせずに一次元の一つの配列にする。
-            tl_all_ges_trs[tr*generation:tr*generation+generation] = tl_all_ges#TODO:#[array([0., 0., 0., 0.]), array([0., 0., 0., 0.]), array([0., 0., 0., 0.]), array([0., 0., 0., 0.]), array([0. , 0. , 0. , 0.1]), array([0. , 0. , 0.1, 0. ])]
-            ln_all_ges_trs[tr*generation:tr*generation+generation] = ln_all_ges#1試行目の1ge1234人目,2ge1234人目,2試行目の...[]解除、トライアルではまとめないジェネレーションではまとめる
+            tc_all_ges_trs[tr*(n*generation):tr*(n*generation)+(n*generation)] = tc_all_ges.reshape(-1) = tc_all_ges #TODO:.ravelで配列をコピーせずに一次元の一つの配列にする。
+            tl_all_ges_trs[tr*(n*generation):tr*(n*generation)+(n*generation)] = tc_all_ges.reshape(-1) = tl_all_ges#TODO:#[array([0., 0., 0., 0.]), array([0., 0., 0., 0.]), array([0., 0., 0., 0.]), array([0., 0., 0., 0.]), array([0. , 0. , 0. , 0.1]), array([0. , 0. , 0.1, 0. ])]
+            ln_all_ges_trs[tr*(n*generation):tr*(n*generation)+(n*generation)] = tc_all_ges.reshape(-1) = ln_all_ges#1試行目の1ge1234人目,2ge1234人目,2試行目の...[]解除、トライアルではまとめないジェネレーションではまとめる
             # tc_all_ges_trs = np.vstack((tc_all_ges_trs, tc_all_ges)) #TODO:.ravelで配列をコピーせずに一次元の一つの配列にする。その前は、concateireみないなやつと,ravelみたいなやつの合わせてをやってた。
             # tl_all_ges_trs = np.vstack((tl_all_ges_trs, tl_all_ges))#TODO:#[array([0., 0., 0., 0.]), array([0., 0., 0., 0.]), array([0., 0., 0., 0.]), array([0., 0., 0., 0.]), array([0. , 0. , 0. , 0.1]), array([0. , 0. , 0.1, 0. ])]
             # ln_all_ges_trs = np.vstack((ln_all_ges_trs, ln_all_ges))#1試行目の1ge1234人目,2ge1234人目,2試行目の...[]解除、トライアルではまとめないジェネレーションではまとめる
@@ -1080,18 +1080,18 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
             tc_avr_ges_trs[tr] = tc_avr_ges #ok
             tf_avr_ges_trs[tr] = tf_avr_ges
             ln_avr_ges_trs[tr] = ln_avr_ges#[1試行目の各geでの全員の平均利得],[2試行目の...
-            tc_all_ges_trs[tr*generation:tr*generation+generation] = tc_all_ges
-            tf_all_ges_trs[tr*generation:tr*generation+generation] = tf_all_ges#TODO:
-            ln_all_ges_trs[tr*generation:tr*generation+generation] = ln_all_ges#1試行目の1ge1234人目,2ge1234人目,2試行目の...[]解除
+            tc_all_ges_trs[tr*(n*generation):tr*(n*generation)+(n*generation)] = tc_all_ges.reshape(-1)
+            tf_all_ges_trs[tr*(n*generation):tr*(n*generation)+(n*generation)] = tc_all_ges.reshape(-1)#TODO:一次元にしてから入れてるreshape(-1)
+            ln_all_ges_trs[tr*(n*generation):tr*(n*generation)+(n*generation)] = tc_all_ges.reshape(-1)#1試行目の1ge1234人目,2ge1234人目,2試行目の...[]解除
         elif lorf == "both":
             tc_avr_ges_trs[tr] = tc_avr_ges #ok
             tl_avr_ges_trs[tr] = tl_avr_ges
             tf_avr_ges_trs[tr] = tf_avr_ges
             ln_avr_ges_trs[tr] = ln_avr_ges#[1試行目の各geでの全員の平均利得],[2試行目の...
-            tc_all_ges_trs[tr*generation:tr*generation+generation] = tc_all_ges
-            tl_all_ges_trs[tr*generation:tr*generation+generation] = tf_all_ges#TODO:
-            tf_all_ges_trs[tr*generation:tr*generation+generation] = tl_all_ges#TODO:
-            ln_all_ges_trs[tr*generation:tr*generation+generation] = ln_all_ges#1試行目の1ge1234人目,2ge1234人目,2試行目の...[]解除
+            tc_all_ges_trs[tr*(n*generation):tr*(n*generation)+(n*generation)] = tc_all_ges.reshape(-1)
+            tl_all_ges_trs[tr*(n*generation):tr*(n*generation)+(n*generation)] = tc_all_ges.reshape(-1)#TODO:
+            tf_all_ges_trs[tr*(n*generation):tr*(n*generation)+(n*generation)] = tc_all_ges.reshape(-1)#TODO:
+            ln_all_ges_trs[tr*(n*generation):tr*(n*generation)+(n*generation)] = tc_all_ges.reshape(-1)#1試行目の1ge1234人目,2ge1234人目,2試行目の...[]解除
     # time1 = time.time()#new
     # print("sim"+Elapsed_time_hms(elapsed_time=(time1-time0)))#new
     #oresen
@@ -1121,11 +1121,14 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
     elif lorf == "both": 
         Graph_avr_tc_tl_tf(name+"/"+name+"_avr.csv").savefig(name+"/"+name+"_avr.png")#フォルダの中に格納
     #vio box
-    tr_trs_repeat = np.repeat(np.arange(trial),generation)
-    ge_ges_repeat = np.tile(ge_ges, trial) #1ge2ge3ge...がntr繰り返される
+    tr_trs_repeat = np.repeat(np.arange(trial),generation*n)#000000000....1111111
+    #tr_trs_repeat = tr_trs_repeat_h.reshape(-1,1)#[0],[1],[2]...に変換-1は自動計算、1列指定
+    ge_ges_n = np.repeat(np.arange(generation),n)#1ge1ge1ge...5000ge5000geを
+    ge_ges_repeat = np.tile(ge_ges_n, trial) #ntr繰り返す
+    #ge_ges_repeat = ge_ges_repeat_h.reshape(-1,1)
     #全員のge×tr全てでdf
     if lorf == "leave":
-        df = pd.DataFrame({"tr":tr_trs_repeat, "ge":ge_ges_repeat, "tc":tc_all_ges_trs, "tl":tl_all_ges_trs, "ln":ln_all_ges_trs})#TODO:
+        df = pd.DataFrame({"tr":tr_trs_repeat, "ge":ge_ges_repeat, "tc":tc_all_ges_trs, "tl":tl_all_ges_trs, "ln":ln_all_ges_trs})#TODO:一行にしなきゃだめみたい
     elif lorf == "form":
         df = pd.DataFrame({"tr":tr_trs_repeat, "ge":ge_ges_repeat, "tc":tc_all_ges_trs, "tf":tf_all_ges_trs, "ln":ln_all_ges_trs})#TODO:
     elif lorf == "both":
