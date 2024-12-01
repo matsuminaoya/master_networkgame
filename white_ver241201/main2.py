@@ -1,4 +1,4 @@
-#TODO:チョイスを修正、初期値揃えよう、フレキシブル化してみた、初期値は三つ別に選択にしたこれで論文書けるかも、リストappendではなくnumpyarryで最初に枠決めて高速化←ココ、gをずらす、間違いを探す、最初と最後だけ別に出力
+#TODO:チョイスを修正、初期値揃えよう、フレキシブル化してみた、初期値は三つ別に選択にしたこれで論文書けるかも、リストappendではなくnumpyarryで最初に枠決めて高速化、他に高速化できそうなとこ探してる←ココ、gをずらす、間違いを探す、最初と最後だけ別に出力
 
 #Tclエラーの対処法が課題→pythonのインストール時にtcl/tkにチェックしてるのにできない→pyのver下げたらいけるだろ→いけた。特にpathを通す必要とかはない。
 #whiteはpy3.11.4 at windowns
@@ -67,7 +67,7 @@ def Initialize_linkmatrix_ba(): #完成
 
 def Calculate_cnum(coop_ro, linkmatrix): #ok
     coop_ro_rvs = np.where(coop_ro==0,1,0) #ok
-    noncoop_index_ro = np.nonzero(coop_ro_rvs) #ok 3ゼロでないところしかピックできない
+    noncoop_index_ro = np.nonzero(coop_ro_rvs) #ok ゼロでないところしかピックできない
     linkmatrix_del = np.delete(linkmatrix, noncoop_index_ro, 1) #非協力者の列削除
     cnum_ro = np.sum(linkmatrix_del,axis=1)
     return cnum_ro
@@ -87,7 +87,7 @@ def Calculate_poff_ro(coop_ro, lnum_ro, cnum_ro): #ok #利得は人数で割っ�
 #     return np.zeros((1,n))[0]
 
 def Linked_choice(linkmatrix, cho): #ok #cho=[]
-    #linked_poff = linkmatrix*count_poff_ge #ok # TODO:利得最大の人の真似をするのが残ってた
+    #linked_poff = linkmatrix*count_poff_ge #ok # TODO:利得最大の人の真似をするのが残ってた、同じ人選ばれたらやらないだけでいいんじゃない
     for k in range(n):
         linked_cho = linkmatrix[k].nonzero()
         if len(linked_cho[0]) == 0: #自分をついか
@@ -838,7 +838,7 @@ def start_bo_null():
     print("ani"+Elapsed_time_hms(time7-time6))
     print("all"+Elapsed_time_hms(time7-time0))
 
-#TODO:実行
+#実行
 #start_le_full()
 #start_fo_null()
 #start_bo_null()
