@@ -948,11 +948,11 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
     os.makedirs(name, exist_ok=True)#TODO: #ifTRUEフォルダ作成、同じ名前があるとエラー
     #make tr[] for stack data
     if lorf == "leave":
-        tc_avr_ges_trs,tl_avr_ges_trs,ln_avr_ges_trs, tc_all_ges_trs,tl_all_ges_trs,ln_all_ges_trs, linkmatrix_ges_tr0 =  np.empty(trial),np.empty(trial),np.empty(trial), np.array([]),np.array([]),np.array([]), np.empty(1)#一行に変更#TODO:リストの中にリストを外して入れるextendをnpでやるnp.concatenate()を使うためにゼロで埋めない
+        tc_avr_ges_trs,tl_avr_ges_trs,ln_avr_ges_trs, tc_all_ges_trs,tl_all_ges_trs,ln_all_ges_trs, linkmatrix_ges_tr0 =  np.empty((trial,generation)),np.empty((trial,generation)),np.empty((trial,generation)), np.array([]),np.array([]),np.array([]), np.empty(1)#一行に変更#TODO:リストの中にリストを外して入れるextendをnpでやるnp.concatenate()を使うためにゼロで埋めない
     elif lorf == "form":
-        tc_avr_ges_trs,tf_avr_ges_trs,ln_avr_ges_trs, tc_all_ges_trs,tf_all_ges_trs,ln_all_ges_trs, linkmatrix_ges_tr0 =  np.empty(trial),np.empty(trial),np.empty(trial), np.array([]),np.array([]),np.array([]), np.empty(1)
+        tc_avr_ges_trs,tf_avr_ges_trs,ln_avr_ges_trs, tc_all_ges_trs,tf_all_ges_trs,ln_all_ges_trs, linkmatrix_ges_tr0 =  np.empty((trial,generation)),np.empty((trial,generation)),np.empty((trial,generation)), np.array([]),np.array([]),np.array([]), np.empty(1)
     elif lorf == "both":
-        tc_avr_ges_trs,tl_avr_ges_trs,tf_avr_ges_trs,ln_avr_ges_trs, tc_all_ges_trs,tl_all_ges_trs,tf_all_ges_trs,ln_all_ges_trs, linkmatrix_ges_tr0 = np.zeros(trial),np.empty(trial),np.empty(trial),np.empty(trial), np.array([]),np.array([]),np.array([]),np.array([]), np.empty(1) #TODO:linkmatrix_ges_tr0は後で考える
+        tc_avr_ges_trs,tl_avr_ges_trs,tf_avr_ges_trs,ln_avr_ges_trs, tc_all_ges_trs,tl_all_ges_trs,tf_all_ges_trs,ln_all_ges_trs, linkmatrix_ges_tr0 = np.empty((trial,generation)),np.empty((trial,generation)),np.empty((trial,generation)),np.empty((trial,generation)), np.array([]),np.array([]),np.array([]),np.array([]), np.empty(1) #TODO:linkmatrix_ges_tr0は後で考える
     for tr in range(trial):
         #Initialize_values
         if lorf == "leave":
@@ -968,11 +968,11 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
         linkmatrix = eval("Initialize_linkmatrix_"+ininet)()#フレキシブル化#pok
         #make ge[] for stack data
         if lorf == "leave":
-            tc_avr_ges,tl_avr_ges,ln_avr_ges, tc_all_ges,tl_all_ges,ln_all_ges = np.empty(generation),np.empty(generation),np.empty(generation), np.empty(generation,n),np.empty(generation,n),np.empty(generation,n)#一行に変更,=[]じゃダメ #TODO:リストappendではなく、npでゼロの場所確保してgeで格納、一つに100個入るなら2Dにしなきゃだめ、emptyのが早いらしい
+            tc_avr_ges,tl_avr_ges,ln_avr_ges, tc_all_ges,tl_all_ges,ln_all_ges = np.empty(generation),np.empty(generation),np.empty(generation), np.empty((generation,n)),np.empty((generation,n)),np.empty((generation,n))#一行に変更,=[]じゃダメ #TODO:リストappendではなく、npでゼロの場所確保してgeで格納、一つに100個入るなら2Dにしなきゃだめ、emptyのが早いらしい
         elif lorf == "form":
-            tc_avr_ges,tf_avr_ges,ln_avr_ges, tc_all_ges,tf_all_ges,ln_all_ges = np.empty(generation),np.empty(generation),np.empty(generation), np.empty(generation,n),np.empty(generation,n),np.empty(generation,n)
+            tc_avr_ges,tf_avr_ges,ln_avr_ges, tc_all_ges,tf_all_ges,ln_all_ges = np.empty(generation),np.empty(generation),np.empty(generation), np.empty((generation,n)),np.empty((generation,n)),np.empty((generation,n))
         elif lorf == "both":
-            tc_avr_ges,tl_avr_ges,tf_avr_ges,ln_avr_ges, tc_all_ges,tl_all_ges,tf_all_ges,ln_all_ges = np.empty(generation),np.empty(generation),np.empty(generation,n),np.empty(generation), np.empty(generation,n),np.empty(generation,n),np.empty(generation,n),np.empty(generation,n)
+            tc_avr_ges,tl_avr_ges,tf_avr_ges,ln_avr_ges, tc_all_ges,tl_all_ges,tf_all_ges,ln_all_ges = np.empty(generation),np.empty(generation),np.empty(generation),np.empty(generation), np.empty((generation,n)),np.empty((generation,n)),np.empty((generation,n)),np.empty((generation,n))
         for ge in range(generation):
             for ro in range(roound):
                 if ro == 0:#1122変更
@@ -1069,25 +1069,25 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
             tc_avr_ges_trs[tr] = tc_avr_ges #ok
             tl_avr_ges_trs[tr] = tl_avr_ges
             ln_avr_ges_trs[tr] = ln_avr_ges#[1試行目の各geでの全員の平均利得],[2試行目の...
-            tc_all_ges_trs = np.concatenate((tc_all_ges_trs, tc_all_ges))
-            tl_all_ges_trs = np.concatenate((tl_all_ges_trs, tl_all_ges))#TODO:
-            ln_all_ges_trs = np.concatenate((ln_all_ges_trs, ln_all_ges))#1試行目の1ge1234人目,2ge1234人目,2試行目の...[]解除
+            tc_all_ges_trs = np.concatenate((tc_all_ges_trs.ravel(), tc_all_ges.ravel())) #TODO:.ravelで配列をコピーせずに一次元の一つの配列にする。
+            tl_all_ges_trs = np.concatenate((tl_all_ges_trs.ravel(), tl_all_ges.ravel()))#TODO:
+            ln_all_ges_trs = np.concatenate((ln_all_ges_trs.ravel(), ln_all_ges.ravel()))#1試行目の1ge1234人目,2ge1234人目,2試行目の...[]解除
         elif lorf == "form":
             tc_avr_ges_trs[tr] = tc_avr_ges #ok
             tf_avr_ges_trs[tr] = tf_avr_ges
             ln_avr_ges_trs[tr] = ln_avr_ges#[1試行目の各geでの全員の平均利得],[2試行目の...
-            tc_all_ges_trs = np.concatenate((tc_all_ges_trs, tc_all_ges))
-            tf_all_ges_trs = np.concatenate((tf_all_ges_trs, tf_all_ges))#TODO:
-            ln_all_ges_trs = np.concatenate((ln_all_ges_trs, ln_all_ges))#1試行目の1ge1234人目,2ge1234人目,2試行目の...[]解除
+            tc_all_ges_trs = np.concatenate((tc_all_ges_trs.ravel(), tc_all_ges.ravel()))
+            tf_all_ges_trs = np.concatenate((tf_all_ges_trs.ravel(), tf_all_ges.ravel()))#TODO:
+            ln_all_ges_trs = np.concatenate((ln_all_ges_trs.ravel(), ln_all_ges.ravel()))#1試行目の1ge1234人目,2ge1234人目,2試行目の...[]解除
         elif lorf == "both":
             tc_avr_ges_trs[tr] = tc_avr_ges #ok
             tl_avr_ges_trs[tr] = tl_avr_ges
             tf_avr_ges_trs[tr] = tf_avr_ges
             ln_avr_ges_trs[tr] = ln_avr_ges#[1試行目の各geでの全員の平均利得],[2試行目の...
-            tc_all_ges_trs = np.concatenate((tc_all_ges_trs, tc_all_ges))
-            tl_all_ges_trs = np.concatenate((tl_all_ges_trs, tl_all_ges))#TODO:
-            tf_all_ges_trs = np.concatenate((tf_all_ges_trs, tf_all_ges))#TODO:
-            ln_all_ges_trs = np.concatenate((ln_all_ges_trs, ln_all_ges))#1試行目の1ge1234人目,2ge1234人目,2試行目の...[]解除
+            tc_all_ges_trs = np.concatenate((tc_all_ges_trs.ravel(), tc_all_ges.ravel()))
+            tl_all_ges_trs = np.concatenate((tl_all_ges_trs.ravel(), tl_all_ges.ravel()))#TODO:
+            tf_all_ges_trs = np.concatenate((tf_all_ges_trs.ravel(), tf_all_ges.ravel()))#TODO:
+            ln_all_ges_trs = np.concatenate((ln_all_ges_trs.ravel(), ln_all_ges.ravel()))#1試行目の1ge1234人目,2ge1234人目,2試行目の...[]解除
     # time1 = time.time()#new
     # print("sim"+Elapsed_time_hms(elapsed_time=(time1-time0)))#new
     #oresen
