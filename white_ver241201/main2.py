@@ -945,34 +945,34 @@ def le(ininet = "ininet", inivalue = "inivalue", trial = 0, work = 0):
 # makeed 1130
 def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalue = "tcinivalue", tfinivalue = "tcinivalue", trial = 0, work = 0):
     name = "t"+str(trial)+"_w"+str(work)+"_" + lorf + "_"+ininet+"_"+tcinivalue+tlinivalue+tfinivalue #フレキシブル名称変更
-    os.makedirs(name, exist_ok=False)#TODO: #フォルダ作成、同じ名前があるとエラー
+    os.makedirs(name, exist_ok=True)#TODO: #ifTRUEフォルダ作成、同じ名前があるとエラー
     #make tr[] for stack data
     if lorf == "leave":
-        tc_avr_ges_trs,tl_avr_ges_trs,ln_avr_ges_trs, tc_all_ges_trs,tl_all_ges_trs,ln_all_ges_trs, linkmatrix_ges_tr0 =  np.zeros(trial),np.zeros(trial),np.zeros(trial), np.array([]),np.array([]),np.array([]), np.zeros(1)#一行に変更#TODO:リストの中にリストを外して入れるextendをnpでやるnp.concatenate()を使うためにゼロで埋めない
+        tc_avr_ges_trs,tl_avr_ges_trs,ln_avr_ges_trs, tc_all_ges_trs,tl_all_ges_trs,ln_all_ges_trs, linkmatrix_ges_tr0 =  np.empty(trial),np.empty(trial),np.empty(trial), np.array([]),np.array([]),np.array([]), np.empty(1)#一行に変更#TODO:リストの中にリストを外して入れるextendをnpでやるnp.concatenate()を使うためにゼロで埋めない
     elif lorf == "form":
-        tc_avr_ges_trs,tf_avr_ges_trs,ln_avr_ges_trs, tc_all_ges_trs,tf_all_ges_trs,ln_all_ges_trs, linkmatrix_ges_tr0 =  np.zeros(trial),np.zeros(trial),np.zeros(trial), np.array([]),np.array([]),np.array([]), np.zeros(1)
+        tc_avr_ges_trs,tf_avr_ges_trs,ln_avr_ges_trs, tc_all_ges_trs,tf_all_ges_trs,ln_all_ges_trs, linkmatrix_ges_tr0 =  np.empty(trial),np.empty(trial),np.empty(trial), np.array([]),np.array([]),np.array([]), np.empty(1)
     elif lorf == "both":
-        tc_avr_ges_trs,tl_avr_ges_trs,tf_avr_ges_trs,ln_avr_ges_trs, tc_all_ges_trs,tl_all_ges_trs,tf_all_ges_trs,ln_all_ges_trs, linkmatrix_ges_tr0 = np.zeros(trial),np.zeros(trial),np.zeros(trial),np.zeros(trial), np.array([]),np.array([]),np.array([]),np.array([]), np.zeros(1) #TODO:linkmatrix_ges_tr0は後で考える
+        tc_avr_ges_trs,tl_avr_ges_trs,tf_avr_ges_trs,ln_avr_ges_trs, tc_all_ges_trs,tl_all_ges_trs,tf_all_ges_trs,ln_all_ges_trs, linkmatrix_ges_tr0 = np.zeros(trial),np.empty(trial),np.empty(trial),np.empty(trial), np.array([]),np.array([]),np.array([]),np.array([]), np.empty(1) #TODO:linkmatrix_ges_tr0は後で考える
     for tr in range(trial):
         #Initialize_values
         if lorf == "leave":
             tc = eval("Initialize_value_"+tcinivalue)()
             tl = eval("Initialize_value_"+tlinivalue)()#フレキシブル化#pok#TODO:
-        if lorf == "form":
+        elif lorf == "form":
             tc = eval("Initialize_value_"+tcinivalue)()
             tf = eval("Initialize_value_"+tfinivalue)()
-        if lorf == "both":
+        elif lorf == "both":
             tc = eval("Initialize_value_"+tcinivalue)()
             tl = eval("Initialize_value_"+tlinivalue)()
             tf = eval("Initialize_value_"+tfinivalue)()
         linkmatrix = eval("Initialize_linkmatrix_"+ininet)()#フレキシブル化#pok
         #make ge[] for stack data
         if lorf == "leave":
-            tc_avr_ges,tl_avr_ges,ln_avr_ges, tc_all_ges,tl_all_ges,ln_all_ges = np.zeros(generation),np.zeros(generation),np.zeros(generation), np.zeros(generation),np.zeros(generation),np.zeros(generation)#一行に変更,=[]じゃダメ #TODO:リストappendではなく、npでゼロの場所確保してgeで格納
-        if lorf == "form":
-            tc_avr_ges,tf_avr_ges,ln_avr_ges, tc_all_ges,tf_all_ges,ln_all_ges = np.zeros(generation),np.zeros(generation),np.zeros(generation), np.zeros(generation),np.zeros(generation),np.zeros(generation)
-        if lorf == "both":
-            tc_avr_ges,tl_avr_ges,tf_avr_ges,ln_avr_ges, tc_all_ges,tl_all_ges,tf_all_ges,ln_all_ges = np.zeros(generation),np.zeros(generation),np.zeros(generation),np.zeros(generation), np.zeros(generation),np.zeros(generation),np.zeros(generation),np.zeros(generation)
+            tc_avr_ges,tl_avr_ges,ln_avr_ges, tc_all_ges,tl_all_ges,ln_all_ges = np.empty(generation),np.empty(generation),np.empty(generation), np.empty(generation,n),np.empty(generation,n),np.empty(generation,n)#一行に変更,=[]じゃダメ #TODO:リストappendではなく、npでゼロの場所確保してgeで格納、一つに100個入るなら2Dにしなきゃだめ、emptyのが早いらしい
+        elif lorf == "form":
+            tc_avr_ges,tf_avr_ges,ln_avr_ges, tc_all_ges,tf_all_ges,ln_all_ges = np.empty(generation),np.empty(generation),np.empty(generation), np.empty(generation,n),np.empty(generation,n),np.empty(generation,n)
+        elif lorf == "both":
+            tc_avr_ges,tl_avr_ges,tf_avr_ges,ln_avr_ges, tc_all_ges,tl_all_ges,tf_all_ges,ln_all_ges = np.empty(generation),np.empty(generation),np.empty(generation,n),np.empty(generation), np.empty(generation,n),np.empty(generation,n),np.empty(generation,n),np.empty(generation,n)
         for ge in range(generation):
             for ro in range(roound):
                 if ro == 0:#1122変更
@@ -996,9 +996,9 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
                     coop_ratio = np.divide(count_coop_game_ge, count_game_ge, where=count_game_ge>0)
                     if lorf == "leave":
                         linkmatrix = Leave_Form_tl(work=work,linkmatrix=linkmatrix,coop_ratio=coop_ratio, tl=tl)
-                    if lorf == "form":
+                    elif lorf == "form":
                         linkmatrix = Leave_Form_tf(work=work,linkmatrix=linkmatrix,coop_ratio=coop_ratio, tf=tf)
-                    if lorf == "both":
+                    elif lorf == "both":
                         linkmatrix = Leave_Form_tl_tf(work=work,linkmatrix=linkmatrix,coop_ratio=coop_ratio, tl=tl, tf=tf)
             #print(str(tr)+"tr-"+str(ge)+"ge")
             ln = np.sum(linkmatrix,axis=1)
@@ -1008,10 +1008,10 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
             if lorf == "leave":
                 tc,tl = Selection_tc_tl(m_random=m_random, count_poff_ge=count_poff_ge, cho=cho, tc_pre=tc, tl_pre=tl)
                 tc,tl = Mutation_tc_tl(m_random=m_random,tc_pre=tc,tl_pre=tl) #TODO:
-            if lorf == "form":
+            elif lorf == "form":
                 tc,tf = Selection_tc_tf(m_random=m_random, count_poff_ge=count_poff_ge, cho=cho, tc_pre=tc, tf_pre=tf)
                 tc,tf = Mutation_tc_tf(m_random=m_random,tc_pre=tc,tf_pre=tf)
-            if lorf == "both":
+            elif lorf == "both":
                 tc,tl,tf = Selection_tc_tl_tf(m_random=m_random, count_poff_ge=count_poff_ge, cho=cho, tc_pre=tc, tl_pre=tl, tf_pre=tf)
                 tc,tl,tf = Mutation_tc_tl_tf(m_random=m_random,tc_pre=tc,tl_pre=tl,tf_pre=tf)
             #graph
@@ -1046,14 +1046,14 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
                 tc_all_ges[ge] = tc
                 tl_all_ges[ge] = tl#TODO:
                 ln_all_ges[ge] = ln#各geでの全員のリンク数、1ge1234人目,2ge1234人目
-            if lorf == "form":
+            elif lorf == "form":
                 tc_avr_ges[ge] = np.mean(tc)#ok
                 tf_avr_ges[ge] = np.mean(tf)
                 ln_avr_ges[ge] = np.mean(ln)#各geでの全員の平均リンクを入れていく
                 tc_all_ges[ge] = tc
                 tf_all_ges[ge] = tf#TODO:
                 ln_all_ges[ge] = ln#各geでの全員のリンク数、1ge1234人目,2ge1234人目
-            if lorf == "both":
+            elif lorf == "both":
                 tc_avr_ges[ge] = np.mean(tc)#ok
                 tl_avr_ges[ge] = np.mean(tl)
                 tf_avr_ges[ge] = np.mean(tf)
@@ -1072,14 +1072,14 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
             tc_all_ges_trs = np.concatenate((tc_all_ges_trs, tc_all_ges))
             tl_all_ges_trs = np.concatenate((tl_all_ges_trs, tl_all_ges))#TODO:
             ln_all_ges_trs = np.concatenate((ln_all_ges_trs, ln_all_ges))#1試行目の1ge1234人目,2ge1234人目,2試行目の...[]解除
-        if lorf == "form":
+        elif lorf == "form":
             tc_avr_ges_trs[tr] = tc_avr_ges #ok
             tf_avr_ges_trs[tr] = tf_avr_ges
             ln_avr_ges_trs[tr] = ln_avr_ges#[1試行目の各geでの全員の平均利得],[2試行目の...
             tc_all_ges_trs = np.concatenate((tc_all_ges_trs, tc_all_ges))
             tf_all_ges_trs = np.concatenate((tf_all_ges_trs, tf_all_ges))#TODO:
             ln_all_ges_trs = np.concatenate((ln_all_ges_trs, ln_all_ges))#1試行目の1ge1234人目,2ge1234人目,2試行目の...[]解除
-        if lorf == "both":
+        elif lorf == "both":
             tc_avr_ges_trs[tr] = tc_avr_ges #ok
             tl_avr_ges_trs[tr] = tl_avr_ges
             tf_avr_ges_trs[tr] = tf_avr_ges
@@ -1098,12 +1098,12 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
         tc_avr_ges_trs_avr = np.mean(tc_avr_ges_trs, axis=0)
         tl_avr_ges_trs_avr = np.mean(tl_avr_ges_trs, axis=0)#TODO:
         df = pd.DataFrame({"ge":ge_ges,"tc":tc_avr_ges_trs_avr,"tl":tl_avr_ges_trs_avr,"ln":ln_avr_ges_trs_avr})#TODO:
-    if lorf == "form":
+    elif lorf == "form":
         ln_avr_ges_trs_avr = np.mean(ln_avr_ges_trs, axis=0)#各ラウンドでの全員の平気利得、の試行平均
         tc_avr_ges_trs_avr = np.mean(tc_avr_ges_trs, axis=0)
         tf_avr_ges_trs_avr = np.mean(tf_avr_ges_trs, axis=0)#TODO:
         df = pd.DataFrame({"ge":ge_ges,"tc":tc_avr_ges_trs_avr,"tf":tf_avr_ges_trs_avr,"ln":ln_avr_ges_trs_avr})#TODO:
-    if lorf == "both":
+    elif lorf == "both":
         ln_avr_ges_trs_avr = np.mean(ln_avr_ges_trs, axis=0)#各ラウンドでの全員の平気利得、の試行平均
         tc_avr_ges_trs_avr = np.mean(tc_avr_ges_trs, axis=0)
         tl_avr_ges_trs_avr = np.mean(tl_avr_ges_trs, axis=0)#TODO:
@@ -1112,9 +1112,9 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
     df.to_csv(name+"/"+name+"_avr.csv")#フォルダの中に格納
     if lorf == "leave": 
         Graph_avr_tc_tl(name+"/"+name+"_avr.csv").savefig(name+"/"+name+"_avr.png")#フォルダの中に格納
-    if lorf == "form": 
+    elif lorf == "form": 
         Graph_avr_tc_tf(name+"/"+name+"_avr.csv").savefig(name+"/"+name+"_avr.png")#フォルダの中に格納
-    if lorf == "both": 
+    elif lorf == "both": 
         Graph_avr_tc_tl_tf(name+"/"+name+"_avr.csv").savefig(name+"/"+name+"_avr.png")#フォルダの中に格納
     #vio box
     tr_trs_repeat = np.repeat(np.arange(trial),generation)
@@ -1122,16 +1122,16 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
     #全員のge×tr全てでdf
     if lorf == "leave":
         df = pd.DataFrame({"tr":tr_trs_repeat, "ge":ge_ges_repeat, "tc":tc_all_ges_trs, "tl":tl_all_ges_trs, "ln":ln_all_ges_trs})#TODO:
-    if lorf == "form":
+    elif lorf == "form":
         df = pd.DataFrame({"tr":tr_trs_repeat, "ge":ge_ges_repeat, "tc":tc_all_ges_trs, "tf":tf_all_ges_trs, "ln":ln_all_ges_trs})#TODO:
-    if lorf == "both":
+    elif lorf == "both":
         df = pd.DataFrame({"tr":tr_trs_repeat, "ge":ge_ges_repeat, "tc":tc_all_ges_trs, "tl":tl_all_ges_trs, "tf":tf_all_ges_trs, "ln":ln_all_ges_trs})#TODO:
     df.to_csv(name+"/"+name+"_all.csv")#フォルダの中に格納
     if lorf == "leave":
         df = Graph_all_tc_tl_dfexplode(name+"/"+name+"_all.csv")#フォルダの中に格納
-    if lorf == "form":
+    elif lorf == "form":
         df = Graph_all_tc_tf_dfexplode(name+"/"+name+"_all.csv")#フォルダの中に格納
-    if lorf == "both":
+    elif lorf == "both":
         df = Graph_all_tc_tl_tf_dfexplode(name+"/"+name+"_all.csv")#フォルダの中に格納
     # time2 = time.time()
     # Graph_all_vio(df, ylabel="tc").savefig(name + "_all_vio_tc.png")
@@ -1145,11 +1145,11 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
         Graph_all_box(df, ylabel="tc").savefig(name+"/"+name+"_all_box_tc.png")#フォルダの中に格納
         Graph_all_box(df, ylabel="tl").savefig(name+"/"+name+"_all_box_tl.png")#フォルダの中に格納
         Graph_all_box(df, ylabel="ln").savefig(name+"/"+name+"_all_box_ln.png")#フォルダの中に格納#TODO:
-    if lorf == "form":
+    elif lorf == "form":
         Graph_all_box(df, ylabel="tc").savefig(name+"/"+name+"_all_box_tc.png")#フォルダの中に格納
         Graph_all_box(df, ylabel="tf").savefig(name+"/"+name+"_all_box_tf.png")#フォルダの中に格納
         Graph_all_box(df, ylabel="ln").savefig(name+"/"+name+"_all_box_ln.png")#フォルダの中に格納#TODO:
-    if lorf == "both":
+    elif lorf == "both":
         Graph_all_box(df, ylabel="tc").savefig(name+"/"+name+"_all_box_tc.png")#フォルダの中に格納
         Graph_all_box(df, ylabel="tl").savefig(name+"/"+name+"_all_box_tl.png")#フォルダの中に格納
         Graph_all_box(df, ylabel="tf").savefig(name+"/"+name+"_all_box_tf.png")#フォルダの中に格納
