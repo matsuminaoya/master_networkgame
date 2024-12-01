@@ -1,4 +1,4 @@
-#TODO:チョイスを修正、初期値揃えよう、フレキシブル化してみた、初期値は三つ別に選択にしたこれで論文書けるかも、リストappendではなくnumpyarryで最初に枠決めて高速化、他に高速化できそうなとこ探してるcalculate_cnum簡略化、linkedchoice高速化、←ココ、gをずらす、間違いを探す、最初と最後だけ別に出力
+#TODO:チョイスを修正、初期値揃えよう、フレキシブル化してみた、初期値は三つ別に選択にしたこれで論文書けるかも、リストappendではなくnumpyarryで最初に枠決めて高速化、他に高速化できそうなとこ探してるcalculate_cnum簡略化、linkedchoice高速化、リンクマトリクス書き換え逐次最適化切り貼り動作確認okここのミスはない、簡単に動作確認できる。←ココ、gをずらす、間違いを探す、最初と最後だけ別に出力
 
 #Tclエラーの対処法が課題→pythonのインストール時にtcl/tkにチェックしてるのにできない→pyのver下げたらいけるだろ→いけた。特にpathを通す必要とかはない。
 #whiteはpy3.11.4 at windowns
@@ -174,7 +174,7 @@ def Coop_ro_nonzero(cnum_ro, lnum_ro, tc): #okok
     coop_ro = np.where(((lnum_ro==0)&(tc_random<tc)), 0, coop_ro_2)
     return coop_ro
 
-def Leave_Form_tl_tf(work, linkmatrix, coop_ratio, tl, tf): #workを明示#TODO: きりはりだとｔｃがさがる、ｇが少ないと協力的、ｇが100000、500、100・・・900,gが少ないとfullだと非協力的に、平均と累積べつべつ、
+def Leave_Form_tl_tf(n, work, linkmatrix, coop_ratio, tl, tf): #workを明示#TODO: きりはりだとｔｃがさがる、ｇが少ないと協力的、ｇが100000、500、100・・・900,gが少ないとfullだと非協力的に、平均と累積べつべつ、
     # rng = np.random.default_rng()
     # pair_index = np.triu_indices(n, k=1)
     # x = rng.integers(((n-1)*n/2),size=(1,work))[0]
@@ -200,6 +200,8 @@ def Leave_Form_tl_tf(work, linkmatrix, coop_ratio, tl, tf): #workを明示#TODO:
     mask_diff = i != j
     i = i[mask_diff]
     j = j[mask_diff]
+    # print(i)
+    # print(j)
     # 事前にcoop_ratioを配列で取得しておく
     coop_ratio_i = coop_ratio[i]
     coop_ratio_j = coop_ratio[j]
@@ -208,19 +210,19 @@ def Leave_Form_tl_tf(work, linkmatrix, coop_ratio, tl, tf): #workを明示#TODO:
         cratio_i, cratio_j = coop_ratio_i[k], coop_ratio_j[k]
         tf_i, tf_j = tf[i[k]], tf[j[k]]
         tl_i, tl_j = tl[i[k]], tl[j[k]]
-        print(f"ペアは（{i[k]} , {j[k]}）")
+        # print(f"ペアは（{i[k]} , {j[k]}）")
         # リンクがない場合、リンクを作る
         if linkmatrix[i[k], j[k]] == 0:
             if (cratio_i >= tf_j) and (cratio_j >= tf_i):
                 linkmatrix[i[k], j[k]] = 1
                 linkmatrix[j[k], i[k]] = 1
-                print(f"リンク接続: {i[k]} と {j[k]} のリンクを接続")
+                # print(f"リンク接続: {i[k]} と {j[k]} のリンクを接続")
         # リンクがある場合、リンクを解除する
         elif linkmatrix[i[k], j[k]] == 1:
             if (cratio_i < tl_j) or (cratio_j < tl_i):
                 linkmatrix[i[k], j[k]] = 0
                 linkmatrix[j[k], i[k]] = 0
-                print(f"リンク切断: {i[k]} と {j[k]} のリンクを切断")
+                # print(f"リンク切断: {i[k]} と {j[k]} のリンクを切断")
     return linkmatrix
 
 def Leave_Form_tl(work, linkmatrix, coop_ratio, tl): #ok#workを明示
@@ -393,20 +395,34 @@ def Plotly_network_ani(linkmatrix_ges): #future work
 #coop_ro=np.array([0,0,0])
 # #cnum_ro=np.array([2,2,2])
 # n = 3
-work = 1
-linkmatrix=np.array([[0,0,1],
-                     [0,0,1],
-                     [1,1,0]])
+# work = 6
+# linkmatrix=np.array([[0,1,1],
+#                      [1,0,1],
+#                      [1,1,0]])
 # #count_poff_ge=np.array([4,9,1]),
 # #cho=[1,2,0],
 # #tc=np.array([0.0,0.1,0.2]),
-tl=np.array([0.8,0.8,0.8]),
-tf=np.array([0.1,0.1,0.1]),
-coop_ratio = np.array([0.5,0.5,0.5])
+# tl=np.array([0.8,0.0,0.8])
+# tf=np.array([0.1,0.9,0.1])
+# coop_ratio = np.array([0.5,0.5,0.5]) #繋がれるのは0and2のみ、切れるのは0or2が相手のとき
 # )
 # )
-print(Leave_Form_tl_tf(work=work, linkmatrix=linkmatrix, coop_ratio=coop_ratio, tl=tl, tf=tf))
-print("stop here in debug")
+# print(Leave_Form_tl_tf(n=n, work=work, linkmatrix=linkmatrix, coop_ratio=coop_ratio, tl=tl, tf=tf))
+# print("stop here in debug")
+
+# [000][000][000],tl=np.array([0.8,0.8,0.8]),tf=np.array([0.1,0.1,0.1]),coop_ratio = np.array([0.5,0.5,0.5]) #絶対繋がるし絶対切れる
+# [2 0 1]
+# [0 2 0]
+# ペアは（2 , 0）
+# リンク接続: 2 と 0 のリンクを接続
+# ペアは（0 , 2）
+# リンク切断: 0 と 2 のリンクを切断
+# ペアは（1 , 0）
+# リンク接続: 1 と 0 のリンクを接続
+# [[0 1 0]
+#  [1 0 0]
+#  [0 0 0]]
+
 
 def start_bo_full():#ok
     name = inspect.currentframe().f_code.co_name
@@ -1055,7 +1071,7 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
                     elif lorf == "form":
                         linkmatrix = Leave_Form_tf(work=work,linkmatrix=linkmatrix,coop_ratio=coop_ratio, tf=tf)
                     elif lorf == "both":
-                        linkmatrix = Leave_Form_tl_tf(work=work,linkmatrix=linkmatrix,coop_ratio=coop_ratio, tl=tl, tf=tf)
+                        linkmatrix = Leave_Form_tl_tf(n=n, work=work,linkmatrix=linkmatrix,coop_ratio=coop_ratio, tl=tl, tf=tf)
             #print(str(tr)+"tr-"+str(ge)+"ge")
             ln = np.sum(linkmatrix,axis=1)
             #sellection and mutation
