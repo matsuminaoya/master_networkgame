@@ -1081,7 +1081,7 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
             tf_avr_ges_trs[tr] = tf_avr_ges
             ln_avr_ges_trs[tr] = ln_avr_ges#[1試行目の各geでの全員の平均利得],[2試行目の...
             tc_all_ges_trs[tr*(n*generation):tr*(n*generation)+(n*generation)] = tc_all_ges.reshape(-1)
-            tf_all_ges_trs[tr*(n*generation):tr*(n*generation)+(n*generation)] = tl_all_ges.reshape(-1)#TODO:一次元にしてから入れてるreshape(1,-1)→二次元になっちゃう
+            tf_all_ges_trs[tr*(n*generation):tr*(n*generation)+(n*generation)] = tf_all_ges.reshape(-1)#TODO:一次元にしてから入れてるreshape(1,-1)→二次元になっちゃう
             ln_all_ges_trs[tr*(n*generation):tr*(n*generation)+(n*generation)] = ln_all_ges.reshape(-1)#1試行目の1ge1234人目,2ge1234人目,2試行目の...[]解除
         elif lorf == "both":
             tc_avr_ges_trs[tr] = tc_avr_ges #ok
@@ -1172,23 +1172,23 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
 
 
 #for testing
-n = 4
-trial = 2
-generation = 3
-roound = 2
-work = 2
-g_step = 2
-ani_step = 2
-start(lorf="leave",ininet="full", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=trial, work=work)
-start(lorf="form",ininet="null", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=trial, work=work)
-start(lorf="both",ininet="full", tcinivalue="random", tlinivalue="random", tfinivalue="random", trial=trial, work=work)
-start(lorf="both",ininet="ba", tcinivalue="zero", tlinivalue="eleven", tfinivalue="random", trial=trial, work=work)
+# n = 4
+# trial = 2
+# generation = 3
+# roound = 2
+# work = 2
+# g_step = 2
+# ani_step = 2
+# start(lorf="leave",ininet="full", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=trial, work=work)
+# start(lorf="form",ininet="null", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=trial, work=work)
+# start(lorf="both",ininet="full", tcinivalue="random", tlinivalue="random", tfinivalue="random", trial=trial, work=work)
+# start(lorf="both",ininet="ba", tcinivalue="zero", tlinivalue="eleven", tfinivalue="random", trial=trial, work=work)
 
-
-# start(lorf="leave",ininet="full", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=1, work=5000)
-# start(lorf="form",ininet="null", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=1, work=5000)
-# start(lorf="both",ininet="full", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=1, work=5000)
-# start(lorf="both",ininet="null", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=1, work=5000)
+#for main
+start(lorf="leave",ininet="full", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=1, work=5000)
+start(lorf="form",ininet="null", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=1, work=5000)
+start(lorf="both",ininet="full", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=1, work=5000)
+start(lorf="both",ininet="null", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=1, work=5000)
 
 
 
