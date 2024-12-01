@@ -175,19 +175,52 @@ def Coop_ro_nonzero(cnum_ro, lnum_ro, tc): #okok
     return coop_ro
 
 def Leave_Form_tl_tf(work, linkmatrix, coop_ratio, tl, tf): #workを明示#TODO: きりはりだとｔｃがさがる、ｇが少ないと協力的、ｇが100000、500、100・・・900,gが少ないとfullだと非協力的に、平均と累積べつべつ、
-    rng = np.random.default_rng()
-    pair_index = np.triu_indices(n, k=1)
-    x = rng.integers(((n-1)*n/2),size=(1,work))[0]
-    i = (pair_index[0][x])
-    j = (pair_index[1][x])
-    for k in range(work): #TODO:書き換える
-        pair = (i[k],j[k])
-        mask_f = ((linkmatrix[pair]==0) & ((coop_ratio[pair[0]]>=tf[pair[1]]) & (coop_ratio[pair[1]]>=tf[pair[0]])))
-        mask_l = ((linkmatrix[pair]==1) & ((coop_ratio[pair[0]]<tl[pair[1]]) | (coop_ratio[pair[1]]<tl[pair[0]])))
-        linkmatrix[pair[0][mask_f],pair[1][mask_f]] = 1
-        linkmatrix[pair[1][mask_f],pair[0][mask_f]] = 1
-        linkmatrix[pair[0][mask_l],pair[1][mask_l]] = 0
-        linkmatrix[pair[1][mask_l],pair[0][mask_l]] = 0
+    # rng = np.random.default_rng()
+    # pair_index = np.triu_indices(n, k=1)
+    # x = rng.integers(((n-1)*n/2),size=(1,work))[0]
+    # i = (pair_index[0][x])
+    # j = (pair_index[1][x])#TODO:書き換えてみる、逐次的な操作ではmuskは逆効果らしい、単一のインデックスを使うほうが高速だって
+    
+    # mask_link_0 = linkmatrix[i, j] == 0# 現在リンクがないペアのインデックス
+    # mask_link_1 = linkmatrix[i, j] == 1# 現在リンクがあるペアのインデックス
+    # # リンク形成：coop_ratio[i] >= tf[j] and coop_ratio[j] >= tf[i] の場合
+    # mask_form = (coop_ratio[i] >= tf[j]) & (coop_ratio[j] >= tf[i])
+    # linkmatrix[i[mask_link_0 & mask_form], j[mask_link_0 & mask_form]] = 1
+    # linkmatrix[j[mask_link_0 & mask_form], i[mask_link_0 & mask_form]] = 1
+    # # リンク解除：coop_ratio[i] < tl[j] or coop_ratio[j] < tl[i] の場合
+    # mask_break = (coop_ratio[i] < tl[j]) | (coop_ratio[j] < tl[i])
+    # linkmatrix[i[mask_link_1 & mask_break], j[mask_link_1 & mask_break]] = 0
+    # linkmatrix[j[mask_link_1 & mask_break], i[mask_link_1 & mask_break]] = 0
+    # return linkmatrix
+
+    # ランダムなペアを生成
+    i = np.random.randint(0, n, size=work)
+    j = np.random.randint(0, n, size=work)
+    # 同じノード同士のペアを除外
+    mask_diff = i != j
+    i = i[mask_diff]
+    j = j[mask_diff]
+    # 事前にcoop_ratioを配列で取得しておく
+    coop_ratio_i = coop_ratio[i]
+    coop_ratio_j = coop_ratio[j]
+    # ペアごとにリンク形成・解除を逐次処理
+    for k in range(len(i)):
+        cratio_i, cratio_j = coop_ratio_i[k], coop_ratio_j[k]
+        tf_i, tf_j = tf[i[k]], tf[j[k]]
+        tl_i, tl_j = tl[i[k]], tl[j[k]]
+        print(f"ペアは（{i[k]} , {j[k]}）")
+        # リンクがない場合、リンクを作る
+        if linkmatrix[i[k], j[k]] == 0:
+            if (cratio_i >= tf_j) and (cratio_j >= tf_i):
+                linkmatrix[i[k], j[k]] = 1
+                linkmatrix[j[k], i[k]] = 1
+                print(f"リンク接続: {i[k]} と {j[k]} のリンクを接続")
+        # リンクがある場合、リンクを解除する
+        elif linkmatrix[i[k], j[k]] == 1:
+            if (cratio_i < tl_j) or (cratio_j < tl_i):
+                linkmatrix[i[k], j[k]] = 0
+                linkmatrix[j[k], i[k]] = 0
+                print(f"リンク切断: {i[k]} と {j[k]} のリンクを切断")
     return linkmatrix
 
 def Leave_Form_tl(work, linkmatrix, coop_ratio, tl): #ok#workを明示
@@ -359,19 +392,20 @@ def Plotly_network_ani(linkmatrix_ges): #future work
 # Leave_Form(
 #coop_ro=np.array([0,0,0])
 # #cnum_ro=np.array([2,2,2])
-n = 3
+# n = 3
+work = 1
 linkmatrix=np.array([[0,0,1],
                      [0,0,1],
                      [1,1,0]])
 # #count_poff_ge=np.array([4,9,1]),
 # #cho=[1,2,0],
 # #tc=np.array([0.0,0.1,0.2]),
-# tl=np.array([0.8,0.8,0.8]),
-# tf=np.array([0.1,0.1,0.1]),
-# coop_ratio = np.array([0.5,0.5,0.5])
+tl=np.array([0.8,0.8,0.8]),
+tf=np.array([0.1,0.1,0.1]),
+coop_ratio = np.array([0.5,0.5,0.5])
 # )
 # )
-print(Linked_choice(n=n, linkmatrix=linkmatrix))
+print(Leave_Form_tl_tf(work=work, linkmatrix=linkmatrix, coop_ratio=coop_ratio, tl=tl, tf=tf))
 print("stop here in debug")
 
 def start_bo_full():#ok
@@ -965,8 +999,7 @@ def le(ininet = "ininet", inivalue = "inivalue", trial = 0, work = 0):
 
 # makeed 1130
 def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalue = "tcinivalue", tfinivalue = "tcinivalue", trial = 0, work = 0):
-    print(inspect.currentframe().f_code.co_name)
-    print("n="+str(n)+" trial="+str(trial)+" generation="+str(generation)+" round="+str(roound)+" work="+str(work))
+    print("start"+" "+lorf+" "+ininet+" "+tcinivalue+" "+tlinivalue+" "+tfinivalue+" t"+str(trial)+" w"+str(generation)+" :n="+str(n))#名前変更
     name = "t"+str(trial)+"_w"+str(work)+"_" + lorf + "_"+ininet+"_"+tcinivalue+tlinivalue+tfinivalue #フレキシブル名称変更
     os.makedirs(name, exist_ok=True) #ifTRUEフォルダ作成、同じ名前があるとエラー
     #make tr[] for stack data
