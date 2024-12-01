@@ -15,9 +15,10 @@ import numpy as np #pip install numpy
 import pandas as pd #pip install pandas
 import networkx as nx #pip install networkx
 import seaborn as sns #pip install seaborn
-from statistics import mean
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
+from datetime import datetime
+from statistics import mean
 
 time0 = time.time()
 
@@ -1078,8 +1079,9 @@ def le(ininet = "ininet", inivalue = "inivalue", trial = 0, work = 0):
 
 # makeed 1130
 def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalue = "tcinivalue", tfinivalue = "tcinivalue", trial = 0, work = 0):
+    nowdate = datetime.now().strftime("%Y%m%d-%H%M")
     print("start"+" "+lorf+" "+ininet+" "+tcinivalue+" "+tlinivalue+" "+tfinivalue+" t"+str(trial)+" w"+str(generation)+" :n="+str(n))#名前変更
-    name = "t"+str(trial)+"_w"+str(work)+"_" + lorf + "_"+ininet+"_"+tcinivalue+tlinivalue+tfinivalue #フレキシブル名称変更
+    name = "t"+str(trial)+"_w"+str(work)+"_" + lorf + "_"+ininet+"_"+tcinivalue+tlinivalue+tfinivalue+"_"+nowdate #フレキシブル名称変更これはファイル名になる
     os.makedirs(name, exist_ok=False) #ifFalseフォルダ作成、同じ名前があるとエラー
     #make tr[] for stack data
     if lorf == "leave":
