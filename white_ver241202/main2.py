@@ -1,4 +1,5 @@
 #TODO:チョイスを修正、初期値揃えよう、フレキシブル化してみた、初期値は三つ別に選択にしたこれで論文書けるかも、リストappendではなくnumpyarryで最初に枠決めて高速化、他に高速化できそうなとこ探してるcalculate_cnum簡略化、linkedchoice高速化、リンクマトリクス書き換え逐次最適化切り貼り動作確認okここのミスはない、簡単に動作確認できる。←ココ、gをずらす、間違いを探す、最初と最後だけ別に出力
+#30時間12分の処理→00時間42分14秒に
 
 #Tclエラーの対処法が課題→pythonのインストール時にtcl/tkにチェックしてるのにできない→pyのver下げたらいけるだろ→いけた。特にpathを通す必要とかはない。
 #whiteはpy3.11.4 at windowns
@@ -1256,10 +1257,10 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
 # start(lorf="both",ininet="ba", tcinivalue="zero", tlinivalue="eleven", tfinivalue="random", trial=trial, work=work)
 
 #for #TODO:実行main
-# start(lorf="leave",ininet="full", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=1, work=5000)
-# start(lorf="form",ininet="null", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=1, work=5000)
-# start(lorf="both",ininet="full", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=1, work=5000)
-# start(lorf="both",ininet="null", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=1, work=5000)
+start(lorf="leave",ininet="full", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=1, work=5000)
+start(lorf="form",ininet="null", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=1, work=5000)
+start(lorf="both",ininet="full", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=1, work=5000)
+start(lorf="both",ininet="null", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=1, work=5000)
 
 
 
