@@ -1137,7 +1137,7 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
                         linkmatrix = Leave_Form_tf(work=work,linkmatrix=linkmatrix,coop_ratio=coop_ratio, tf=tf)
                     elif lorf == "both":
                         linkmatrix = Leave_Form_tl_tf(n=n, work=work,linkmatrix=linkmatrix,coop_ratio=coop_ratio, tl=tl, tf=tf)
-            #print(str(tr)+"tr-"+str(ge)+"ge")
+            print(str(tr)+"tr-"+str(ge)+"ge")
             ln = np.sum(linkmatrix,axis=1)
             #sellection and mutation
             m_random = Randomn()
