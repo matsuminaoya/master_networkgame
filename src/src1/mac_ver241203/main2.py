@@ -1308,13 +1308,13 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
 
 
 #for #TODO:testing
-n = 4
-trial = 2
-generation = 3
-roound = 2
-work = 2
-g_step = 2
-ani_step = 2
+# n = 4
+# trial = 2
+# generation = 3
+# roound = 2
+# work = 2
+# g_step = 2
+# ani_step = 2
 # start(lorf="leave",ininet="full", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=trial, work=work)
 # start(lorf="form",ininet="null", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=trial, work=work)
 # start(lorf="both",ininet="full", tcinivalue="random", tlinivalue="random", tfinivalue="random", trial=trial, work=work)
@@ -1326,10 +1326,15 @@ ani_step = 2
 # start(lorf="form",ininet="null", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=1, work=5000)
 # start(lorf="leave",ininet="full", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=1, work=5000)
 
-start(lorf="both",ininet="full", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=1, work=5000)
-start(lorf="both",ininet="null", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=1, work=5000)
-start(lorf="form",ininet="null", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=1, work=5000)
-start(lorf="leave",ininet="full", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=1, work=5000)
+start(lorf="both",ininet="full", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=10, work=5000)
+start(lorf="both",ininet="null", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=10, work=5000)
+start(lorf="form",ininet="null", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=10, work=5000)
+start(lorf="leave",ininet="full", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=10, work=5000)
+
+start(lorf="both",ininet="full", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=10, work=5000)
+start(lorf="both",ininet="null", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=10, work=5000)
+start(lorf="form",ininet="null", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=10, work=5000)
+start(lorf="leave",ininet="full", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=10, work=5000)
 
 ###note-1123まで
 # np.array([0,0],[0,0])でリストからナンパイ
