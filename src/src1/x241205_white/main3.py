@@ -363,7 +363,7 @@ def Graph_avr_tc_tf(csv, name): #
     ax1 = fig.add_subplot()
     ax1.plot(df["ge"],df["tc"],label="tc",color="tab:blue")
     ax1.plot(df["ge"],df["tf"],label="tf",color="tab:green")
-    ax2.plot(df["ge"],df["dn"],color="lightsalmon",label="D", alpha=0.5) #TODO:追加
+    ax2.plot(df["ge"],df["dn"],label="D",color="black",alpha=0.5) #TODO:追加
     ax1.set_ylim(-0.09,1.19)
     ax1.set_xlabel("generation")
     ax2 = ax1.twinx()
