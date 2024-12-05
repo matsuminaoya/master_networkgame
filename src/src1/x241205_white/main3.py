@@ -1337,11 +1337,11 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
 # start(lorf="both",ininet="full", tcinivalue="random", tlinivalue="random", tfinivalue="random", trial=trial, work=work)
 # start(lorf="both",ininet="ba", tcinivalue="zero", tlinivalue="eleven", tfinivalue="random", trial=trial, work=work)
 
-# for #TODO:実行main
-start(lorf="both",ininet="full", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=1, work=1000)
-start(lorf="both",ininet="null", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=1, work=1000)
-start(lorf="form",ininet="null", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=1, work=1000)
-start(lorf="leave",ininet="full", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=1, work=1000)
+# # for #TODO:実行main
+# start(lorf="both",ininet="full", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=1, work=1000)
+# start(lorf="both",ininet="null", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=1, work=1000)
+# start(lorf="form",ininet="null", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=1, work=1000)
+# start(lorf="leave",ininet="full", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=1, work=1000)
 
 start(lorf="both",ininet="full", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=1, work=1000)
 start(lorf="both",ininet="null", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=1, work=1000)
