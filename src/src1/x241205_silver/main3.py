@@ -322,8 +322,8 @@ def Graph_avr_tc_tl_tf(csv, name): #
     ax1.set_ylim(0,1.1)
     ax1.set_xlabel("generation")
     ax2 = ax1.twinx()
-    ax2.bar(df["ge"],df["ln"],color='lightblue',label="Link")
-    ax2.bar(df["ge"],df["dn"],color="lightsalmon",label="D") #TODO:追加
+    ax2.bar(df["ge"],df["ln"],color='lightblue',label="Link", alpha=0.5, align="center")
+    ax2.bar(df["ge"],df["dn"],color="lightsalmon",label="D", alpha=0.5, align="edge") #TODO:追加
     ax2.set_ylim(0,100)
     h1, l1 = ax1.get_legend_handles_labels()
     h2, l2 = ax2.get_legend_handles_labels()
@@ -344,8 +344,8 @@ def Graph_avr_tc_tl(csv, name): #
     ax1.set_ylim(0,1.1)
     ax1.set_xlabel("generation")
     ax2 = ax1.twinx()
-    ax2.bar(df["ge"],df["ln"],color='lightblue',label="Link")
-    ax2.bar(df["ge"],df["dn"],color="lightsalmon",label="D") #TODO:追加
+    ax2.bar(df["ge"],df["ln"],color='lightblue',label="Link", alpha=0.5, align="center")
+    ax2.bar(df["ge"],df["dn"],color="lightsalmon",label="D", alpha=0.5, align="edge") #TODO:追加
     ax2.set_ylim(0,100)
     h1, l1 = ax1.get_legend_handles_labels()
     h2, l2 = ax2.get_legend_handles_labels()
@@ -366,8 +366,8 @@ def Graph_avr_tc_tf(csv, name): #
     ax1.set_ylim(-0.09,1.19)
     ax1.set_xlabel("generation")
     ax2 = ax1.twinx()
-    ax2.bar(df["ge"],df["ln"],color='lightblue',label="Link")
-    ax2.bar(df["ge"],df["dn"],color="lightsalmon",label="D") #TODO:追加
+    ax2.bar(df["ge"],df["ln"],color='lightblue',label="Link", alpha=0.5, align="center")
+    ax2.bar(df["ge"],df["dn"],color="lightsalmon",label="D", alpha=0.5, align="edge") #TODO:追加
     ax2.set_ylim(-0.09,100.09)
     h1, l1 = ax1.get_legend_handles_labels()
     h2, l2 = ax2.get_legend_handles_labels()
@@ -1348,15 +1348,15 @@ start(lorf="both",ininet="null", tcinivalue="zero", tlinivalue="zero", tfinivalu
 start(lorf="form",ininet="null", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=1, work=5000)
 start(lorf="leave",ininet="full", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=1, work=5000)
 
-# start(lorf="both",ininet="full", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=10, work=5000)
-# start(lorf="both",ininet="null", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=10, work=5000)
-# start(lorf="form",ininet="null", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=10, work=5000)
-# start(lorf="leave",ininet="full", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=10, work=5000)
+start(lorf="both",ininet="full", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=10, work=5000)
+start(lorf="both",ininet="null", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=10, work=5000)
+start(lorf="form",ininet="null", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=10, work=5000)
+start(lorf="leave",ininet="full", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=10, work=5000)
 
-# start(lorf="both",ininet="full", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=10, work=5000)
-# start(lorf="both",ininet="null", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=10, work=5000)
-# start(lorf="form",ininet="null", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=10, work=5000)
-# start(lorf="leave",ininet="full", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=10, work=5000)
+start(lorf="both",ininet="full", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=10, work=5000)
+start(lorf="both",ininet="null", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=10, work=5000)
+start(lorf="form",ininet="null", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=10, work=5000)
+start(lorf="leave",ininet="full", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=10, work=5000)
 
 ###note-1123まで
 # np.array([0,0],[0,0])でリストからナンパイ
