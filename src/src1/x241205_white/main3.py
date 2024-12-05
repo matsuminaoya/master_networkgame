@@ -1147,13 +1147,13 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
                     lnum_ro = np.sum(linkmatrix,axis=1) #追加,今回のリンク数を調べる
                     if ge == 0:#TODO:追加
                         coop_ro = Coop_ro_zero(tc) #これだけで自分の協力非協力決める、初回だけ
-                        dn = n- coop_ro
+                        dn = 1 - coop_ro
                         dn_avr_ges[0] = np.mean(dn)
                         dn_all_ges[0] = dn
                     else:
                         #cnum_ro = Calculate_cnum(coop_ro=coop_ro,linkmatrix=linkmatrix) #変更前の協力数調べる
                         coop_ro = Coop_ro_nonzero(cnum_ro=cnum_ro,lnum_ro=lnum_ro, tc=tc) #それで自分の協力非協力きめる
-                        dn = n - coop_ro#TODO:追加
+                        dn = 1 - coop_ro#TODO:追加
                     cnum_ro = Calculate_cnum(coop_ro=coop_ro,linkmatrix=linkmatrix) #変更後の協力数調べる
                     poff_ro = Calculate_poff_ro(coop_ro=coop_ro,lnum_ro=lnum_ro,cnum_ro=cnum_ro) #変更
                     count_game_ge = np.where(lnum_ro>0, 1, 0) #変更 #初期化必要
