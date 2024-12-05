@@ -319,11 +319,11 @@ def Graph_avr_tc_tl_tf(csv, name): #
     ax1.plot(df["ge"],df["tc"],label="tc",color="tab:blue")
     ax1.plot(df["ge"],df["tl"],label="tl",color="tab:orange")
     ax1.plot(df["ge"],df["tf"],label="tf",color="tab:green")
+    ax2.plot(df["ge"],df["dn"],label="D",color="black",alpha=0.5) #TODO:追加
     ax1.set_ylim(0,1.1)
     ax1.set_xlabel("generation")
     ax2 = ax1.twinx()
     ax2.bar(df["ge"],df["ln"],color='lightblue',label="Link")
-    ax2.plot(df["ge"],df["dn"],color="lightsalmon",label="D", alpha=0.5) #TODO:追加
     ax2.set_ylim(0,100)
     h1, l1 = ax1.get_legend_handles_labels()
     h2, l2 = ax2.get_legend_handles_labels()
@@ -341,11 +341,11 @@ def Graph_avr_tc_tl(csv, name): #
     ax1 = fig.add_subplot()
     ax1.plot(df["ge"],df["tc"],label="tc",color="tab:blue")
     ax1.plot(df["ge"],df["tl"],label="tl",color="tab:orange")
+    ax2.plot(df["ge"],df["dn"],label="D",color="black",alpha=0.5) #TODO:追加
     ax1.set_ylim(0,1.1)
     ax1.set_xlabel("generation")
     ax2 = ax1.twinx()
     ax2.bar(df["ge"],df["ln"],color='lightblue',label="Link")
-    ax2.plot(df["ge"],df["dn"],color="lightsalmon",label="D", alpha=0.5) #TODO:追加
     ax2.set_ylim(0,100)
     h1, l1 = ax1.get_legend_handles_labels()
     h2, l2 = ax2.get_legend_handles_labels()
