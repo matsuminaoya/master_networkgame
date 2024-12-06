@@ -1295,7 +1295,7 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
     elif lorf == "both":
         df = pd.DataFrame({"tr":tr_trs_repeat, "ge":ge_ges_repeat, "tc":tc_all_ges_trs, "tl":tl_all_ges_trs, "tf":tf_all_ges_trs, "ln":ln_all_ges_trs, "dn":dn_all_ges_trs})
     df.to_csv(name+"/"+name+"_all.csv")#フォルダの中に格納
-    df = Graph_all_dfgstep(name+"/"+name+"_all.csv")#フォルダの中に格納
+    #df = Graph_all_dfgstep(name+"/"+name+"_all.csv")#フォルダの中に格納#TODO:
     # time2 = time.time()
     # Graph_all_vio(df, ylabel="tc").savefig(name + "_all_vio_tc.png")
     # time3 = time.time()
@@ -1304,16 +1304,16 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
     # Graph_all_vio(df, ylabel="ln").savefig(name + "_all_vio_ln.png")
     # time4 = time.time()
     #box graph
-    Graph_all_box(df, ylabel="tc", name=name)
-    Graph_all_box(df, ylabel="ln", name=name)
-    Graph_all_box(df, ylabel="dn", name=name)
-    if lorf == "leave":
-        Graph_all_box(df, ylabel="tl", name=name)
-    elif lorf == "form":
-        Graph_all_box(df, ylabel="tf", name=name)
-    elif lorf == "both":
-        Graph_all_box(df, ylabel="tl", name=name)
-        Graph_all_box(df, ylabel="tf", name=name)
+    # Graph_all_box(df, ylabel="tc", name=name)#TODO:
+    # Graph_all_box(df, ylabel="ln", name=name)
+    # Graph_all_box(df, ylabel="dn", name=name)
+    # if lorf == "leave":
+    #     Graph_all_box(df, ylabel="tl", name=name)
+    # elif lorf == "form":
+    #     Graph_all_box(df, ylabel="tf", name=name)
+    # elif lorf == "both":
+    #     Graph_all_box(df, ylabel="tl", name=name)
+    #     Graph_all_box(df, ylabel="tf", name=name)
     #network gif
     #df = pd.DataFrame({"ge":ge_ges, "linkmatrix":linkmatrix_ges_tr0})
     #df.to_csv(name + "_tr0_network.csv")
