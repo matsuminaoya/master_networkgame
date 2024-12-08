@@ -1,4 +1,4 @@
-#TODO:チョイスを修正、初期値揃えよう、フレキシブル化してみた、初期値は三つ別に選択にしたこれで論文書けるかも、リストappendではなくnumpyarryで最初に枠決めて高速化、他に高速化できそうなとこ探してるcalculate_cnum簡略化、linkedchoice高速化、リンクマトリクス書き換え逐次最適化切り貼り動作確認okここのミスはない、簡単に動作確認できる。グラフ作成時のコメント削除、毎ラウンド0で協力非協力が初期化されるのはおかしいから修正main2→main3、初期値をグラフに入れる、協力非協力グラフに入れる、cnumの助長を減らす、グラフクローズ,silver始動グラフ色変える,dnの計算ミスge減らさない←ココ、gをずらす、間違いを探す
+#TODO:チョイスを修正、初期値揃えよう、フレキシブル化してみた、初期値は三つ別に選択にしたこれで論文書けるかも、リストappendではなくnumpyarryで最初に枠決めて高速化、他に高速化できそうなとこ探してるcalculate_cnum簡略化、linkedchoice高速化、リンクマトリクス書き換え逐次最適化切り貼り動作確認okここのミスはない、簡単に動作確認できる。グラフ作成時のコメント削除、毎ラウンド0で協力非協力が初期化されるのはおかしいから修正main2→main3、初期値をグラフに入れる、協力非協力グラフに入れる、cnumの助長を減らす、グラフクローズ,silver始動グラフ色変える,dnの計算ミスge減らさない、tctltf以外は遺伝しない！←ココ、gをずらす、間違いを探す
 #30時間12分の処理→00時間42分14秒に→これは三つ分、三時間くらいだった切り貼り最適化できてないけど
 
 #Tclエラーの対処法が課題→pythonのインストール時にtcl/tkにチェックしてるのにできない→pyのver下げたらいけるだろ→いけた。特にpathを通す必要とかはない。
@@ -21,6 +21,7 @@ from datetime import datetime
 from statistics import mean
 
 time0 = time.time()
+nowdate = datetime.now().strftime("%Y%m%d-%H%M")
 
 #grobal value
 n = 100 #OK#100 #4
@@ -31,7 +32,7 @@ cost = 1.0
 mutation = 0.01
 #tr>ge>ro>work
 #trial = 1 #1,10 #2
-generation = 5000 #5001 #3 #mod(ani_step)=1ないとエラーが発生するので注意 #初期値が0に入ったから5000でもok5001になる
+generation = 5000 #5001 #3 #mod(ani_step)=1ないとエラーが発生するので注意 #初期値が0に入ったから5000でもok5001になる→なくなった
 roound = 100 #100
 #work = 5000 #5000
 #graph_step
@@ -319,7 +320,7 @@ def Graph_avr_tc_tl_tf(csv, name): #
     ax1.plot(df["ge"],df["tc"],label="tc",color="tab:blue")
     ax1.plot(df["ge"],df["tl"],label="tl",color="tab:orange")
     ax1.plot(df["ge"],df["tf"],label="tf",color="tab:green")
-    ax1.plot(df["ge"],df["dn"],label="D",color="black",alpha=0.5) #TODO:追加
+    #ax1.plot(df["ge"],df["dn"],label="D",color="black",alpha=0.5) #TODO:追加
     ax1.set_ylim(0,1.1)
     ax1.set_xlabel("generation")
     ax2 = ax1.twinx()
@@ -341,7 +342,7 @@ def Graph_avr_tc_tl(csv, name): #
     ax1 = fig.add_subplot()
     ax1.plot(df["ge"],df["tc"],label="tc",color="tab:blue")
     ax1.plot(df["ge"],df["tl"],label="tl",color="tab:orange")
-    ax1.plot(df["ge"],df["dn"],label="D",color="black",alpha=0.5) #TODO:追加
+    #ax1.plot(df["ge"],df["dn"],label="D",color="black",alpha=0.5) #TODO:追加
     ax1.set_ylim(0,1.1)
     ax1.set_xlabel("generation")
     ax2 = ax1.twinx()
@@ -363,7 +364,7 @@ def Graph_avr_tc_tf(csv, name): #
     ax1 = fig.add_subplot()
     ax1.plot(df["ge"],df["tc"],label="tc",color="tab:blue")
     ax1.plot(df["ge"],df["tf"],label="tf",color="tab:green")
-    ax1.plot(df["ge"],df["dn"],label="D",color="black",alpha=0.5) #TODO:追加
+    #ax1.plot(df["ge"],df["dn"],label="D",color="black",alpha=0.5) #TODO:追加
     ax1.set_ylim(-0.09,1.19)
     ax1.set_xlabel("generation")
     ax2 = ax1.twinx()
@@ -1089,27 +1090,26 @@ def le(ininet = "ininet", inivalue = "inivalue", trial = 0, work = 0):
 #le(ininet="full", inivalue="eleven")
 
 # makeed 1130
-def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalue = "tcinivalue", tfinivalue = "tcinivalue", trial = 0, work = 0):
-    nowdate = datetime.now().strftime("%Y%m%d-%H%M")
+def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalue = "tcinivalue", tfinivalue = "tcinivalue", trial = 0, work = 0, nowdate=nowdate):
     print("start"+" "+lorf+" "+ininet+" "+tcinivalue+" "+tlinivalue+" "+tfinivalue+" t"+str(trial)+" w"+str(generation)+" :n="+str(n))#名前変更
     name = "t"+str(trial)+"_w"+str(work)+"_" + lorf + "_"+ininet+"_"+tcinivalue+tlinivalue+tfinivalue+"_"+nowdate #フレキシブル名称変更これはファイル名になる
     os.makedirs(name, exist_ok=False) #ifFalseフォルダ作成、同じ名前があるとエラー
     #make tr[] for stack data
     if lorf == "leave":
-        tc_avr_ges_trs,tl_avr_ges_trs,ln_avr_ges_trs,dn_avr_ges_trs, tc_all_ges_trs,tl_all_ges_trs,ln_all_ges_trs,dn_all_ges_trs, linkmatrix_ges_tr0 =  np.empty((trial,generation+1)),np.empty((trial,generation+1)),np.empty((trial,generation+1)),np.empty((trial,generation+1)), np.empty((n*(generation+1)*trial)),np.empty((n*(generation+1)*trial)),np.empty((n*(generation+1)*trial)),np.empty((n*(generation+1)*trial)), np.empty(1)#一行に変更リストの中にリストを外して入れるextendをnpでやるnp.concatenate()を使うためにゼロで埋めない→vstackにしたから、npzeroでもいけるはず、あとでやる
+        tc_avr_ges_trs,tl_avr_ges_trs,ln_avr_ges_trs, tc_all_ges_trs,tl_all_ges_trs,ln_all_ges_trs, linkmatrix_ges_tr0 =  np.empty((trial,generation)),np.empty((trial,generation)),np.empty((trial,generation)), np.empty((n*(generation)*trial)),np.empty((n*(generation)*trial)),np.empty((n*(generation)*trial)), np.empty(1)#一行に変更リストの中にリストを外して入れるextendをnpでやるnp.concatenate()を使うためにゼロで埋めない→vstackにしたから、npzeroでもいけるはず、あとでやる
     elif lorf == "form":
-        tc_avr_ges_trs,tf_avr_ges_trs,ln_avr_ges_trs,dn_avr_ges_trs, tc_all_ges_trs,tf_all_ges_trs,ln_all_ges_trs,dn_all_ges_trs, linkmatrix_ges_tr0 =  np.empty((trial,generation+1)),np.empty((trial,generation+1)),np.empty((trial,generation+1)),np.empty((trial,generation+1)), np.empty((n*(generation+1)*trial)),np.empty((n*(generation+1)*trial)),np.empty((n*(generation+1)*trial)),np.empty((n*(generation+1)*trial)), np.empty(1)
+        tc_avr_ges_trs,tf_avr_ges_trs,ln_avr_ges_trs, tc_all_ges_trs,tf_all_ges_trs,ln_all_ges_trs, linkmatrix_ges_tr0 =  np.empty((trial,generation)),np.empty((trial,generation)),np.empty((trial,generation)), np.empty((n*(generation)*trial)),np.empty((n*(generation)*trial)),np.empty((n*(generation)*trial)), np.empty(1)
     elif lorf == "both":
-        tc_avr_ges_trs,tl_avr_ges_trs,tf_avr_ges_trs,ln_avr_ges_trs,dn_avr_ges_trs, tc_all_ges_trs,tl_all_ges_trs,tf_all_ges_trs,ln_all_ges_trs,dn_all_ges_trs, linkmatrix_ges_tr0 = np.empty((trial,generation+1)),np.empty((trial,generation+1)),np.empty((trial,generation+1)),np.empty((trial,generation+1)),np.empty((trial,generation+1)), np.empty((n*(generation+1)*trial)),np.empty((n*(generation+1)*trial)),np.empty((n*(generation+1)*trial)),np.empty((n*(generation+1)*trial)),np.empty((n*(generation+1)*trial)), np.empty(1) #TODO:linkmatrix_ges_tr0は後で考える
+        tc_avr_ges_trs,tl_avr_ges_trs,tf_avr_ges_trs,ln_avr_ges_trs, tc_all_ges_trs,tl_all_ges_trs,tf_all_ges_trs,ln_all_ges_trs, linkmatrix_ges_tr0 = np.empty((trial,generation)),np.empty((trial,generation)),np.empty((trial,generation)),np.empty((trial,generation)), np.empty((n*(generation)*trial)),np.empty((n*(generation)*trial)),np.empty((n*(generation)*trial)),np.empty((n*(generation)*trial)), np.empty(1) #TODO:linkmatrix_ges_tr0は後で考える
     
     for tr in range(trial):
         #make ge[] for stack data
         if lorf == "leave":
-            tc_avr_ges,tl_avr_ges,ln_avr_ges,dn_avr_ges, tc_all_ges,tl_all_ges,ln_all_ges,dn_all_ges = np.empty(generation+1),np.empty(generation+1),np.empty(generation+1),np.empty(generation+1), np.empty((generation+1,n)),np.empty((generation+1,n)),np.empty((generation+1,n)),np.empty((generation+1,n))#一行に変更,=[]じゃダメ #リストappendではなく、npでゼロの場所確保してgeで格納、一つに100個入るなら2Dにしなきゃだめ、emptyのが早いらしい
+            tc_avr_ges,tl_avr_ges,ln_avr_ges,dn_avr_ges, tc_all_ges,tl_all_ges,ln_all_ges,dn_all_ges = np.empty(generation),np.empty(generation),np.empty(generation),np.empty(generation), np.empty((generation,n)),np.empty((generation,n)),np.empty((generation,n)),np.empty((generation,n))#一行に変更,=[]じゃダメ #リストappendではなく、npでゼロの場所確保してgeで格納、一つに100個入るなら2Dにしなきゃだめ、emptyのが早いらしい
         elif lorf == "form":
-            tc_avr_ges,tf_avr_ges,ln_avr_ges,dn_avr_ges, tc_all_ges,tf_all_ges,ln_all_ges,dn_all_ges = np.empty(generation+1),np.empty(generation+1),np.empty(generation+1),np.empty(generation+1), np.empty((generation+1,n)),np.empty((generation+1,n)),np.empty((generation+1,n)),np.empty((generation+1,n))
+            tc_avr_ges,tf_avr_ges,ln_avr_ges,dn_avr_ges, tc_all_ges,tf_all_ges,ln_all_ges,dn_all_ges = np.empty(generation),np.empty(generation),np.empty(generation),np.empty(generation), np.empty((generation,n)),np.empty((generation,n)),np.empty((generation,n)),np.empty((generation,n))
         elif lorf == "both":
-            tc_avr_ges,tl_avr_ges,tf_avr_ges,ln_avr_ges,dn_avr_ges, tc_all_ges,tl_all_ges,tf_all_ges,ln_all_ges,dn_all_ges = np.empty(generation+1),np.empty(generation+1),np.empty(generation+1),np.empty(generation+1),np.empty(generation+1), np.empty((generation+1,n)),np.empty((generation+1,n)),np.empty((generation+1,n)),np.empty((generation+1,n)),np.empty((generation+1,n))
+            tc_avr_ges,tl_avr_ges,tf_avr_ges,ln_avr_ges,dn_avr_ges, tc_all_ges,tl_all_ges,tf_all_ges,ln_all_ges,dn_all_ges = np.empty(generation),np.empty(generation),np.empty(generation),np.empty(generation),np.empty(generation), np.empty((generation,n)),np.empty((generation,n)),np.empty((generation,n)),np.empty((generation,n)),np.empty((generation,n))
         #Initialize_values
         if lorf == "leave":
             tc = eval("Initialize_value_"+tcinivalue)()
@@ -1121,56 +1121,59 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
             tc = eval("Initialize_value_"+tcinivalue)()
             tl = eval("Initialize_value_"+tlinivalue)()
             tf = eval("Initialize_value_"+tfinivalue)()
-        linkmatrix = eval("Initialize_linkmatrix_"+ininet)()#フレキシブル化#pok
-        ln = np.sum(linkmatrix,axis=1)
+        #linkmatrix = eval("Initialize_linkmatrix_"+ininet)()#フレキシブル化#pok
+        #ln = np.sum(linkmatrix,axis=1) #TODO:geごとにネットワークリセット
         
         for ge in range(generation):
             #初期値代入、グラフのgeは一つずつずれる0-4999→0初期値1-5000
-            if ge == 0:#TODO:追加
-                tc_avr_ges[0] = np.mean(tc)#ok[np.float64(0.0), np.float64(0.025), np.float64(0.025)]ジェネレーション個
-                ln_avr_ges[0] = np.mean(ln)#各geでの全員の平均リンクを入れていく
-                tc_all_ges[0] = tc#[array([0., 0., 0., 0.]), array([0. , 0. , 0. , 0.1]), array([0. , 0. , 0.1, 0. ])]ジェネレーション行人数列
-                ln_all_ges[0] = ln#各geでの全員のリンク数、1ge1234人目,2ge1234人目
-                if lorf == "leave":
-                    tl_avr_ges[0] = np.mean(tl)
-                    tl_all_ges[0] = tl
-                elif lorf == "form":
-                    tf_avr_ges[0] = np.mean(tf)
-                    tf_all_ges[0] = tf
-                elif lorf == "both":
-                    tl_avr_ges[0] = np.mean(tl)
-                    tf_avr_ges[0] = np.mean(tf)
-                    tl_all_ges[0] = tl
-                    tf_all_ges[0] = tf
+            # if ge == 0:#TODO:最初の最初だけ
+            #     tc_avr_ges[0] = np.mean(tc)#ok[np.float64(0.0), np.float64(0.025), np.float64(0.025)]ジェネレーション個
+            #     ln_avr_ges[0] = np.mean(ln)#各geでの全員の平均リンクを入れていく
+            #     tc_all_ges[0] = tc#[array([0., 0., 0., 0.]), array([0. , 0. , 0. , 0.1]), array([0. , 0. , 0.1, 0. ])]ジェネレーション行人数列
+            #     ln_all_ges[0] = ln#各geでの全員のリンク数、1ge1234人目,2ge1234人目
+            #     if lorf == "leave":
+            #         tl_avr_ges[0] = np.mean(tl)
+            #         tl_all_ges[0] = tl
+            #     elif lorf == "form":
+            #         tf_avr_ges[0] = np.mean(tf)
+            #         tf_all_ges[0] = tf
+            #     elif lorf == "both":
+            #         tl_avr_ges[0] = np.mean(tl)
+            #         tf_avr_ges[0] = np.mean(tf)
+            #         tl_all_ges[0] = tl
+            #         tf_all_ges[0] = tf
             for ro in range(roound):
                 if ro == 0:#1122変更 #TODO:ge==0追加しないと、協力非協力が過去を参照しなくなる、ゲームの回数協力した回数利得のみを初期化
-                    lnum_ro = np.sum(linkmatrix,axis=1) #追加,今回のリンク数を調べる
-                    if ge == 0:#TODO:追加
-                        coop_ro = Coop_ro_zero(tc) #これだけで自分の協力非協力決める、初回だけ
-                        dn = 1 - coop_ro
-                        dn_avr_ges[0] = np.mean(dn)
-                        dn_all_ges[0] = dn
-                    else:
-                        #cnum_ro = Calculate_cnum(coop_ro=coop_ro,linkmatrix=linkmatrix) #変更前の協力数調べる
-                        coop_ro = Coop_ro_nonzero(cnum_ro=cnum_ro,lnum_ro=lnum_ro, tc=tc) #それで自分の協力非協力きめる
-                        dn = 1 - coop_ro#TODO:追加
-                    cnum_ro = Calculate_cnum(coop_ro=coop_ro,linkmatrix=linkmatrix) #変更後の協力数調べる
-                    poff_ro = Calculate_poff_ro(coop_ro=coop_ro,lnum_ro=lnum_ro,cnum_ro=cnum_ro) #変更
-                    count_game_ge = np.where(lnum_ro>0, 1, 0) #変更 #初期化必要
-                    count_coop_game_ge = np.where((lnum_ro>0)&(coop_ro==1), 1, 0) #変更 #初期化必要
-                    count_poff_ge = poff_ro #初期化必要
+                    # lnum_ro = np.sum(linkmatrix,axis=1) #追加,今回のリンク数を調べる
+                    # if ge == 0:#TODO:追加
+                    #     coop_ro = Coop_ro_zero(tc) #これだけで自分の協力非協力決める、初回だけ
+                    #     dn = 1 - coop_ro
+                    #     # dn_avr_ges[0] = np.mean(dn)
+                    #     # dn_all_ges[0] = dn
+                    # else:
+                    #     #cnum_ro = Calculate_cnum(coop_ro=coop_ro,linkmatrix=linkmatrix) #変更前の協力数調べる
+                    #     coop_ro = Coop_ro_nonzero(cnum_ro=cnum_ro,lnum_ro=lnum_ro, tc=tc) #それで自分の協力非協力きめる
+                    #     dn = 1 - coop_ro#TODO:追加
+                    linkmatrix = eval("Initialize_linkmatrix_"+ininet)()#各ge0でリンクを初期化
+                    lnum_ro = np.sum(linkmatrix,axis=1) #リンク数を初期化
+                    coop_ro = Coop_ro_zero(tc)#協力非協力を初期化
+                    cnum_ro = Calculate_cnum(coop_ro=coop_ro,linkmatrix=linkmatrix) #各geで協力者数を初期化
+                    poff_ro = Calculate_poff_ro(coop_ro=coop_ro,lnum_ro=lnum_ro,cnum_ro=cnum_ro) #各geでpoff_ro初期化
+                    count_game_ge = np.where(lnum_ro>0, 1, 0) #geme_ge初期化
+                    count_coop_game_ge = np.where((lnum_ro>0)&(coop_ro==1), 1, 0) #geme_coop_ge初期化
+                    count_poff_ge = poff_ro #poff_ge初期化
                 if ro > 0:#1122変更
-                    lnum_ro = np.sum(linkmatrix,axis=1) #今回のリンク数調べる
+                    lnum_ro = np.sum(linkmatrix,axis=1) #リンク数の更新
                     #cnum_ro = Calculate_cnum(coop_ro=coop_ro,linkmatrix=linkmatrix) #変更前の協力数調べる
                     coop_ro = Coop_ro_nonzero(cnum_ro=cnum_ro,lnum_ro=lnum_ro, tc=tc) #それで自分の協力非協力きめる
-                    dn = 1 - coop_ro#TODO:追加
+                    # dn = 1 - coop_ro#TODO:追加
                     cnum_ro = Calculate_cnum(coop_ro=coop_ro,linkmatrix=linkmatrix) #変更後の協力数調べる
                     poff_ro = Calculate_poff_ro(coop_ro=coop_ro,lnum_ro=lnum_ro,cnum_ro=cnum_ro) #利得求める
                     count_game_ge += np.where(lnum_ro>0, 1, 0)
                     count_coop_game_ge += np.where((lnum_ro>0)&(coop_ro==1), 1, 0)
                     count_poff_ge += poff_ro
                 if ro < roound-1:
-                    coop_ratio = np.divide(count_coop_game_ge, count_game_ge, where=count_game_ge>0)
+                    coop_ratio = np.divide(count_coop_game_ge, count_game_ge, where=count_game_ge>0)#coopratioの更新、ネットワークの更新
                     if lorf == "leave":
                         linkmatrix = Leave_Form_tl(work=work,linkmatrix=linkmatrix,coop_ratio=coop_ratio, tl=tl)
                     elif lorf == "form":
@@ -1217,63 +1220,63 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
             #     tf_all_ges.append(tf)
             #     ln_all_ges.append(ln)#各geでの全員のリンク数、1ge1234人目,2ge1234人目
             if lorf == "leave":
-                tl_avr_ges[ge+1] = np.mean(tl)
-                tl_all_ges[ge+1] = tl
+                tl_avr_ges[ge] = np.mean(tl)
+                tl_all_ges[ge] = tl
             elif lorf == "form":
-                tf_avr_ges[ge+1] = np.mean(tf)
-                tf_all_ges[ge+1] = tf
+                tf_avr_ges[ge] = np.mean(tf)
+                tf_all_ges[ge] = tf
             elif lorf == "both":
-                tl_avr_ges[ge+1] = np.mean(tl)
-                tf_avr_ges[ge+1] = np.mean(tf)
-                tl_all_ges[ge+1] = tl
-                tf_all_ges[ge+1] = tf
-            tc_avr_ges[ge+1] = np.mean(tc)#ok[np.float64(0.0), np.float64(0.025), np.float64(0.025)]ジェネレーション個
-            ln_avr_ges[ge+1] = np.mean(ln)#各geでの全員の平均リンクを入れていく
-            dn_avr_ges[ge+1] = np.mean(dn)
-            tc_all_ges[ge+1] = tc#[array([0., 0., 0., 0.]), array([0. , 0. , 0. , 0.1]), array([0. , 0. , 0.1, 0. ])]ジェネレーション行人数列
-            ln_all_ges[ge+1] = ln
-            dn_all_ges[ge+1] = dn
+                tl_avr_ges[ge] = np.mean(tl)
+                tf_avr_ges[ge] = np.mean(tf)
+                tl_all_ges[ge] = tl
+                tf_all_ges[ge] = tf
+            tc_avr_ges[ge] = np.mean(tc)#ok[np.float64(0.0), np.float64(0.025), np.float64(0.025)]ジェネレーション個
+            ln_avr_ges[ge] = np.mean(ln)#各geでの全員の平均リンクを入れていく
+            #dn_avr_ges[ge] = np.mean(dn)
+            tc_all_ges[ge] = tc#[array([0., 0., 0., 0.]), array([0. , 0. , 0. , 0.1]), array([0. , 0. , 0.1, 0. ])]ジェネレーション行人数列
+            ln_all_ges[ge] = ln
+            #dn_all_ges[ge] = dn
             #if tr == 0:
             #    linkmatrix_ges_tr0.append(linkmatrix) #トライアル0の場合は全ての世代でのネットワークを保存
         #trにおいて、ためる/解除してためる
         if lorf == "leave":
             tl_avr_ges_trs[tr] = tl_avr_ges
-            tl_all_ges_trs[tr*(n*(generation+1)):tr*(n*(generation+1))+(n*(generation+1))] = tl_all_ges.reshape(-1)#[array([0., 0., 0., 0.]), array([0., 0., 0., 0.]), array([0., 0., 0., 0.]), array([0., 0., 0., 0.]), array([0. , 0. , 0. , 0.1]), array([0. , 0. , 0.1, 0. ])]
+            tl_all_ges_trs[tr*(n*(generation)):tr*(n*(generation))+(n*(generation))] = tl_all_ges.reshape(-1)#[array([0., 0., 0., 0.]), array([0., 0., 0., 0.]), array([0., 0., 0., 0.]), array([0., 0., 0., 0.]), array([0. , 0. , 0. , 0.1]), array([0. , 0. , 0.1, 0. ])]
             # tc_all_ges_trs = np.vstack((tc_all_ges_trs, tc_all_ges)) #.ravelで配列をコピーせずに一次元の一つの配列にする。その前は、concateireみないなやつと,ravelみたいなやつの合わせてをやってた。
             # tl_all_ges_trs = np.vstack((tl_all_ges_trs, tl_all_ges))#[array([0., 0., 0., 0.]), array([0., 0., 0., 0.]), array([0., 0., 0., 0.]), array([0., 0., 0., 0.]), array([0. , 0. , 0. , 0.1]), array([0. , 0. , 0.1, 0. ])]
             # ln_all_ges_trs = np.vstack((ln_all_ges_trs, ln_all_ges))#1試行目の1ge1234人目,2ge1234人目,2試行目の...[]解除、トライアルではまとめないジェネレーションではまとめる
         elif lorf == "form":
             tf_avr_ges_trs[tr] = tf_avr_ges
-            tf_all_ges_trs[tr*(n*(generation+1)):tr*(n*(generation+1))+(n*(generation+1))] = tf_all_ges.reshape(-1)#一次元にしてから入れてるreshape(1,-1)→二次元になっちゃう
+            tf_all_ges_trs[tr*(n*(generation)):tr*(n*(generation))+(n*(generation))] = tf_all_ges.reshape(-1)#一次元にしてから入れてるreshape(1,-1)→二次元になっちゃう
         elif lorf == "both":
             tl_avr_ges_trs[tr] = tl_avr_ges
             tf_avr_ges_trs[tr] = tf_avr_ges
-            tl_all_ges_trs[tr*(n*(generation+1)):tr*(n*(generation+1))+(n*(generation+1))] = tl_all_ges.reshape(-1)
-            tf_all_ges_trs[tr*(n*(generation+1)):tr*(n*(generation+1))+(n*(generation+1))] = tf_all_ges.reshape(-1)
+            tl_all_ges_trs[tr*(n*(generation)):tr*(n*(generation))+(n*(generation))] = tl_all_ges.reshape(-1)
+            tf_all_ges_trs[tr*(n*(generation)):tr*(n*(generation))+(n*(generation))] = tf_all_ges.reshape(-1)
         tc_avr_ges_trs[tr] = tc_avr_ges #ok[[np.float64(0.0), np.float64(0.0), np.float64(0.0)], [np.float64(0.0), np.float64(0.025), np.float64(0.025)]]トライアル行ジェネレーション列
         ln_avr_ges_trs[tr] = ln_avr_ges#[1試行目の各geでの全員の平均利得],[2試行目の...
-        dn_avr_ges_trs[tr] = dn_avr_ges
-        tc_all_ges_trs[tr*(n*(generation+1)):tr*(n*(generation+1))+(n*(generation+1))] = tc_all_ges.reshape(-1) #.ravelで配列をコピーせずに一次元の一つの配列にする。
-        ln_all_ges_trs[tr*(n*(generation+1)):tr*(n*(generation+1))+(n*(generation+1))] = ln_all_ges.reshape(-1)#1試行目の1ge1234人目,2ge1234人目,2試行目の...[]解除、トライアルではまとめないジェネレーションではまとめる
-        dn_all_ges_trs[tr*(n*(generation+1)):tr*(n*(generation+1))+(n*(generation+1))] = dn_all_ges.reshape(-1)
+        #dn_avr_ges_trs[tr] = dn_avr_ges
+        tc_all_ges_trs[tr*(n*(generation)):tr*(n*(generation))+(n*(generation))] = tc_all_ges.reshape(-1) #.ravelで配列をコピーせずに一次元の一つの配列にする。
+        ln_all_ges_trs[tr*(n*(generation)):tr*(n*(generation))+(n*(generation))] = ln_all_ges.reshape(-1)#1試行目の1ge1234人目,2ge1234人目,2試行目の...[]解除、トライアルではまとめないジェネレーションではまとめる
+        #dn_all_ges_trs[tr*(n*(generation)):tr*(n*(generation))+(n*(generation))] = dn_all_ges.reshape(-1)
     # time1 = time.time()#new
     # print("sim"+Elapsed_time_hms(elapsed_time=(time1-time0)))#new
     #oresen
-    ge_ges = np.arange(generation+1)
+    ge_ges = np.arange(generation)
     #各ラウンドでの全員の平均、の試行平均でdf
     tc_avr_ges_trs_avr = np.mean(tc_avr_ges_trs, axis=0)#array([0.    , 0.0125, 0.0125])ジェネレーション個
     ln_avr_ges_trs_avr = np.mean(ln_avr_ges_trs, axis=0)#各ラウンドでの全員の平気利得、の試行平均
-    dn_avr_ges_trs_avr = np.mean(dn_avr_ges_trs, axis=0)
+    #dn_avr_ges_trs_avr = np.mean(dn_avr_ges_trs, axis=0)
     if lorf == "leave":
         tl_avr_ges_trs_avr = np.mean(tl_avr_ges_trs, axis=0)
-        df = pd.DataFrame({"ge":ge_ges,"tc":tc_avr_ges_trs_avr,"tl":tl_avr_ges_trs_avr,"ln":ln_avr_ges_trs_avr,"dn":dn_avr_ges_trs_avr})
+        df = pd.DataFrame({"ge":ge_ges,"tc":tc_avr_ges_trs_avr,"tl":tl_avr_ges_trs_avr,"ln":ln_avr_ges_trs_avr})#,"dn":dn_avr_ges_trs_avr
     elif lorf == "form":
         tf_avr_ges_trs_avr = np.mean(tf_avr_ges_trs, axis=0)
-        df = pd.DataFrame({"ge":ge_ges,"tc":tc_avr_ges_trs_avr,"tf":tf_avr_ges_trs_avr,"ln":ln_avr_ges_trs_avr,"dn":dn_avr_ges_trs_avr})
+        df = pd.DataFrame({"ge":ge_ges,"tc":tc_avr_ges_trs_avr,"tf":tf_avr_ges_trs_avr,"ln":ln_avr_ges_trs_avr})
     elif lorf == "both":
         tl_avr_ges_trs_avr = np.mean(tl_avr_ges_trs, axis=0)
         tf_avr_ges_trs_avr = np.mean(tf_avr_ges_trs, axis=0)
-        df = pd.DataFrame({"ge":ge_ges,"tc":tc_avr_ges_trs_avr,"tl":tl_avr_ges_trs_avr,"tf":tf_avr_ges_trs_avr,"ln":ln_avr_ges_trs_avr,"dn":dn_avr_ges_trs_avr})
+        df = pd.DataFrame({"ge":ge_ges,"tc":tc_avr_ges_trs_avr,"tl":tl_avr_ges_trs_avr,"tf":tf_avr_ges_trs_avr,"ln":ln_avr_ges_trs_avr})
     df.to_csv(name+"/"+name+"_avr.csv")#フォルダの中に格納
     if lorf == "leave": 
         Graph_avr_tc_tl(name+"/"+name+"_avr.csv", name)
@@ -1282,18 +1285,18 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
     elif lorf == "both": 
         Graph_avr_tc_tl_tf(name+"/"+name+"_avr.csv", name)
     #vio box
-    tr_trs_repeat = np.repeat(np.arange(trial),(generation+1)*n)#000000000....1111111
+    tr_trs_repeat = np.repeat(np.arange(trial),(generation)*n)#000000000....1111111
     #tr_trs_repeat = tr_trs_repeat_h.reshape(-1,1)#[0],[1],[2]...に変換-1は自動計算、1列指定
-    ge_ges_n = np.repeat(np.arange(generation+1),n)#1ge1ge1ge...5000ge5000geを
+    ge_ges_n = np.repeat(np.arange(generation),n)#1ge1ge1ge...5000ge5000geを
     ge_ges_repeat = np.tile(ge_ges_n, trial) #ntr繰り返す
     #ge_ges_repeat = ge_ges_repeat_h.reshape(-1,1)
     #全員のge×tr全てでdf
     if lorf == "leave":
-        df = pd.DataFrame({"tr":tr_trs_repeat, "ge":ge_ges_repeat, "tc":tc_all_ges_trs, "tl":tl_all_ges_trs, "ln":ln_all_ges_trs, "dn":dn_all_ges_trs})#一行にしなきゃだめみたい
+        df = pd.DataFrame({"tr":tr_trs_repeat, "ge":ge_ges_repeat, "tc":tc_all_ges_trs, "tl":tl_all_ges_trs, "ln":ln_all_ges_trs})#一行にしなきゃだめみたい#, "dn":dn_all_ges_trs
     elif lorf == "form":
-        df = pd.DataFrame({"tr":tr_trs_repeat, "ge":ge_ges_repeat, "tc":tc_all_ges_trs, "tf":tf_all_ges_trs, "ln":ln_all_ges_trs, "dn":dn_all_ges_trs})
+        df = pd.DataFrame({"tr":tr_trs_repeat, "ge":ge_ges_repeat, "tc":tc_all_ges_trs, "tf":tf_all_ges_trs, "ln":ln_all_ges_trs})
     elif lorf == "both":
-        df = pd.DataFrame({"tr":tr_trs_repeat, "ge":ge_ges_repeat, "tc":tc_all_ges_trs, "tl":tl_all_ges_trs, "tf":tf_all_ges_trs, "ln":ln_all_ges_trs, "dn":dn_all_ges_trs})
+        df = pd.DataFrame({"tr":tr_trs_repeat, "ge":ge_ges_repeat, "tc":tc_all_ges_trs, "tl":tl_all_ges_trs, "tf":tf_all_ges_trs, "ln":ln_all_ges_trs})
     df.to_csv(name+"/"+name+"_all.csv")#フォルダの中に格納
     #df = Graph_all_dfgstep(name+"/"+name+"_all.csv")#フォルダの中に格納#TODO:
     # time2 = time.time()
@@ -1324,7 +1327,7 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
     print("all"+Elapsed_time_hms(time7-time0))
 
 
-#for #TODO:testing
+# for #TODO:testing
 # n = 4
 # trial = 2
 # generation = 3
@@ -1332,10 +1335,10 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
 # work = 2
 # g_step = 2
 # ani_step = 2
-# start(lorf="leave",ininet="full", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=trial, work=work)
-# start(lorf="form",ininet="null", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=trial, work=work)
-# start(lorf="both",ininet="full", tcinivalue="random", tlinivalue="random", tfinivalue="random", trial=trial, work=work)
-# start(lorf="both",ininet="ba", tcinivalue="zero", tlinivalue="eleven", tfinivalue="random", trial=trial, work=work)
+# start(lorf="leave",ininet="full", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=trial, work=work, nowdate=nowdate)
+# start(lorf="form",ininet="null", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=trial, work=work, nowdate=nowdate)
+# start(lorf="both",ininet="full", tcinivalue="random", tlinivalue="random", tfinivalue="random", trial=trial, work=work, nowdate=nowdate)
+# start(lorf="both",ininet="ba", tcinivalue="zero", tlinivalue="eleven", tfinivalue="random", trial=trial, work=work, nowdate=nowdate)
 
 # for #TODO:実行main
 start(lorf="both",ininet="full", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=1, work=1000)
@@ -1348,15 +1351,15 @@ start(lorf="both",ininet="null", tcinivalue="zero", tlinivalue="zero", tfinivalu
 start(lorf="form",ininet="null", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=1, work=1000)
 start(lorf="leave",ininet="full", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=1, work=1000)
 
-# start(lorf="both",ininet="full", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=10, work=1000)
-# start(lorf="both",ininet="null", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=10, work=1000)
-# start(lorf="form",ininet="null", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=10, work=1000)
-# start(lorf="leave",ininet="full", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=10, work=1000)
+start(lorf="both",ininet="full", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=10, work=1000)
+start(lorf="both",ininet="null", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=10, work=1000)
+start(lorf="form",ininet="null", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=10, work=1000)
+start(lorf="leave",ininet="full", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=10, work=1000)
 
-# start(lorf="both",ininet="full", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=10, work=1000)
-# start(lorf="both",ininet="null", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=10, work=1000)
-# start(lorf="form",ininet="null", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=10, work=1000)
-# start(lorf="leave",ininet="full", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=10, work=1000)
+start(lorf="both",ininet="full", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=10, work=1000)
+start(lorf="both",ininet="null", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=10, work=1000)
+start(lorf="form",ininet="null", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=10, work=1000)
+start(lorf="leave",ininet="full", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=10, work=1000)
 
 ###note-1123まで
 # np.array([0,0],[0,0])でリストからナンパイ
