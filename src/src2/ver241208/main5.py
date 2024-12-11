@@ -1340,26 +1340,73 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
 # start(lorf="both",ininet="full", tcinivalue="random", tlinivalue="random", tfinivalue="random", trial=trial, work=work, nowdate=nowdate)
 # start(lorf="both",ininet="ba", tcinivalue="zero", tlinivalue="eleven", tfinivalue="random", trial=trial, work=work, nowdate=nowdate)
 
-# # for #TODO:実行main
-# start(lorf="both",ininet="full", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=1, work=1000)
-# start(lorf="both",ininet="null", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=1, work=1000)
-# start(lorf="form",ininet="null", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=1, work=1000)
-# start(lorf="leave",ininet="full", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=1, work=1000)
+# for #TODO:実行main
+start(lorf="both",ininet="full", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=1, work=1000)
+start(lorf="both",ininet="null", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=1, work=1000)
+start(lorf="form",ininet="null", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=1, work=1000)
+start(lorf="leave",ininet="full", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=1, work=1000)
 
-# start(lorf="both",ininet="full", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=1, work=1000)
-# start(lorf="both",ininet="null", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=1, work=1000)
-# start(lorf="form",ininet="null", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=1, work=1000)
-# start(lorf="leave",ininet="full", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=1, work=1000)
+start(lorf="both",ininet="full", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=1, work=1000)
+start(lorf="both",ininet="null", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=1, work=1000)
+start(lorf="form",ininet="null", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=1, work=1000)
+start(lorf="leave",ininet="full", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=1, work=1000)
+
+start(lorf="both",ininet="full", tcinivalue="random", tlinivalue="random", tfinivalue="random", trial=1, work=1000)
+start(lorf="both",ininet="null", tcinivalue="random", tlinivalue="random", tfinivalue="random", trial=1, work=1000)
+start(lorf="form",ininet="null", tcinivalue="random", tlinivalue="random", tfinivalue="random", trial=1, work=1000)
+start(lorf="leave",ininet="full", tcinivalue="random", tlinivalue="random", tfinivalue="random", trial=1, work=1000)
+
+
+start(lorf="both",ininet="full", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=1, work=5000)
+start(lorf="both",ininet="null", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=1, work=5000)
+start(lorf="form",ininet="null", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=1, work=5000)
+start(lorf="leave",ininet="full", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=1, work=5000)
+
+start(lorf="both",ininet="full", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=1, work=5000)
+start(lorf="both",ininet="null", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=1, work=5000)
+start(lorf="form",ininet="null", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=1, work=5000)
+start(lorf="leave",ininet="full", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=1, work=5000)
+
+start(lorf="both",ininet="full", tcinivalue="random", tlinivalue="random", tfinivalue="random", trial=1, work=5000)
+start(lorf="both",ininet="null", tcinivalue="random", tlinivalue="random", tfinivalue="random", trial=1, work=5000)
+start(lorf="form",ininet="null", tcinivalue="random", tlinivalue="random", tfinivalue="random", trial=1, work=5000)
+start(lorf="leave",ininet="full", tcinivalue="random", tlinivalue="random", tfinivalue="random", trial=1, work=5000)
+
+
+
+start(lorf="both",ininet="full", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=10, work=1000)
+start(lorf="both",ininet="null", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=10, work=1000)
+start(lorf="form",ininet="null", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=10, work=1000)
+start(lorf="leave",ininet="full", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=10, work=1000)
 
 start(lorf="both",ininet="full", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=10, work=1000)
 start(lorf="both",ininet="null", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=10, work=1000)
 start(lorf="form",ininet="null", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=10, work=1000)
 start(lorf="leave",ininet="full", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=10, work=1000)
 
-start(lorf="both",ininet="full", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=10, work=1000)
-start(lorf="both",ininet="null", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=10, work=1000)
-start(lorf="form",ininet="null", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=10, work=1000)
-start(lorf="leave",ininet="full", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=10, work=1000)
+start(lorf="both",ininet="full", tcinivalue="random", tlinivalue="random", tfinivalue="random", trial=10, work=1000)
+start(lorf="both",ininet="null", tcinivalue="random", tlinivalue="random", tfinivalue="random", trial=10, work=1000)
+start(lorf="form",ininet="null", tcinivalue="random", tlinivalue="random", tfinivalue="random", trial=10, work=1000)
+start(lorf="leave",ininet="full", tcinivalue="random", tlinivalue="random", tfinivalue="random", trial=10, work=1000)
+
+
+start(lorf="both",ininet="full", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=10, work=5000)
+start(lorf="both",ininet="null", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=10, work=5000)
+start(lorf="form",ininet="null", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=10, work=5000)
+start(lorf="leave",ininet="full", tcinivalue="eleven", tlinivalue="eleven", tfinivalue="eleven", trial=10, work=5000)
+
+start(lorf="both",ininet="full", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=10, work=5000)
+start(lorf="both",ininet="null", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=10, work=5000)
+start(lorf="form",ininet="null", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=10, work=5000)
+start(lorf="leave",ininet="full", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=10, work=5000)
+
+start(lorf="both",ininet="full", tcinivalue="random", tlinivalue="random", tfinivalue="random", trial=10, work=5000)
+start(lorf="both",ininet="null", tcinivalue="random", tlinivalue="random", tfinivalue="random", trial=10, work=5000)
+start(lorf="form",ininet="null", tcinivalue="random", tlinivalue="random", tfinivalue="random", trial=10, work=5000)
+start(lorf="leave",ininet="full", tcinivalue="random", tlinivalue="random", tfinivalue="random", trial=10, work=5000)
+
+
+
 
 ###note-1123まで
 # np.array([0,0],[0,0])でリストからナンパイ
