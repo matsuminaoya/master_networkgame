@@ -11,4 +11,5 @@ env.bak/
 venv.bak/
 
 *.csv
+*.pptx
 .DS_Store
