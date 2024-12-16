@@ -228,7 +228,7 @@ def Leave_Form_tl_tf(n, work, linkmatrix, coop_ratio, tl, tf): #TODO:書き換�
                 # print(f"リンク切断: {i[k]} と {j[k]} のリンクを切断")
     return linkmatrix
 
-def Leave_Form_tl(work, linkmatrix, coop_ratio, tl): #ok#workを明示
+def Leave_Form_tl(n, work, linkmatrix, coop_ratio, tl): #ok#workを明示
     # rng = np.random.default_rng()
     # pair_index = np.triu_indices(n, k=1)
     # x = rng.integers(((n-1)*n/2),size=(1,work))[0]
@@ -270,7 +270,7 @@ def Leave_Form_tl(work, linkmatrix, coop_ratio, tl): #ok#workを明示
                 linkmatrix[j[k], i[k]] = 0
                 # print(f"リンク切断: {i[k]} と {j[k]} のリンクを切断")
     return linkmatrix
-def Leave_Form_tf(work, linkmatrix, coop_ratio, tf): #ok#workを明示
+def Leave_Form_tf(n, work, linkmatrix, coop_ratio, tf): #ok#workを明示
     # rng = np.random.default_rng()
     # pair_index = np.triu_indices(n, k=1)
     # x = rng.integers(((n-1)*n/2),size=(1,work))[0]
@@ -1175,9 +1175,9 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
                 if ro < roound-1:
                     coop_ratio = np.divide(count_coop_game_ge, count_game_ge, where=count_game_ge>0)#coopratioの更新、ネットワークの更新
                     if lorf == "leave":
-                        linkmatrix = Leave_Form_tl(work=work,linkmatrix=linkmatrix,coop_ratio=coop_ratio, tl=tl)
+                        linkmatrix = Leave_Form_tl(n=n, work=work,linkmatrix=linkmatrix,coop_ratio=coop_ratio, tl=tl)
                     elif lorf == "form":
-                        linkmatrix = Leave_Form_tf(work=work,linkmatrix=linkmatrix,coop_ratio=coop_ratio, tf=tf)
+                        linkmatrix = Leave_Form_tf(n=n, work=work,linkmatrix=linkmatrix,coop_ratio=coop_ratio, tf=tf)
                     elif lorf == "both":
                         linkmatrix = Leave_Form_tl_tf(n=n, work=work,linkmatrix=linkmatrix,coop_ratio=coop_ratio, tl=tl, tf=tf)
             print(str(tr)+"tr-"+str(ge)+"ge")
