@@ -1121,7 +1121,7 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
             tc = eval("Initialize_value_"+tcinivalue)()
             tl = eval("Initialize_value_"+tlinivalue)()
             tf = eval("Initialize_value_"+tfinivalue)()
-        #linkmatrix = eval("Initialize_linkmatrix_"+ininet)()#フレキシブル化#pok
+        linkmatrix = eval("Initialize_linkmatrix_"+ininet)()#フレキシブル化#pok#TODO:復活
         #ln = np.sum(linkmatrix,axis=1) #TODO:geごとにネットワークリセット
         
         for ge in range(generation):
@@ -1154,7 +1154,7 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
                     #     #cnum_ro = Calculate_cnum(coop_ro=coop_ro,linkmatrix=linkmatrix) #変更前の協力数調べる
                     #     coop_ro = Coop_ro_nonzero(cnum_ro=cnum_ro,lnum_ro=lnum_ro, tc=tc) #それで自分の協力非協力きめる
                     #     dn = 1 - coop_ro#TODO:追加
-                    linkmatrix = eval("Initialize_linkmatrix_"+ininet)()#各ge0でリンクを初期化
+                    #linkmatrix = eval("Initialize_linkmatrix_"+ininet)()#各ge0でリンクを初期化#TODO:初期化なし
                     lnum_ro = np.sum(linkmatrix,axis=1) #リンク数を初期化
                     coop_ro = Coop_ro_zero(tc)#協力非協力を初期化
                     cnum_ro = Calculate_cnum(coop_ro=coop_ro,linkmatrix=linkmatrix) #各geで協力者数を初期化
@@ -1348,7 +1348,7 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
 
 # start(lorf="both",ininet="full", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=1, work=1000)
 # start(lorf="both",ininet="null", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=1, work=1000)
-# start(lorf="form",ininet="null", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=1, work=1000)
+start(lorf="form",ininet="null", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=1, work=1000)
 # start(lorf="leave",ininet="full", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=1, work=1000)
 
 # start(lorf="both",ininet="full", tcinivalue="random", tlinivalue="random", tfinivalue="random", trial=1, work=1000)
@@ -1364,12 +1364,12 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
 
 # start(lorf="both",ininet="full", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=1, work=5000)
 # start(lorf="both",ininet="null", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=1, work=5000)
-start(lorf="form",ininet="null", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=1, work=5000)
+# start(lorf="form",ininet="null", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=1, work=5000)
 # start(lorf="leave",ininet="full", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=1, work=5000)
 
 # start(lorf="both",ininet="full", tcinivalue="random", tlinivalue="random", tfinivalue="random", trial=1, work=5000)
 # start(lorf="both",ininet="null", tcinivalue="random", tlinivalue="random", tfinivalue="random", trial=1, work=5000)
-start(lorf="form",ininet="null", tcinivalue="random", tlinivalue="random", tfinivalue="random", trial=1, work=5000)
+# start(lorf="form",ininet="null", tcinivalue="random", tlinivalue="random", tfinivalue="random", trial=1, work=5000)
 # start(lorf="leave",ininet="full", tcinivalue="random", tlinivalue="random", tfinivalue="random", trial=1, work=5000)
 
 
