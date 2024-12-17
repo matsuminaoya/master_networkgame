@@ -1348,12 +1348,12 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
 
 # start(lorf="both",ininet="full", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=1, work=1000)
 # start(lorf="both",ininet="null", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=1, work=1000)
-start(lorf="form",ininet="null", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=1, work=1000)
+# start(lorf="form",ininet="null", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=1, work=1000)
 # start(lorf="leave",ininet="full", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=1, work=1000)
 
 # start(lorf="both",ininet="full", tcinivalue="random", tlinivalue="random", tfinivalue="random", trial=1, work=1000)
-# start(lorf="both",ininet="null", tcinivalue="random", tlinivalue="random", tfinivalue="random", trial=1, work=1000)
-# start(lorf="form",ininet="null", tcinivalue="random", tlinivalue="random", tfinivalue="random", trial=1, work=1000)
+start(lorf="both",ininet="null", tcinivalue="random", tlinivalue="random", tfinivalue="random", trial=1, work=1000)
+start(lorf="form",ininet="null", tcinivalue="random", tlinivalue="random", tfinivalue="random", trial=1, work=1000)
 # start(lorf="leave",ininet="full", tcinivalue="random", tlinivalue="random", tfinivalue="random", trial=1, work=1000)
 
 
