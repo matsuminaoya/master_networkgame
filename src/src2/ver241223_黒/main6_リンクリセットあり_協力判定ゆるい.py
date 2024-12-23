@@ -1161,7 +1161,8 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
                     poff_ro = Calculate_poff_ro(coop_ro=coop_ro,lnum_ro=lnum_ro,cnum_ro=cnum_ro) #各geでpoff_ro初期化
                     #TODO:count_game_ge = np.where(lnum_ro>0, 1, 0) #geme_ge初期化
                     count_game_ge = np.ones(n)
-                    count_coop_game_ge = np.where((lnum_ro>0)&(coop_ro==1), 1, 0) #geme_coop_ge初期化
+                    #count_coop_game_ge = np.where((lnum_ro>0)&(coop_ro==1), 1, 0) #geme_coop_ge初期化
+                    count_coop_game_ge = np.where((coop_ro==1), 1, 0)
                     count_poff_ge = poff_ro #poff_ge初期化
                 if ro > 0:#1122変更
                     lnum_ro = np.sum(linkmatrix,axis=1) #リンク数の更新
@@ -1172,7 +1173,8 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
                     poff_ro = Calculate_poff_ro(coop_ro=coop_ro,lnum_ro=lnum_ro,cnum_ro=cnum_ro) #利得求める
                     #TODO:count_game_ge += np.where(lnum_ro>0, 1, 0)
                     count_game_ge += 1
-                    count_coop_game_ge += np.where((lnum_ro>0)&(coop_ro==1), 1, 0)
+                    #count_coop_game_ge += np.where((lnum_ro>0)&(coop_ro==1), 1, 0)
+                    count_coop_game_ge += np.where((coop_ro==1), 1, 0)
                     count_poff_ge += poff_ro
                 if ro < roound-1:
                     coop_ratio = np.divide(count_coop_game_ge, count_game_ge, where=count_game_ge>0)#coopratioの更新、ネットワークの更新
