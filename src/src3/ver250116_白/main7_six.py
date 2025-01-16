@@ -33,7 +33,7 @@ cost = 1.0
 mutation = 0.01
 #tr>ge>ro>work
 #trial = 1 #1,10 #2
-generation = 5000 #5001 #3 #mod(ani_step)=1ないとエラーが発生するので注意 #初期値が0に入ったから5000でもok5001になる→なくなった
+generation = 10000 #5001 #3 #mod(ani_step)=1ないとエラーが発生するので注意 #初期値が0に入ったから5000でもok5001になる→なくなった
 roound = 100 #100
 #work = 5000 #5000
 #graph_step
