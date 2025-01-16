@@ -1436,7 +1436,8 @@ def start(lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalu
 # makeed 150116-
 def start2(netresetges = "yorn", isocount1st = "yorn", isocount2to = "yorn", lorf = "lorf", ininet = "ininet", tcinivalue = "tcinivalue", tlinivalue = "tcinivalue", tfinivalue = "tcinivalue", trial = 0, work = 0, nowdate=nowdate):
     print("start"+" "+netresetges+" "+isocount1st+" "+isocount2to+" "+lorf+" "+ininet+" "+tcinivalue+" "+tlinivalue+" "+tfinivalue+" t"+str(trial)+" g"+str(generation)+" w"+str(work)+" :n="+str(n))#名前変更
-    name = "t"+str(trial)+"_w"+str(work)+"_" + lorf + "_"+ininet+"_"+tcinivalue+tlinivalue+tfinivalue+"_"+nowdate #フレキシブル名称変更これはファイル名になる
+    #name = "t"+str(trial)+"_w"+str(work)+"_" + lorf + "_"+ininet+"_"+tcinivalue+tlinivalue+tfinivalue+"_"+nowdate #フレキシブル名称変更これはファイル名になる
+    name = "t"+str(trial)+"_w"+str(work)+"_"+lorf+"_"+ininet+"_"+netresetges+isocount1st+isocount2to+"_"+nowdate
     os.makedirs(name, exist_ok=False) #ifFalseフォルダ作成、同じ名前があるとエラー
     #make tr[] for stack data
     if lorf == "leave":
