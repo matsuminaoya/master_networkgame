@@ -1444,13 +1444,13 @@ def start2(netresetges = "yorn", isocount1st = "yorn", isocount2to = "yorn", lor
     #make tr[] for stack data
     if lorf == "leave":
         # tc_avr_ges_trs,tl_avr_ges_trs,ln_avr_ges_trs, tc_all_ges_trs,tl_all_ges_trs,ln_all_ges_trs, linkmatrix_ges_tr0 =  np.empty((trial,generation)),np.empty((trial,generation)),np.empty((trial,generation)), np.empty((n*(generation)*trial)),np.empty((n*(generation)*trial)),np.empty((n*(generation)*trial)), np.empty(1)#一行に変更リストの中にリストを外して入れるextendをnpでやるnp.concatenate()を使うためにゼロで埋めない→vstackにしたから、npzeroでもいけるはず、あとでやる
-        tc_all_ges_trs,tl_all_ges_trs,ln_all_ges_trs, cd_all_ges_trs = np.empty((n*(generation)*trial)),np.empty((n*(generation)*trial)),np.empty((n*(generation)*trial)),np.empty((n*(generation)*trial))#一行に変更リストの中にリストを外して入れるextendをnpでやるnp.concatenate()を使うためにゼロで埋めない→vstackにしたから、npzeroでもいけるはず、あとでやる
+        tc_all_ges_trs,tl_all_ges_trs,ln_all_ges_trs,cd_all_ges_trs = np.empty((n*(generation)*trial)),np.empty((n*(generation)*trial)),np.empty((n*(generation)*trial)),np.empty((n*(generation)*trial))#一行に変更リストの中にリストを外して入れるextendをnpでやるnp.concatenate()を使うためにゼロで埋めない→vstackにしたから、npzeroでもいけるはず、あとでやる
     elif lorf == "form":
         # tc_avr_ges_trs,tf_avr_ges_trs,ln_avr_ges_trs, tc_all_ges_trs,tf_all_ges_trs,ln_all_ges_trs, linkmatrix_ges_tr0 =  np.empty((trial,generation)),np.empty((trial,generation)),np.empty((trial,generation)), np.empty((n*(generation)*trial)),np.empty((n*(generation)*trial)),np.empty((n*(generation)*trial)), np.empty(1)
-        tc_all_ges_trs,tf_all_ges_trs,ln_all_ges_trs, cd_all_ges_trs = np.empty((n*(generation)*trial)),np.empty((n*(generation)*trial)),np.empty((n*(generation)*trial)),np.empty((n*(generation)*trial))
+        tc_all_ges_trs,tf_all_ges_trs,ln_all_ges_trs,cd_all_ges_trs = np.empty((n*(generation)*trial)),np.empty((n*(generation)*trial)),np.empty((n*(generation)*trial)),np.empty((n*(generation)*trial))
     elif lorf == "both":
         # tc_avr_ges_trs,tl_avr_ges_trs,tf_avr_ges_trs,ln_avr_ges_trs, tc_all_ges_trs,tl_all_ges_trs,tf_all_ges_trs,ln_all_ges_trs, linkmatrix_ges_tr0 = np.empty((trial,generation)),np.empty((trial,generation)),np.empty((trial,generation)),np.empty((trial,generation)), np.empty((n*(generation)*trial)),np.empty((n*(generation)*trial)),np.empty((n*(generation)*trial)),np.empty((n*(generation)*trial)), np.empty(1) #TODO:linkmatrix_ges_tr0は後で考える
-        tc_all_ges_trs,tl_all_ges_trs,tf_all_ges_trs,ln_all_ges_trs, cd_all_ges_trs = np.empty((n*(generation)*trial)),np.empty((n*(generation)*trial)),np.empty((n*(generation)*trial)),np.empty((n*(generation)*trial)),np.empty((n*(generation)*trial)) #TODO:linkmatrix_ges_tr0は後で考える
+        tc_all_ges_trs,tl_all_ges_trs,tf_all_ges_trs,ln_all_ges_trs,cd_all_ges_trs = np.empty((n*(generation)*trial)),np.empty((n*(generation)*trial)),np.empty((n*(generation)*trial)),np.empty((n*(generation)*trial)),np.empty((n*(generation)*trial)) #TODO:linkmatrix_ges_tr0は後で考える
     for tr in range(trial):
         #make ge[] for stack data
         if lorf == "leave":
@@ -1622,7 +1622,7 @@ def start2(netresetges = "yorn", isocount1st = "yorn", isocount2to = "yorn", lor
         #dn_avr_ges_trs[tr] = dn_avr_ges
         tc_all_ges_trs[tr*(n*(generation)):tr*(n*(generation))+(n*(generation))] = tc_all_ges.reshape(-1) #.ravelで配列をコピーせずに一次元の一つの配列にする。
         ln_all_ges_trs[tr*(n*(generation)):tr*(n*(generation))+(n*(generation))] = ln_all_ges.reshape(-1)#1試行目の1ge1234人目,2ge1234人目,2試行目の...[]解除、トライアルではまとめないジェネレーションではまとめる
-        cd_all_ges_trs[tr*(n*(generation)):tr*(n*(generation))+(n*(generation))] = ln_all_ges.reshape(-1)
+        cd_all_ges_trs[tr*(n*(generation)):tr*(n*(generation))+(n*(generation))] = cd_all_ges.reshape(-1)
         #dn_all_ges_trs[tr*(n*(generation)):tr*(n*(generation))+(n*(generation))] = dn_all_ges.reshape(-1)
     # time1 = time.time()#new
     # print("sim"+Elapsed_time_hms(elapsed_time=(time1-time0)))#new
@@ -1692,9 +1692,6 @@ def start2(netresetges = "yorn", isocount1st = "yorn", isocount2to = "yorn", lor
     print("all"+Elapsed_time_hms(time7-time0))
 
 #work=5000, zerozerozero, tr=1 wookに関しては質問
-
-start2(netresetges="no", isocount1st="no", isocount2to="no", lorf="leave", ininet="full", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=2, work=5)
-
 start2(netresetges="no", isocount1st="no", isocount2to="no", lorf="leave", ininet="full", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=5, work=5000)
 start2(netresetges="no", isocount1st="yes", isocount2to="no", lorf="leave", ininet="full", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=5, work=5000)
 start2(netresetges="no", isocount1st="yes", isocount2to="yes", lorf="leave", ininet="full", tcinivalue="zero", tlinivalue="zero", tfinivalue="zero", trial=5, work=5000)
