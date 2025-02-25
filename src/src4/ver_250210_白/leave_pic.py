@@ -11,12 +11,12 @@ from matplotlib.animation import FuncAnimation
 from datetime import datetime
 from statistics import mean
 
-names = ["t10_w5000_leave_full_nonono_20250119-0920",
-         "t10_w5000_leave_full_noyesno_20250119-0920",
-         "t10_w5000_leave_full_noyesyes_20250119-0920",
-         "t10_w5000_leave_full_yesnono_20250119-0920",
-         "t10_w5000_leave_full_yesyesno_20250119-0920",
-         "t10_w5000_leave_full_yesyesyes_20250119-0920",]
+names = ["t1_w5000_leave_full_nonono_20250211-0407",
+         "t1_w5000_leave_full_noyesno_20250211-0407",
+         "t1_w5000_leave_full_noyesyes_20250211-0407",
+         "t1_w5000_leave_full_yesnono_20250211-0407",
+         "t1_w5000_leave_full_yesyesno_20250211-0407",
+         "t1_w5000_leave_full_yesyesyes_20250211-0407",]
 
 def Graph_avr_tc_tl(csv, name):
     #allavr
