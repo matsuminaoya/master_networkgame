@@ -141,30 +141,30 @@ def Selection_tc_tf(m_random, count_poff_ge, cho, tc_pre, tf_pre): #okok based #
 
 def Mutation_tc_tl_tf(m_random, tc_pre, tl_pre, tf_pre): #okok
     plus_minus = Randomn()
-    tc_1 = np.where((((m_random<mutation)&(plus_minus<0.5))&(tc_pre<1.1)), tc_pre+0.1, tc_pre)
-    tc = np.where((((m_random<mutation)&(plus_minus>=0.5))&(tc_pre>0)), tc_pre-0.1, tc_1)
+    tc_1 = np.where((((m_random<mutation)&(plus_minus<0.5))&(tc_pre<=1.0)), tc_pre+0.1, tc_pre)
+    tc = np.where((((m_random<mutation)&(plus_minus>=0.5))&(tc_pre>=0.1)), tc_pre-0.1, tc_1)
     plus_minus = Randomn()
-    tl_1 = np.where((((m_random<mutation)&(plus_minus<0.5))&(tl_pre<1.1)), tl_pre+0.1, tl_pre)
-    tl = np.where((((m_random<mutation)&(plus_minus>=0.5))&(tl_pre>0)), tl_pre-0.1, tl_1)
+    tl_1 = np.where((((m_random<mutation)&(plus_minus<0.5))&(tl_pre<=1.0)), tl_pre+0.1, tl_pre)
+    tl = np.where((((m_random<mutation)&(plus_minus>=0.5))&(tl_pre>=0.1)), tl_pre-0.1, tl_1)
     plus_minus = Randomn()
-    tf_1 = np.where((((m_random<mutation)&(plus_minus<0.5))&(tf_pre<1.1)), tf_pre+0.1, tf_pre)
-    tf = np.where((((m_random<mutation)&(plus_minus>=0.5))&(tf_pre>0)), tf_pre-0.1, tf_1)
+    tf_1 = np.where((((m_random<mutation)&(plus_minus<0.5))&(tf_pre<=1.0)), tf_pre+0.1, tf_pre)
+    tf = np.where((((m_random<mutation)&(plus_minus>=0.5))&(tf_pre>=0.1)), tf_pre-0.1, tf_1)
     return tc,tl,tf
 def Mutation_tc_tl(m_random, tc_pre, tl_pre): #okok
     plus_minus = Randomn()
-    tc_1 = np.where((((m_random<mutation)&(plus_minus<0.5))&(tc_pre<1.1)), tc_pre+0.1, tc_pre)
-    tc = np.where((((m_random<mutation)&(plus_minus>=0.5))&(tc_pre>0)), tc_pre-0.1, tc_1)
+    tc_1 = np.where((((m_random<mutation)&(plus_minus<0.5))&(tc_pre<=1.0)), tc_pre+0.1, tc_pre)
+    tc = np.where((((m_random<mutation)&(plus_minus>=0.5))&(tc_pre>=0.1)), tc_pre-0.1, tc_1)
     plus_minus = Randomn()
-    tl_1 = np.where((((m_random<mutation)&(plus_minus<0.5))&(tl_pre<1.1)), tl_pre+0.1, tl_pre)
-    tl = np.where((((m_random<mutation)&(plus_minus>=0.5))&(tl_pre>0)), tl_pre-0.1, tl_1)
+    tl_1 = np.where((((m_random<mutation)&(plus_minus<0.5))&(tl_pre<=1.0)), tl_pre+0.1, tl_pre)
+    tl = np.where((((m_random<mutation)&(plus_minus>=0.5))&(tl_pre>=0.1)), tl_pre-0.1, tl_1)
     return tc,tl
 def Mutation_tc_tf(m_random, tc_pre, tf_pre): #okok based
     plus_minus = Randomn()
-    tc_1 = np.where((((m_random<mutation)&(plus_minus<0.5))&(tc_pre<1.1)), tc_pre+0.1, tc_pre)
-    tc = np.where((((m_random<mutation)&(plus_minus>=0.5))&(tc_pre>0)), tc_pre-0.1, tc_1)
+    tc_1 = np.where((((m_random<mutation)&(plus_minus<0.5))&(tc_pre<=1.0)), tc_pre+0.1, tc_pre)
+    tc = np.where((((m_random<mutation)&(plus_minus>=0.5))&(tc_pre>=0.1)), tc_pre-0.1, tc_1)
     plus_minus = Randomn()
-    tf_1 = np.where((((m_random<mutation)&(plus_minus<0.5))&(tf_pre<1.1)), tf_pre+0.1, tf_pre)
-    tf = np.where((((m_random<mutation)&(plus_minus>=0.5))&(tf_pre>0)), tf_pre-0.1, tf_1)
+    tf_1 = np.where((((m_random<mutation)&(plus_minus<0.5))&(tf_pre<=1.0)), tf_pre+0.1, tf_pre)
+    tf = np.where((((m_random<mutation)&(plus_minus>=0.5))&(tf_pre>=0.1)), tf_pre-0.1, tf_1)
     return tc,tf
 
 def Coop_ro_zero(tc): #ok
