@@ -70,8 +70,48 @@ int main() {
           }
         }  // リンク協力者数数え終了
 
+        float benefit = 2.0f;  // 協力者が与える利得
+        float cost = 1.0f;     // 協力にかかるコスト
+        float received_ro[NUM_AGENTS] = {
+            0.0f};  // 各エージェントが受け取った利得
+        float payoff_ro[NUM_AGENTS] = {
+            0.0f};  // 各エージェントの最終利得（リンク平均）
+        // 協力者が利得を配り、自分はコストを負担
+        for (int i = 0; i < NUM_AGENTS; i++) {
+          if (agents[i].is_cooperator == 1) {
+            for (int j = 0; j < NUM_AGENTS; j++) {
+              if (link_matrix[i][j] == 1) {
+                received_ro[j] += benefit;  // jが利得をもらう
+                received_ro[i] -= cost;     // iがコストを払う（累積）
+              }
+            }
+          }
+        }  // 投資ゲーム終了
+        for (int i = 0; i < NUM_AGENTS; i++) {
+          if (link_count[i] > 0) {
+            payoff_ro[i] = received_ro[i] / link_count[i];
+          } else {
+            payoff_ro[i] = 0.0f;
+          }
+        }  // リンク数割り利得計算終了
+
+        int count_game_ge[NUM_AGENTS] = {0};
+        int count_coop_game_ge[NUM_AGENTS] = {0};
+        float count_poff_ge[NUM_AGENTS] = {0.0f};
+        for (int i = 0; i < NUM_AGENTS; i++) {
+          count_game_ge[i] = 1;  // 全員ゲームに参加したので1
+          count_coop_game_ge[i] =
+              agents[i].is_cooperator;  // 協力者なら1、非協力者なら0
+          count_poff_ge[i] = payoff_ro[i];
+        }  // 世代でのゲーム数、協力したゲーム数、利得計算終了
+
+        if (ro > 0)
+          ;
+
       }  // ro終了
     }  // ge終了
 
   }  // tr終了
 }  // main終了
+
+// ・有向リンク無向リンク・利得の割り算いるか
