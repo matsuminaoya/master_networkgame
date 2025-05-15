@@ -14,4 +14,4 @@ venv.bak/
 *.pptx
 .DS_Store
 
-.exe
+*.exe
