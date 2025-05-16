@@ -4,7 +4,7 @@
 #include <string.h>
 #include <time.h>
 
-#define NUM_AGENTS 5  // TODO:
+#define NUM_AGENTS 100  // TODO:
 
 typedef struct {
   float tc;
@@ -26,7 +26,9 @@ void shuffle(int *array, int n) {
 
 int main() {
   // CSVファイルを出力するための準備
-  FILE *csv_file = fopen("D:\\master\\src6\\test.csv", "w");  // TODO:
+  FILE *csv_file =
+      fopen("D:\\master\\src6\\2_b_reset_t10_g10000_r100_w5000_b1.csv",
+            "w");  // TODO:
   if (csv_file == NULL) {
     printf("Error opening file for writing.\n");
     return 1;
@@ -36,12 +38,12 @@ int main() {
 
   float benefit = 2.0f;  // 協力者が与える利得
   float cost = 1.0f;     // 協力にかかるコスト
-  float beta = 10.0f;    // フェルミ関数の鋭さ（調整可）//TODO:
+  float beta = 1.0f;     // フェルミ関数の鋭さ（調整可）//TODO:
 
-  int trial = 2;       // TODO:
-  int generation = 3;  // TODO:
-  int round = 4;       // TODO:
-  int work = 5;        // TODO:
+  int trial = 10;          // TODO:
+  int generation = 10000;  // TODO:
+  int round = 100;         // TODO:
+  int work = 5000;         // TODO:
 
   for (int tr = 0; tr < trial; tr++) {
     printf("Trial %d:\n", tr);
@@ -243,12 +245,13 @@ int main() {
       for (int i = 0; i < NUM_AGENTS; i++) {
         if (will_learn[i] == 1) continue;
         // tc, tl, tf のそれぞれを ±0.1 変化させる
-        float *traits[3] = {&agents[i].tc, &agents[i].tl, &agents[i].tf};
+        float *traits[3] = {&agents[i].tc, &agents[i].tl,
+                            &agents[i].tf};  // TODO:tctl
         for (int t = 0; t < 3; t++) {
           float delta = ((rand() % 2 == 0) ? 0.1f : -0.1f);
           *traits[t] += delta;
-          if (*traits[t] < 0.0f) *traits[t] = 0.0f;  // 反射させた// TODO:
-          if (*traits[t] > 1.1f) *traits[t] = 1.1f;  // 反射させた// TODO:
+          if (*traits[t] < 0.0f) *traits[t] = 0.0f;  // TODO:
+          if (*traits[t] > 1.1f) *traits[t] = 1.1f;  // TODO:
         }
       }  // 突然変異終了
 
@@ -256,11 +259,11 @@ int main() {
       // ---- CSV出力部（世代ごとに都度書き込む） ----
       if (ge == 0 && tr == 0) {
         fprintf(csv_file, "Trial,Generation,Agent,tc,tl,tf,link_count\n");
-      }
+      }  // TODO:tltf
       for (int i = 0; i < NUM_AGENTS; i++) {
         fprintf(csv_file, "%d,%d,%d,%.2f,%.2f,%.2f,%d\n", tr + 1, ge + 1, i,
                 agents[i].tc, agents[i].tl, agents[i].tf, final_link_count[i]);
-      }
+      }  // TODO:tltf
 
       printf("  Trial %d - Generation %d completed.\n", tr,
              ge);  // どこまで処理したか出力
@@ -277,3 +280,4 @@ int main() {
 // 社会学習をランダムにした //出力のときはtr+1,ge+1 //出力は逐次にした
 
 // あとで、記録する世代を1000世代ごとにするとか飛ばす,フェルミ関数のベータを10に
+// //選ぶのをランダムにするかしないか

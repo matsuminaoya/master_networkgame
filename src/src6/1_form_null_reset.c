@@ -277,7 +277,7 @@ int main() {
   // ここから、tr,ge,i,tc,tl,tf,link数を行としたcsvを出力したい。
 
   // CSVヘッダーを書き込む
-  fprintf(csv_file, "Trial,Generation,Agent,tc,tl,tf,link_count\n");
+  fprintf(csv_file, "Trial,Generation,Agent,tc,tf,link_count\n");  // TODO:
 
   // シミュレーション結果をCSVファイルに書き込む
   for (int tr = 0; tr < trial; tr++) {
@@ -286,14 +286,14 @@ int main() {
         fprintf(csv_file, "%d,%d,%d,%.2f,%.2f,%d\n", tr + 1, ge + 1, i,
                 tc_list[tr][ge][i], tf_list[tr][ge][i],
                 link_count_list[tr][ge][i]);
-      }
+      }  // TODO:
     }
   }
 
   // ファイルを閉じる
   fclose(csv_file);
   printf("DONE\n");
-  
+
   // メモリ解放
   for (int t = 0; t < T; t++) {
     for (int g = 0; g < G; g++) {
