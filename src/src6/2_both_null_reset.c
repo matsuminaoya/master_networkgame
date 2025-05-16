@@ -26,26 +26,22 @@ void shuffle(int *array, int n) {
 
 int main() {
   // CSVファイルを出力するための準備
-  FILE *csv_file = fopen("test.csv", "w");  // TODO:
+  FILE *csv_file = fopen("D:\\master\\src6\\test.csv", "w");  // TODO:
   if (csv_file == NULL) {
     printf("Error opening file for writing.\n");
     return 1;
   }
 
   srand(time(NULL));
+
   float benefit = 2.0f;  // 協力者が与える利得
   float cost = 1.0f;     // 協力にかかるコスト
-  float beta = 1.0f;     // フェルミ関数の鋭さ（調整可）//TODO:
+  float beta = 10.0f;    // フェルミ関数の鋭さ（調整可）//TODO:
 
   int trial = 2;       // TODO:
   int generation = 3;  // TODO:
   int round = 4;       // TODO:
   int work = 5;        // TODO:
-
-  float tc_list[trial][generation][NUM_AGENTS];
-  float tl_list[trial][generation][NUM_AGENTS];
-  float tf_list[trial][generation][NUM_AGENTS];
-  int link_count_list[trial][generation][NUM_AGENTS];
 
   for (int tr = 0; tr < trial; tr++) {
     printf("Trial %d:\n", tr);
@@ -256,12 +252,14 @@ int main() {
         }
       }  // 突然変異終了
 
-      // 世代の状態を記録
+      // ここから、tr,ge,i,tc,tl,tf,link数を行としたcsvを出力したい。
+      // ---- CSV出力部（世代ごとに都度書き込む） ----
+      if (ge == 0 && tr == 0) {
+        fprintf(csv_file, "Trial,Generation,Agent,tc,tl,tf,link_count\n");
+      }
       for (int i = 0; i < NUM_AGENTS; i++) {
-        tc_list[tr][ge][i] = agents[i].tc;
-        tl_list[tr][ge][i] = agents[i].tl;
-        tf_list[tr][ge][i] = agents[i].tf;
-        link_count_list[tr][ge][i] = final_link_count[i];
+        fprintf(csv_file, "%d,%d,%d,%.2f,%.2f,%.2f,%d\n", tr + 1, ge + 1, i,
+                agents[i].tc, agents[i].tl, agents[i].tf, final_link_count[i]);
       }
 
       printf("  Trial %d - Generation %d completed.\n", tr,
@@ -269,31 +267,13 @@ int main() {
     }  // ge終了
   }  // tr終了
 
-  // ここから、tr,ge,i,tc,tl,tf,link数を行としたcsvを出力したい。
-
-  // CSVヘッダーを書き込む
-  fprintf(csv_file, "Trial,Generation,Agent,tc,tl,tf,link_count\n");
-
-  // シミュレーション結果をCSVファイルに書き込む
-  for (int tr = 0; tr < trial; tr++) {
-    for (int ge = 0; ge < generation; ge++) {
-      for (int i = 0; i < NUM_AGENTS; i++) {
-        fprintf(csv_file, "%d,%d,%d,%.2f,%.2f,%.2f,%d\n", tr, ge, i,
-                tc_list[tr][ge][i], tl_list[tr][ge][i], tf_list[tr][ge][i],
-                link_count_list[tr][ge][i]);
-      }
-    }
-  }
-
   // ファイルを閉じる
   fclose(csv_file);
   printf("DONE\n");
-  return 0;
-
 }  // main終了
 
 // ・有向リンク無向リンク・利得の割り算いるか・跳ね返りのほうがいいかも
 // はじめ1.1で割る必要ないね 切り貼りは最後のラウンドでもやっていいよね
-// 社会学習をランダムにした
+// 社会学習をランダムにした //出力のときはtr+1,ge+1 //出力は逐次にした
 
-// あとで、記録する世代を1000世代ごとにするとか飛ばす
+// あとで、記録する世代を1000世代ごとにするとか飛ばす,フェルミ関数のベータを10に
