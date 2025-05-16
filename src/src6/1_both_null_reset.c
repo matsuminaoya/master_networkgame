@@ -4,7 +4,7 @@
 #include <string.h>
 #include <time.h>
 
-#define NUM_AGENTS 100  // TODO:
+#define NUM_AGENTS 5  // TODO:
 
 typedef struct {
   float tc;
@@ -37,10 +37,10 @@ int main() {
   float cost = 1.0f;     // 協力にかかるコスト
   float beta = 1.0f;     // フェルミ関数の鋭さ（調整可）//TODO:
 
-  int trial = 5;       // TODO:
-  int generation = 10000;  // TODO:
-  int round = 100;       // TODO:
-  int work = 5000;        // TODO:
+  int trial = 2;       // TODO:
+  int generation = 3;  // TODO:
+  int round = 4;       // TODO:
+  int work = 5;        // TODO:
 
   float tc_list[trial][generation][NUM_AGENTS];
   float tl_list[trial][generation][NUM_AGENTS];
