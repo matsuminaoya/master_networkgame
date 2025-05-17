@@ -27,7 +27,7 @@ void shuffle(int *array, int n) {
 int main() {
   // CSVファイルを出力するための準備
   FILE *csv_file =
-      fopen("D:\\master\\src6\\2_b_reset_t10_g10000_r100_w5000_b1.csv",
+      fopen("D:\\master\\src6\\3_both_reset_full_t10_g10000_r100_w5000_b1.csv",
             "w");  // TODO:
   if (csv_file == NULL) {
     printf("Error opening file for writing.\n");
@@ -63,12 +63,24 @@ int main() {
     // }
     // printf("\n");  // 改行で見やすく
 
+    // int link_matrix[NUM_AGENTS][NUM_AGENTS];
+    // for (int i = 0; i < NUM_AGENTS; i++) {
+    //   for (int j = 0; j < NUM_AGENTS; j++) {
+    //     link_matrix[i][j] = 0;
+    //   }
+    // }  // nullスタート特有//リセットあり特有//TODO:
+
     int link_matrix[NUM_AGENTS][NUM_AGENTS];
     for (int i = 0; i < NUM_AGENTS; i++) {
       for (int j = 0; j < NUM_AGENTS; j++) {
-        link_matrix[i][j] = 0;
+        if (i == j) {
+          link_matrix[i][j] = 0;  // 自分同士は0
+        } else {
+          link_matrix[i][j] = 1;  // 他は1
+        }
       }
-    }  // nullスタート特有//リセットあり特有//TODO:
+    }// fullスタート特有//リセットあり特有//TODO:
+
 
     // for (int i = 0; i < NUM_AGENTS; i++) {
     //   for (int j = 0; j < NUM_AGENTS; j++) {
@@ -282,3 +294,5 @@ int main() {
 
 // あとで、記録する世代を1000世代ごとにするとか飛ばす,フェルミ関数のベータを10に
 // //選ぶのをランダムにするかしないか
+
+// 1→2 逐次出力化 2→3 ファイル名長いが分かりやすく

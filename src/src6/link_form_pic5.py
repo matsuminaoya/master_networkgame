@@ -27,16 +27,18 @@ def Graph_avr_tc_tf(csv, name):
     ax1.plot(df["Generation"],df["tl"],label="tf",color="tab:green")
     ax1.set_ylim(-0.09,1.19)
     ax1.set_xlabel("generation")
+    ax1.set_ylabel("tc, tf")
     ax2 = ax1.twinx()
-    ax2.bar(df["Generation"],df["tf"],color='lightblue',label="link_count")
+    ax2.bar(df["Generation"],df["tf"],color='lightblue',label="link")
     ax2.set_ylim(-0.09,100.09)
+    ax2.set_ylabel("link")
     h1, l1 = ax1.get_legend_handles_labels()
     h2, l2 = ax2.get_legend_handles_labels()
     ax1.legend(h1+h2, l1+l2 ,loc="upper right")
     ax1.set_zorder(1)
     ax2.set_zorder(0)
     ax1.patch.set_alpha(0)
-    plt.savefig("pic6/"+name+"_allavr4.png") #TODO:
+    plt.savefig("pic6/"+name+"_allavr5.png") #TODO:
     plt.close()
 
     # #linked
