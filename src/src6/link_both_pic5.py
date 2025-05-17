@@ -11,7 +11,7 @@ from matplotlib.animation import FuncAnimation
 from datetime import datetime
 from statistics import mean
 
-names = ["2_b_reset_t10_g10000_r100_w5000_b1",] #TODO:
+names = ["3_both_reset_full_t10_g10000_r100_w5000_b1",] #TODO:
 
 def Graph_avr_tc_tl_tf(csv, name):
     #allavr
@@ -25,12 +25,12 @@ def Graph_avr_tc_tl_tf(csv, name):
     ax1.plot(df["Generation"],df["tc"],label="tc",color="tab:blue")
     ax1.plot(df["Generation"],df["tl"],label="tl",color="tab:orange")
     ax1.plot(df["Generation"],df["tf"],label="tf",color="tab:green")
-    ax1.set_ylim(-0.09,1.19)
+    ax1.set_ylim(0.0,1.1)
     ax1.set_xlabel("generation")
     ax1.set_ylabel("tc, tl, tf")
     ax2 = ax1.twinx()
     ax2.bar(df["Generation"],df["link_count"],color='lightblue',label="link")
-    ax2.set_ylim(-0.09,100.09)
+    ax2.set_ylim(0.0,100.0)
     ax2.set_ylabel("link")
     h1, l1 = ax1.get_legend_handles_labels()
     h2, l2 = ax2.get_legend_handles_labels()
@@ -90,4 +90,4 @@ def Graph_avr_tc_tl_tf(csv, name):
     # plt.close()
 
 for name in names:
-    Graph_avr_tc_tl_tf(csv="D:/master/src6/2_b_reset_t10_g10000_r100_w5000_b1.csv", name=name) #TODO:
+    Graph_avr_tc_tl_tf(csv="D:/master/src6/3_both_reset_full_t10_g10000_r100_w5000_b1.csv", name=name) #TODO:

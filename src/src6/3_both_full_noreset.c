@@ -68,7 +68,7 @@ int main() {
     //   for (int j = 0; j < NUM_AGENTS; j++) {
     //     link_matrix[i][j] = 0;
     //   }
-    // }  // nullスタート特有//リセットあり特有//TODO:
+    // }  // nullスタート特有//リセットなし特有//TODO:
 
     int link_matrix[NUM_AGENTS][NUM_AGENTS];
     for (int i = 0; i < NUM_AGENTS; i++) {
@@ -79,7 +79,7 @@ int main() {
           link_matrix[i][j] = 1;  // 他は1
         }
       }
-    }// fullスタート特有//リセットあり特有//TODO:
+    }// fullスタート特有//リセットなし特有//TODO:
 
 
     // for (int i = 0; i < NUM_AGENTS; i++) {
