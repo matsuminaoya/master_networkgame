@@ -27,7 +27,7 @@ void shuffle(int *array, int n) {
 int main() {
   // CSVファイルを出力するための準備
   FILE *csv_file =
-      fopen("D:\\master\\src6\\4_leave_full_noreset_t10_g10000_r100_w5000_b1.csv",
+      fopen("D:\\master\\src6\\5_both_reset_full_t10_g10000_r100_w5000_b1.csv",
             "w");  // TODO:
   if (csv_file == NULL) {
     printf("Error opening file for writing.\n");
@@ -51,32 +51,48 @@ int main() {
     Agent agents[NUM_AGENTS];
     for (int i = 0; i < NUM_AGENTS; i++) {
       agents[i].tc = 0.0f;
-      agents[i].tl = 0.0f;
+      agents[i].tl = 0.0f;  // TODO:「tctl」どちらか消す
+      agents[i].tf = 0.0f;
       agents[i].is_cooperator = 0;
     }  // tc,tl,tf,の初期化 // 0スタート特有//TODO:
+
+    // 「リセットなし」なら以下でマトリクス初期化
 
     // int link_matrix[NUM_AGENTS][NUM_AGENTS];
     // for (int i = 0; i < NUM_AGENTS; i++) {
     //   for (int j = 0; j < NUM_AGENTS; j++) {
     //     link_matrix[i][j] = 0;
     //   }
-    // }  // nullスタート特有//geリセットなし特有//TODO:
+    // }  // 「null」スタート特有TODO:
 
-    int link_matrix[NUM_AGENTS][NUM_AGENTS];
-    for (int i = 0; i < NUM_AGENTS; i++) {
-      for (int j = 0; j < NUM_AGENTS; j++) {
-        if (i == j) {
-          link_matrix[i][j] = 0;  // 自分同士は0
-        } else {
-          link_matrix[i][j] = 1;  // 他は1
-        }
-      }
-    }// fullスタート特有//geリセットなし特有//TODO:
+    // int link_matrix[NUM_AGENTS][NUM_AGENTS];
+    // for (int i = 0; i < NUM_AGENTS; i++) {
+    //   for (int j = 0; j < NUM_AGENTS; j++) {
+    //     if (i == j) {
+    //       link_matrix[i][j] = 0;  // 自分同士は0
+    //     } else {
+    //       link_matrix[i][j] = 1;  // 他は1
+    //     }
+    //   }
+    // }  // 「full」スタート特有TODO:
 
     for (int ge = 0; ge < generation; ge++) {
       int count_game_ge[NUM_AGENTS] = {0};
       int count_coop_game_ge[NUM_AGENTS] = {0};
       float count_poff_ge[NUM_AGENTS] = {0.0f};
+
+      // 「リセットあり」なら以下でマトリクス初期化//TODO:
+
+      int link_matrix[NUM_AGENTS][NUM_AGENTS];
+      for (int i = 0; i < NUM_AGENTS; i++) {
+        for (int j = 0; j < NUM_AGENTS; j++) {
+          if (i == j) {
+            link_matrix[i][j] = 0;  // 自分同士は0
+          } else {
+            link_matrix[i][j] = 1;  // 他は1
+          }
+        }
+      }  // 「full」スタート特有TODO:
 
       for (int ro = 0; ro < round; ro++) {
         int link_count[NUM_AGENTS] = {0};
@@ -172,13 +188,20 @@ int main() {
         for (int w = 0; w < work; w++) {
           int i = rand() % NUM_AGENTS;
           int j = rand() % NUM_AGENTS;
-          if (i == j) continue;  // 同じエージェント同士はスキップ
-          if (link_matrix[i][j] == 1) {
+          if (i == j) continue;          // 同じエージェント同士はスキップ
+          if (link_matrix[i][j] == 1) {  // TODO:「tctl」切る張るどちらか消す
             // 既にリンクがある場合、条件によりリンクを切る
             if (coop_game_rate[i] < agents[j].tl ||
                 coop_game_rate[j] < agents[i].tl) {
               link_matrix[i][j] = 0;
               link_matrix[j][i] = 0;  // 対称性
+            }
+          } else {
+            // リンクがない場合、条件によりリンクを張る
+            if (coop_game_rate[i] >= agents[j].tf &&
+                coop_game_rate[j] >= agents[i].tf) {
+              link_matrix[i][j] = 1;
+              link_matrix[j][i] = 1;  // 対称性
             }
           }
         }  // ネットワーク切り貼り終了
@@ -228,14 +251,17 @@ int main() {
         if (r < prob) {
           agents[i].tc = agents[j].tc;
           agents[i].tl = agents[j].tl;
+          agents[i].tf = agents[j].tf;  // TODO:「tctl」どちらか消す
         }
       }  // 社会学習終了
       // 突然変異（リンクなし社会学習含む）
       for (int i = 0; i < NUM_AGENTS; i++) {
         if (will_learn[i] == 1) continue;
         // tc, tl, tf のそれぞれを ±0.1 変化させる
-        float *traits[2] = {&agents[i].tc, &agents[i].tl};  // TODO:tctl
-        for (int t = 0; t < 2; t++) {
+        float *traits[3] = {
+            &agents[i].tc, &agents[i].tl,
+            &agents[i].tf};  // TODO:「tctl」どちらか消す、二箇所3→2
+        for (int t = 0; t < 3; t++) {
           float delta = ((rand() % 2 == 0) ? 0.1f : -0.1f);
           *traits[t] += delta;
           if (*traits[t] < 0.0f) *traits[t] = 0.0f;  // TODO:
@@ -246,12 +272,15 @@ int main() {
       // ここから、tr,ge,i,tc,tl,tf,link数を行としたcsvを出力したい。
       // ---- CSV出力部（世代ごとに都度書き込む） ----
       if (tr == 0 && ge == 0) {
-        fprintf(csv_file, "Trial,Generation,Agent,tc,tl,link_count\n");
-      }  // TODO:tltf
+        fprintf(
+            csv_file,
+            "Trial,Generation,Agent,tc,tl,tf,link_count\n");  // TODO:「tltf」どちらかのヘッダー消す
+      }
       for (int i = 0; i < NUM_AGENTS; i++) {
-        fprintf(csv_file, "%d,%d,%d,%.2f,%.2f,%d\n", tr + 1, ge + 1, i,
-                agents[i].tc, agents[i].tl, final_link_count[i]);
-      }  // TODO:tltf
+        fprintf(csv_file, "%d,%d,%d,%.2f,%.2f,%.2f,%d\n", tr + 1, ge + 1, i,
+                agents[i].tc, agents[i].tl, agents[i].tf,
+                final_link_count[i]);  // TODO:「tltf」どちらか消す、%.2fも消す
+      }
 
       printf("  Trial %d - Generation %d completed.\n", tr,
              ge);  // どこまで処理したか出力
@@ -270,4 +299,6 @@ int main() {
 // あとで、記録する世代を1000世代ごとにするとか飛ばす,フェルミ関数のベータを10に
 // //選ぶのをランダムにするかしないか
 
-// 1→2 逐次出力化 2→3 ファイル名長いが分かりやすく 3→4 resetありなし逆やったので正しくファイル名に表記 4→5 同じ
+// 1→2 逐次出力化 2→3 ファイル名長いが分かりやすく 3→4
+// resetありなし逆やったので正しくファイル名に表記 4→5
+// コメントアウトを綺麗にした
