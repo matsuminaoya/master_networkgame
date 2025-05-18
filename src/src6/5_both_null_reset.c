@@ -187,7 +187,7 @@ int main() {
           if (count_game_ge[i] > 0) {
             coop_game_rate[i] = (float)count_coop_game_ge[i] / count_game_ge[i];
           } else {
-            coop_game_rate[i] = 0.0f;  // ゲーム未参加者は0とする
+            coop_game_rate[i] = 0.0f;  // ゲーム未参加者は0とする,今回は分母が0になることはなし
           }
         }  // 協力ゲーム率計算終了
         // WORK回、ランダムにエージェントペアを作ってリンクを更新
