@@ -81,7 +81,7 @@ int main() {
       int count_coop_game_ge[NUM_AGENTS] = {0};
       float count_poff_ge[NUM_AGENTS] = {0.0f};
 
-      // 「リセットあり」なら以下でマトリクス初期化//TODO:
+      // 「リセットあり」なら以下でマトリクス初期化
 
       int link_matrix[NUM_AGENTS][NUM_AGENTS];
       for (int i = 0; i < NUM_AGENTS; i++) {
