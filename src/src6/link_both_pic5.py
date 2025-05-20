@@ -11,7 +11,7 @@ from matplotlib.animation import FuncAnimation
 from datetime import datetime
 from statistics import mean
 
-names = ["5_both_null_reset_t10_g10000_r100_w50_b1_fixed",] #TODO:
+names = ["5_both_null_noreset_t10_g10000_r100_w50_b1",] #TODO:
 
 def Graph_avr_tc_tl_tf(csv, name):
     #allavr
@@ -90,4 +90,4 @@ def Graph_avr_tc_tl_tf(csv, name):
     # plt.close()
 
 for name in names:
-    Graph_avr_tc_tl_tf(csv="D:/master/src6/5_both_null_reset_t10_g10000_r100_w50_b1_fixed.csv", name=name) #TODO:
+    Graph_avr_tc_tl_tf(csv="D:/master/src6/5_both_null_noreset_t10_g10000_r100_w50_b1.csv", name=name) #TODO:
