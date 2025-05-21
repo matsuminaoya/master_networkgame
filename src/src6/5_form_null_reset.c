@@ -8,7 +8,6 @@
 
 typedef struct {
   float tc;
-  float tl;
   float tf;
   int is_cooperator;
 } Agent;
@@ -27,7 +26,7 @@ void shuffle(int *array, int n) {
 int main() {
   // CSVファイルを出力するための準備
   FILE *csv_file =
-      fopen("D:\\master\\src6\\5_both_null_noreset_t10_g10000_r100_w5000_b1.csv",
+      fopen("D:\\master\\src6\\5_form_null_reset_t10_g10000_r100_w5000_b1.csv",
             "w");  // TODO:
   if (csv_file == NULL) {
     printf("Error opening file for writing.\n");
@@ -44,26 +43,25 @@ int main() {
   int trial = 10;          // TODO:
   int generation = 10000;  // TODO:
   int round = 100;         // TODO:
-  int work = 5000;           // TODO:
+  int work = 5000;         // TODO:
 
   for (int tr = 0; tr < trial; tr++) {
     printf("Trial %d:\n", tr);
     Agent agents[NUM_AGENTS];
     for (int i = 0; i < NUM_AGENTS; i++) {
-      agents[i].tc = 0.0f;
-      agents[i].tl = 0.0f;  // TODO:「tctl」どちらか消す
+      agents[i].tc = 0.0f;  // TODO:「tctl」どちらか消す
       agents[i].tf = 0.0f;
       agents[i].is_cooperator = 0;
     }  // tc,tl,tf,の初期化 // 0スタート特有//TODO:
 
     // 「リセットなし=noreset」なら以下でマトリクス初期化
 
-    int link_matrix[NUM_AGENTS][NUM_AGENTS];
-    for (int i = 0; i < NUM_AGENTS; i++) {
-      for (int j = 0; j < NUM_AGENTS; j++) {
-        link_matrix[i][j] = 0;
-      }
-    }  // 「null」スタート特有TODO:
+    // int link_matrix[NUM_AGENTS][NUM_AGENTS];
+    // for (int i = 0; i < NUM_AGENTS; i++) {
+    //   for (int j = 0; j < NUM_AGENTS; j++) {
+    //     link_matrix[i][j] = 0;
+    //   }
+    // }  // 「null」スタート特有TODO:
 
     // int link_matrix[NUM_AGENTS][NUM_AGENTS];
     // for (int i = 0; i < NUM_AGENTS; i++) {
@@ -83,12 +81,12 @@ int main() {
 
       // 「リセットあり=reset」なら以下でマトリクス初期化//TODO:
 
-      // int link_matrix[NUM_AGENTS][NUM_AGENTS];
-      // for (int i = 0; i < NUM_AGENTS; i++) {
-      //   for (int j = 0; j < NUM_AGENTS; j++) {
-      //     link_matrix[i][j] = 0;
-      //   }
-      // }  // 「null」スタート特有TODO:
+      int link_matrix[NUM_AGENTS][NUM_AGENTS];
+      for (int i = 0; i < NUM_AGENTS; i++) {
+        for (int j = 0; j < NUM_AGENTS; j++) {
+          link_matrix[i][j] = 0;
+        }
+      }  // 「null」スタート特有TODO:
 
       // int link_matrix[NUM_AGENTS][NUM_AGENTS];
       // for (int i = 0; i < NUM_AGENTS; i++) {
@@ -196,15 +194,8 @@ int main() {
         for (int w = 0; w < work; w++) {
           int i = rand() % NUM_AGENTS;
           int j = rand() % NUM_AGENTS;
-          if (i == j) continue;          // 同じエージェント同士はスキップ
-          if (link_matrix[i][j] == 1) {  // TODO:「tctl」切る張るどちらか消す
-            // 既にリンクがある場合、条件によりリンクを切る
-            if (coop_game_rate[i] < agents[j].tl ||
-                coop_game_rate[j] < agents[i].tl) {
-              link_matrix[i][j] = 0;
-              link_matrix[j][i] = 0;  // 対称性
-            }
-          } else {
+          if (i == j) continue;  // 同じエージェント同士はスキップ
+          if (link_matrix[i][j] == 0) {
             // リンクがない場合、条件によりリンクを張る
             if (coop_game_rate[i] >= agents[j].tf &&
                 coop_game_rate[j] >= agents[i].tf) {
@@ -258,7 +249,6 @@ int main() {
         float r = (float)rand() / RAND_MAX;
         if (r < prob) {
           agents[i].tc = agents[j].tc;
-          agents[i].tl = agents[j].tl;
           agents[i].tf = agents[j].tf;  // TODO:「tctl」どちらか消す
         }
       }  // 社会学習終了
@@ -266,10 +256,10 @@ int main() {
       for (int i = 0; i < NUM_AGENTS; i++) {
         if (will_learn[i] == 1) continue;
         // tc, tl, tf のそれぞれを ±0.1 変化させる
-        float *traits[3] = {
-            &agents[i].tc, &agents[i].tl,
+        float *traits[2] = {
+            &agents[i].tc,
             &agents[i].tf};  // TODO:「tctl」どちらか消す、二箇所3→2
-        for (int t = 0; t < 3; t++) {
+        for (int t = 0; t < 2; t++) {
           float delta = ((rand() % 2 == 0) ? 0.1f : -0.1f);
           *traits[t] += delta;
           if (*traits[t] < 0.0f) *traits[t] = 0.0f;  // TODO:
@@ -282,11 +272,11 @@ int main() {
       if (tr == 0 && ge == 0) {
         fprintf(
             csv_file,
-            "Trial,Generation,Agent,tc,tl,tf,link_count\n");  // TODO:「tltf」どちらかのヘッダー消す
+            "Trial,Generation,Agent,tc,tf,link_count\n");  // TODO:「tltf」どちらかのヘッダー消す
       }
       for (int i = 0; i < NUM_AGENTS; i++) {
-        fprintf(csv_file, "%d,%d,%d,%.2f,%.2f,%.2f,%d\n", tr + 1, ge + 1, i,
-                agents[i].tc, agents[i].tl, agents[i].tf,
+        fprintf(csv_file, "%d,%d,%d,%.2f,%.2f,%d\n", tr + 1, ge + 1, i,
+                agents[i].tc, agents[i].tf,
                 final_link_count[i]);  // TODO:「tltf」どちらか消す、%.2fも消す
       }
 
