@@ -1,15 +1,16 @@
 {
+  "version": "2.0.0",
   "tasks": [
     {
-      "type": "cppbuild",
-      "label": "C/C++: gcc.exe アクティブなファイルのビルド",
-      "command": "C:\\Program Files (x86)\\mingw-w64\\i686-8.1.0-posix-dwarf-rt_v6-rev0\\mingw32\\bin\\gcc.exe",
+      "label": "C: gcc アクティブなファイルのビルド",
+      "type": "shell",
+      "command": "/usr/bin/gcc",
       "args": [
         "-fdiagnostics-color=always",
         "-g",
         "${file}",
         "-o",
-        "${fileDirname}\\${fileBasenameNoExtension}.exe"
+        "${fileDirname}/${fileBasenameNoExtension}"
       ],
       "options": {
         "cwd": "${fileDirname}"
@@ -21,8 +22,7 @@
         "kind": "build",
         "isDefault": true
       },
-      "detail": "デバッガーによって生成されたタスク。"
+      "detail": "macOS用に設定されたCビルドタスク"
     }
-  ],
-  "version": "2.0.0"
+  ]
 }
