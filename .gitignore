@@ -16,3 +16,7 @@ venv.bak/
 
 *.exe
 tasks.json
+*.dSYM
+
+# MAC build files
+5_oror_noreset

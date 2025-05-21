@@ -36,6 +36,7 @@ void shuffle(int *array, int n) {
 // all are noreset
 // all are form 0.0
 // all are oror
+// both_full 無し
 
 // 5_oror_both_null_noreset_t10_g10000_r100_w5000_b1
 void part1() {

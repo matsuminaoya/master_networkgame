@@ -18,11 +18,32 @@
       "problemMatcher": [
         "$gcc"
       ],
+      "group": "build",
+      "detail": "macOS用に設定されたCビルドタスク"
+    },
+    {
+      "type": "cppbuild",
+      "label": "C/C++: clang アクティブなファイルのビルド",
+      "command": "/usr/bin/clang",
+      "args": [
+        "-fcolor-diagnostics",
+        "-fansi-escape-codes",
+        "-g",
+        "${file}",
+        "-o",
+        "${fileDirname}/${fileBasenameNoExtension}"
+      ],
+      "options": {
+        "cwd": "${fileDirname}"
+      },
+      "problemMatcher": [
+        "$gcc"
+      ],
       "group": {
         "kind": "build",
         "isDefault": true
       },
-      "detail": "macOS用に設定されたCビルドタスク"
+      "detail": "デバッガーによって生成されたタスク。"
     }
   ]
 }
