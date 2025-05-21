@@ -11,25 +11,25 @@ from matplotlib.animation import FuncAnimation
 from datetime import datetime
 from statistics import mean
 
-names = ["1_f_reset_t10_g10000_r100_w5000_b1",] #TODO:
+names = ["5_form_null_reset_t10_g10000_r100_w5000_b1",] #TODO:
 
 def Graph_avr_tc_tf(csv, name):
     #allavr
     data =pd.read_csv(csv)
     data_step = data[data["Generation"] % 100 ==0]
-    avr_ges_all = data.groupby("Generation")[["tc","tl","tf"]].mean().reset_index()
+    avr_ges_all = data.groupby("Generation")[["tc","tf","link_count"]].mean().reset_index()
     
     df = avr_ges_all
     fig = plt.figure(figsize=(20,10))
     ax1 = fig.add_subplot()
     ax1.plot(df["Generation"],df["tc"],label="tc",color="tab:blue")
     # ax1.plot(df["ge"],df["tl"],label="tl",color="tab:orange")
-    ax1.plot(df["Generation"],df["tl"],label="tf",color="tab:green")
+    ax1.plot(df["Generation"],df["tf"],label="tf",color="tab:green")
     ax1.set_ylim(0.0,1.1)
     ax1.set_xlabel("generation")
     ax1.set_ylabel("tc, tf")
     ax2 = ax1.twinx()
-    ax2.bar(df["Generation"],df["tf"],color='lightblue',label="link")
+    ax2.bar(df["Generation"],df["link_count"],color='lightblue',label="link")
     ax2.set_ylim(0.0,100.0)
     ax2.set_ylabel("link")
     h1, l1 = ax1.get_legend_handles_labels()
@@ -90,4 +90,4 @@ def Graph_avr_tc_tf(csv, name):
     # plt.close()
 
 for name in names:
-    Graph_avr_tc_tf(csv="D:/master/src6/1_f_reset_t10_g10000_r100_w5000_b1.csv", name=name) #TODO:
+    Graph_avr_tc_tf(csv="D:/master/src6/5_form_null_reset_t10_g10000_r100_w5000_b1.csv", name=name) #TODO:
