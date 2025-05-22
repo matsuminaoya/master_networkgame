@@ -23,7 +23,6 @@ def Graph_avr_tc_tf(csv, name):
     fig = plt.figure(figsize=(20,10))
     ax1 = fig.add_subplot()
     ax1.plot(df["Generation"],df["tc"],label="tc",color="tab:blue")
-    # ax1.plot(df["ge"],df["tl"],label="tl",color="tab:orange")
     ax1.plot(df["Generation"],df["tf"],label="tf",color="tab:green")
     ax1.set_ylim(0.0,1.1)
     ax1.set_xlabel("generation")

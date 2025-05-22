@@ -11,7 +11,7 @@ from matplotlib.animation import FuncAnimation
 from datetime import datetime
 from statistics import mean
 
-names = ["4_leave_full_noreset_t10_g10000_r100_w5000_b1",] #TODO:
+names = ["4_leave_full_noreset_t10_g10000_r100_w5000_b1.csv",] #TODO:
 
 def Graph_avr_tc_tf(csv, name):
     #allavr
@@ -23,8 +23,7 @@ def Graph_avr_tc_tf(csv, name):
     fig = plt.figure(figsize=(20,10))
     ax1 = fig.add_subplot()
     ax1.plot(df["Generation"],df["tc"],label="tc",color="tab:blue")
-    # ax1.plot(df["ge"],df["tl"],label="tl",color="tab:orange")
-    ax1.plot(df["Generation"],df["tl"],label="tl",color="tab:green")
+    ax1.plot(df["Generation"],df["tl"],label="tl",color="tab:orange")
     ax1.set_ylim(0.0,1.1)
     ax1.set_xlabel("generation")
     ax1.set_ylabel("tc, tl")
