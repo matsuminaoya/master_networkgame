@@ -28,10 +28,9 @@ void shuffle(int *array, int n) {
 }
 
 int main() {
-  // CSVファイルを出力するための準備
+  // CSVファイルを出力するための準備 TODO:
   FILE *csv_file =
-      fopen("D:\\master\\src6\\5_both_null_reset_t10_g10000_r100_w5000_b1.csv",
-            "w");  // TODO:
+      fopen("6_both_null_noreset_t10_g10000_r100_w5000_b1.csv", "w");
 
   init_genrand((unsigned long)time(NULL));  // 乱数
 
@@ -53,7 +52,7 @@ int main() {
       agents[i].tl = 0.0f;
       agents[i].tf = 0.0f;
       agents[i].is_cooperator = 0;
-    }  // tc,tl,tf,の初期化 // 0スタート特有TODO:
+    }  // tc,tl,tf,の初期化 // 0スタート特有 TODO:
 
     // 「リセットなし=noreset」なら以下でマトリクス初期化
 
@@ -62,7 +61,7 @@ int main() {
       for (int j = 0; j < NUM_AGENTS; j++) {
         link_matrix[i][j] = 0;
       }
-    }  // 「null_noreset」特有TODO:
+    }  // 「null_noreset」特有 TODO:
 
     // int link_matrix[NUM_AGENTS][NUM_AGENTS];
     // for (int i = 0; i < NUM_AGENTS; i++) {
@@ -73,7 +72,7 @@ int main() {
     //       link_matrix[i][j] = 1;  // 他は1
     //     }
     //   }
-    // }  // 「full_noreset」特有TODO:
+    // }  // 「full_noreset」特有 TODO:
 
     for (int ge = 0; ge < generation; ge++) {  // 世代開始
       int count_game_ge[NUM_AGENTS] = {0};
@@ -87,7 +86,7 @@ int main() {
       //   for (int j = 0; j < NUM_AGENTS; j++) {
       //     link_matrix[i][j] = 0;
       //   }
-      // }  // 「null_reset」特有TODO:
+      // }  // 「null_reset」特有 TODO:
 
       // int link_matrix[NUM_AGENTS][NUM_AGENTS];
       // for (int i = 0; i < NUM_AGENTS; i++) {
@@ -98,7 +97,7 @@ int main() {
       //       link_matrix[i][j] = 1;  // 他は1
       //     }
       //   }
-      // }  // 「full_reset」特有TODO:
+      // }  // 「full_reset」特有 TODO:
 
       for (int ro = 0; ro < round; ro++) {  // ラウンド開始
         int link_count[NUM_AGENTS] = {0};
@@ -296,7 +295,3 @@ int main() {
   fclose(csv_file);
   printf("DONE\n");
 }  // main終了
-
-// 5→6 先生確認後提示された修正点修正
-// rand()をメルセンヌ・ツイスターに
-// 社会学習を一括から分割へ
