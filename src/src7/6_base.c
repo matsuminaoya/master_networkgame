@@ -814,7 +814,7 @@ void part3() {
 }  // main終了
 
 // main
-int main(){
+int main() {
   part1();
   part2();
   part3();
