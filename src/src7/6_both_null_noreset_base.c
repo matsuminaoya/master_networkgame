@@ -4,23 +4,26 @@
 #include <string.h>
 #include <time.h>
 
+#include "mt19937ar.h"
+
 #define NUM_AGENTS 100  // TODO:
 
 typedef struct {
-  float tc;
+  float tc;  // TODO:「tl/tf」どちらか消す
   float tl;
   float tf;
   int is_cooperator;
 } Agent;
 
-// エージェントのインデックスをシャッフルするユーティリティ //
-// 社会学習の処理順を変えるだけ問題なし
+// エージェントのインデックスをシャッフルするユーティリティ
+// 社会学習の処理順を変えるためだけ問題なし
+// Fisher-Yatesアルゴリズム/Knuthシャッフル
 void shuffle(int *array, int n) {
-  for (int i = n - 1; i > 0; i--) {
-    int j = rand() % (i + 1);
-    int temp = array[i];
-    array[i] = array[j];
-    array[j] = temp;
+  for (int i = n - 1; i > 0; i--) {     // iを後ろから前に1ずつ動かす
+    int j = genrand_int32() % (i + 1);  // 0からiまでの数字をランダムにj
+    int temp = array[i];                // arrayのi番目を
+    array[i] = array[j];                // arrayのj番目と
+    array[j] = temp;                    // 入れ替える
   }
 }
 
@@ -29,12 +32,8 @@ int main() {
   FILE *csv_file =
       fopen("D:\\master\\src6\\5_both_null_reset_t10_g10000_r100_w5000_b1.csv",
             "w");  // TODO:
-  if (csv_file == NULL) {
-    printf("Error opening file for writing.\n");
-    return 1;
-  }
 
-  srand(time(NULL));
+  init_genrand((unsigned long)time(NULL));  // 乱数
 
   float benefit = 2.0f;    // 協力者が与える利得
   float cost = 1.0f;       // 協力にかかるコスト
@@ -50,20 +49,20 @@ int main() {
     printf("Trial %d:\n", tr);
     Agent agents[NUM_AGENTS];
     for (int i = 0; i < NUM_AGENTS; i++) {
-      agents[i].tc = 0.0f;
-      agents[i].tl = 0.0f;  // TODO:「tl/tf」どちらか消す
+      agents[i].tc = 0.0f;  // TODO:「tl/tf」どちらか消す
+      agents[i].tl = 0.0f;
       agents[i].tf = 0.0f;
       agents[i].is_cooperator = 0;
-    }  // tc,tl,tf,の初期化 // 0スタート特有 TODO:
+    }  // tc,tl,tf,の初期化 // 0スタート特有TODO:
 
     // 「リセットなし=noreset」なら以下でマトリクス初期化
 
-    // int link_matrix[NUM_AGENTS][NUM_AGENTS];
-    // for (int i = 0; i < NUM_AGENTS; i++) {
-    //   for (int j = 0; j < NUM_AGENTS; j++) {
-    //     link_matrix[i][j] = 0;
-    //   }
-    // }  // 「null」スタート特有TODO:
+    int link_matrix[NUM_AGENTS][NUM_AGENTS];
+    for (int i = 0; i < NUM_AGENTS; i++) {
+      for (int j = 0; j < NUM_AGENTS; j++) {
+        link_matrix[i][j] = 0;
+      }
+    }  // 「null_noreset」特有TODO:
 
     // int link_matrix[NUM_AGENTS][NUM_AGENTS];
     // for (int i = 0; i < NUM_AGENTS; i++) {
@@ -74,7 +73,7 @@ int main() {
     //       link_matrix[i][j] = 1;  // 他は1
     //     }
     //   }
-    // }  // 「full」スタート特有TODO:
+    // }  // 「full_noreset」特有TODO:
 
     for (int ge = 0; ge < generation; ge++) {  // 世代開始
       int count_game_ge[NUM_AGENTS] = {0};
@@ -83,12 +82,12 @@ int main() {
 
       // 「リセットあり=reset」なら以下でマトリクス初期化
 
-      int link_matrix[NUM_AGENTS][NUM_AGENTS];
-      for (int i = 0; i < NUM_AGENTS; i++) {
-        for (int j = 0; j < NUM_AGENTS; j++) {
-          link_matrix[i][j] = 0;
-        }
-      }  // 「null」スタート特有TODO:
+      // int link_matrix[NUM_AGENTS][NUM_AGENTS];
+      // for (int i = 0; i < NUM_AGENTS; i++) {
+      //   for (int j = 0; j < NUM_AGENTS; j++) {
+      //     link_matrix[i][j] = 0;
+      //   }
+      // }  // 「null_reset」特有TODO:
 
       // int link_matrix[NUM_AGENTS][NUM_AGENTS];
       // for (int i = 0; i < NUM_AGENTS; i++) {
@@ -99,7 +98,7 @@ int main() {
       //       link_matrix[i][j] = 1;  // 他は1
       //     }
       //   }
-      // }  // 「full」スタート特有TODO:
+      // }  // 「full_reset」特有TODO:
 
       for (int ro = 0; ro < round; ro++) {  // ラウンド開始
         int link_count[NUM_AGENTS] = {0};
@@ -113,10 +112,8 @@ int main() {
 
         if (ro == 0) {
           for (int i = 0; i < NUM_AGENTS; i++) {
-            // float normalized_tc = agents[i].tc / 1.1f;
-            float r = (float)rand() / RAND_MAX;  // [0.0, 1.0) の乱数 TODO:TODO:乱数をメルセンヌにする
-            // if (normalized_tc <= r) {
-            if (agents[i].tc <= r) {
+            float r_0rocd = (float)genrand_real1();  // [0,1]
+            if (agents[i].tc <= r_0rocd) {
               agents[i].is_cooperator = 1;
             } else {
               agents[i].is_cooperator = 0;
@@ -141,8 +138,8 @@ int main() {
                 agents[i].is_cooperator = 0;
               }
             } else {  // リンクがない者は乱数と比較
-              float r = (float)rand() / RAND_MAX; //TODO:TODO:乱数変える
-              if (agents[i].tc <= r) {
+              float r_nolcd = (float)genrand_real1();  // [0,1]
+              if (agents[i].tc <= r_nolcd) {
                 agents[i].is_cooperator = 1;
               } else {
                 agents[i].is_cooperator = 0;
@@ -193,19 +190,19 @@ int main() {
 
         // WORK回、ランダムにエージェントペアを作ってリンクを更新
         for (int w = 0; w < work; w++) {
-          int i = rand() % NUM_AGENTS; //TODO:乱数
-          int j = rand() % NUM_AGENTS;
+          int i = genrand_int32() % NUM_AGENTS;
+          int j = genrand_int32() % NUM_AGENTS;
           if (i == j) continue;  // 同じエージェント同士はスキップ
           if (link_matrix[i][j] == 1) {
             // 既にリンクがある場合、条件によりリンクを切る
-            if (coop_game_rate[i] < agents[j].tl ||
+            if (coop_game_rate[i] < agents[j].tl ||  // TODO:
                 coop_game_rate[j] < agents[i].tl) {
               link_matrix[i][j] = 0;
               link_matrix[j][i] = 0;  // 対称性
             }
           } else {
             // リンクがない場合、条件によりリンクを張る
-            if (coop_game_rate[i] >= agents[j].tf &&
+            if (coop_game_rate[i] >= agents[j].tf &&  // TODO:
                 coop_game_rate[j] >= agents[i].tf) {
               link_matrix[i][j] = 1;
               link_matrix[j][i] = 1;  // 対称性
@@ -225,8 +222,8 @@ int main() {
       // 社会学習 or 突然変異の意思決定を事前に記録
       int will_learn[NUM_AGENTS];  // 社会学習をする人はwill_learnが1
       for (int i = 0; i < NUM_AGENTS; i++) {
-        float r = (float)rand() / RAND_MAX; //TODO:乱数
-        will_learn[i] = (r < 1.0 - mutation);  // 0.99 の確率で社会学習
+        float r_will = (float)genrand_real1();      // [0,1]
+        will_learn[i] = (r_will < 1.0 - mutation);  // 0.99 の確率で社会学習
       }
       // 社会学習をするエージェントの順序をランダムに
       int indices[NUM_AGENTS];
@@ -245,30 +242,35 @@ int main() {
           }
         }
         // リンクがないなら突然変異扱いに回す（あとで処理）
-        if (count == 0) { //TODO:突然変異はここから0.01確率
+        if (count == 0) {
           will_learn[i] = 0;
           continue;
         }
         // ランダムに一人選んで模倣対象に
-        int j = partners[rand() % count];//TODO:乱数
+        int j = partners[genrand_int32() % count];
         // フェルミ関数により模倣確率を計算
         float diff = count_poff_ge[j] - count_poff_ge[i];
         float prob = 1.0f / (1.0f + expf(-beta * diff));
-        float r = (float)rand() / RAND_MAX;//TODO:乱数
-        if (r < prob) {
-          agents[i].tc = agents[j].tc;  // TODO:「tl/tf」どちらか消す // TODO:真似別確率
+        float r_tc = (float)genrand_real1();  // [0,1]
+        if (r_tc < prob) {
+          agents[i].tc = agents[j].tc;
+        }  // TODO:「tl/tf」どちらか消す
+        float r_tl = (float)genrand_real1();  // [0,1]
+        if (r_tl < prob) {
           agents[i].tl = agents[j].tl;
-          agents[i].tf = agents[j].tf;---
+        }
+        float r_tf = (float)genrand_real1();  // [0,1]
+        if (r_tf < prob) {
+          agents[i].tf = agents[j].tf;
         }
       }  // 社会学習終了
       // 突然変異（リンクなし社会学習含む）
       for (int i = 0; i < NUM_AGENTS; i++) {
         if (will_learn[i] == 1) continue;
         // tc, tl, tf のそれぞれを ±0.1 変化させる
-        float *traits[3] = {// TODO:「tl/tf」どちらか消す、二箇所3→2
-                            &agents[i].tc, &agents[i].tl, &agents[i].tf};
-        for (int t = 0; t < 3; t++) {
-          float delta = ((rand() % 2 == 0) ? 0.1f : -0.1f); //TODO:乱数
+        float *traits[3] = {&agents[i].tc, &agents[i].tl, &agents[i].tf};
+        for (int t = 0; t < 3; t++) {  // TODO:「tl/tf」どちらか消す、二箇所3→2
+          float delta = ((genrand_int32() % 2 == 0) ? 0.1f : -0.1f);
           *traits[t] += delta;
           if (*traits[t] < 0.0f) *traits[t] = 0.0f;  // TODO:
           if (*traits[t] > 1.1f) *traits[t] = 1.1f;  // TODO:
@@ -295,6 +297,6 @@ int main() {
   printf("DONE\n");
 }  // main終了
 
-// +
-// b b bにして -3c か
-// b/3 b/3 b/3  -c にするか
+// 5→6 先生確認後提示された修正点修正
+// rand()をメルセンヌ・ツイスターに
+// 社会学習を一括から分割へ
