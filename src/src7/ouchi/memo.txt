@@ -1,0 +1,4 @@
+コンパイル
+clang -g 6_base.c mt19937ar.c -o 6_base
+実行
+./6_base
