@@ -1,4 +1,4 @@
 コンパイル
-clang -g 6_reset.c mt19937ar.c -o 6_reset
+clang -g 6_oror.c mt19937ar.c -o 6_oror
 実行
-./6_reset
+./6_oror
