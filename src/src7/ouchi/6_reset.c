@@ -27,11 +27,11 @@ void shuffle(int *array, int n) {
   }
 }
 
-// 6_both_null_noreset_t10_g10000_r100_w5000_b1
+// 6_both_null_reset_t10_g10000_r100_w5000_b1
 void part1() {
   // CSVファイルを出力するための準備 TODO:
   FILE *csv_file =
-      fopen("6_both_null_noreset_t10_g10000_r100_w5000_b1.csv", "w");
+      fopen("6_both_null_reset_t10_g10000_r100_w5000_b1.csv", "w");
 
   init_genrand((unsigned long)time(NULL));  // 乱数
 
@@ -57,12 +57,12 @@ void part1() {
 
     // 「リセットなし=noreset」なら以下でマトリクス初期化
 
-    int link_matrix[NUM_AGENTS][NUM_AGENTS];
-    for (int i = 0; i < NUM_AGENTS; i++) {
-      for (int j = 0; j < NUM_AGENTS; j++) {
-        link_matrix[i][j] = 0;
-      }
-    }  // 「null_noreset」特有 TODO:
+    // int link_matrix[NUM_AGENTS][NUM_AGENTS];
+    // for (int i = 0; i < NUM_AGENTS; i++) {
+    //   for (int j = 0; j < NUM_AGENTS; j++) {
+    //     link_matrix[i][j] = 0;
+    //   }
+    // }  // 「null_noreset」特有 TODO:
 
     // int link_matrix[NUM_AGENTS][NUM_AGENTS];
     // for (int i = 0; i < NUM_AGENTS; i++) {
@@ -82,12 +82,12 @@ void part1() {
 
       // 「リセットあり=reset」なら以下でマトリクス初期化
 
-      // int link_matrix[NUM_AGENTS][NUM_AGENTS];
-      // for (int i = 0; i < NUM_AGENTS; i++) {
-      //   for (int j = 0; j < NUM_AGENTS; j++) {
-      //     link_matrix[i][j] = 0;
-      //   }
-      // }  // 「null_reset」特有 TODO:
+      int link_matrix[NUM_AGENTS][NUM_AGENTS];
+      for (int i = 0; i < NUM_AGENTS; i++) {
+        for (int j = 0; j < NUM_AGENTS; j++) {
+          link_matrix[i][j] = 0;
+        }
+      }  // 「null_reset」特有 TODO:
 
       // int link_matrix[NUM_AGENTS][NUM_AGENTS];
       // for (int i = 0; i < NUM_AGENTS; i++) {
@@ -297,11 +297,11 @@ void part1() {
   printf("DONE\n");
 }  // main終了
 
-// 6_form_null_noreset_t10_g10000_r100_w5000_b1
+// 6_form_null_reset_t10_g10000_r100_w5000_b1
 void part2() {
   // CSVファイルを出力するための準備 TODO:
   FILE *csv_file =
-      fopen("6_form_null_noreset_t10_g10000_r100_w5000_b1.csv", "w");
+      fopen("6_form_null_reset_t10_g10000_r100_w5000_b1.csv", "w");
 
   init_genrand((unsigned long)time(NULL));  // 乱数
 
@@ -326,12 +326,12 @@ void part2() {
 
     // 「リセットなし=noreset」なら以下でマトリクス初期化
 
-    int link_matrix[NUM_AGENTS][NUM_AGENTS];
-    for (int i = 0; i < NUM_AGENTS; i++) {
-      for (int j = 0; j < NUM_AGENTS; j++) {
-        link_matrix[i][j] = 0;
-      }
-    }  // 「null_noreset」特有 TODO:
+    // int link_matrix[NUM_AGENTS][NUM_AGENTS];
+    // for (int i = 0; i < NUM_AGENTS; i++) {
+    //   for (int j = 0; j < NUM_AGENTS; j++) {
+    //     link_matrix[i][j] = 0;
+    //   }
+    // }  // 「null_noreset」特有 TODO:
 
     // int link_matrix[NUM_AGENTS][NUM_AGENTS];
     // for (int i = 0; i < NUM_AGENTS; i++) {
@@ -351,12 +351,12 @@ void part2() {
 
       // 「リセットあり=reset」なら以下でマトリクス初期化
 
-      // int link_matrix[NUM_AGENTS][NUM_AGENTS];
-      // for (int i = 0; i < NUM_AGENTS; i++) {
-      //   for (int j = 0; j < NUM_AGENTS; j++) {
-      //     link_matrix[i][j] = 0;
-      //   }
-      // }  // 「null_reset」特有 TODO:
+      int link_matrix[NUM_AGENTS][NUM_AGENTS];
+      for (int i = 0; i < NUM_AGENTS; i++) {
+        for (int j = 0; j < NUM_AGENTS; j++) {
+          link_matrix[i][j] = 0;
+        }
+      }  // 「null_reset」特有 TODO:
 
       // int link_matrix[NUM_AGENTS][NUM_AGENTS];
       // for (int i = 0; i < NUM_AGENTS; i++) {
@@ -555,11 +555,11 @@ void part2() {
   printf("DONE\n");
 }  // main終了
 
-// 6_leave_full_noreset_t10_g10000_r100_w5000_b1
+// 6_leave_full_reset_t10_g10000_r100_w5000_b1
 void part3() {
   // CSVファイルを出力するための準備 TODO:
   FILE *csv_file =
-      fopen("6_leave_full_noreset_t10_g10000_r100_w5000_b1.csv", "w");
+      fopen("6_leave_full_reset_t10_g10000_r100_w5000_b1.csv", "w");
 
   init_genrand((unsigned long)time(NULL));  // 乱数
 
@@ -591,16 +591,16 @@ void part3() {
     //   }
     // }  // 「null_noreset」特有 TODO:
 
-    int link_matrix[NUM_AGENTS][NUM_AGENTS];
-    for (int i = 0; i < NUM_AGENTS; i++) {
-      for (int j = 0; j < NUM_AGENTS; j++) {
-        if (i == j) {
-          link_matrix[i][j] = 0;  // 自分同士は0
-        } else {
-          link_matrix[i][j] = 1;  // 他は1
-        }
-      }
-    }  // 「full_noreset」特有 TODO:
+    // int link_matrix[NUM_AGENTS][NUM_AGENTS];
+    // for (int i = 0; i < NUM_AGENTS; i++) {
+    //   for (int j = 0; j < NUM_AGENTS; j++) {
+    //     if (i == j) {
+    //       link_matrix[i][j] = 0;  // 自分同士は0
+    //     } else {
+    //       link_matrix[i][j] = 1;  // 他は1
+    //     }
+    //   }
+    // }  // 「full_noreset」特有 TODO:
 
     for (int ge = 0; ge < generation; ge++) {  // 世代開始
       int count_game_ge[NUM_AGENTS] = {0};
@@ -616,16 +616,16 @@ void part3() {
       //   }
       // }  // 「null_reset」スタート特有 TODO:
 
-      // int link_matrix[NUM_AGENTS][NUM_AGENTS];
-      // for (int i = 0; i < NUM_AGENTS; i++) {
-      //   for (int j = 0; j < NUM_AGENTS; j++) {
-      //     if (i == j) {
-      //       link_matrix[i][j] = 0;  // 自分同士は0
-      //     } else {
-      //       link_matrix[i][j] = 1;  // 他は1
-      //     }
-      //   }
-      // }  // 「full_reset」スタート特有 TODO:
+      int link_matrix[NUM_AGENTS][NUM_AGENTS];
+      for (int i = 0; i < NUM_AGENTS; i++) {
+        for (int j = 0; j < NUM_AGENTS; j++) {
+          if (i == j) {
+            link_matrix[i][j] = 0;  // 自分同士は0
+          } else {
+            link_matrix[i][j] = 1;  // 他は1
+          }
+        }
+      }  // 「full_reset」スタート特有 TODO:
 
       for (int ro = 0; ro < round; ro++) {  // ラウンド開始
         int link_count[NUM_AGENTS] = {0};
