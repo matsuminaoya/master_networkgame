@@ -31,7 +31,7 @@ void shuffle(int *array, int n) {
 void part1() {
   // CSVファイルを出力するための準備 TODO:
   FILE *csv_file =
-      fopen("6_oror_both_null_noreset_t10_g10000_r100_w5000_b1.csv", "w");
+      fopen("7_oror_both_null_noreset_t10_g10000_r100_w5000_b1.csv", "w");
 
   init_genrand((unsigned long)time(NULL));  // 乱数
 
@@ -300,7 +300,7 @@ void part1() {
 void part2() {
   // CSVファイルを出力するための準備 TODO:
   FILE *csv_file =
-      fopen("6_oror_form_null_noreset_t10_g10000_r100_w5000_b1.csv", "w");
+      fopen("7_oror_form_null_noreset_t10_g10000_r100_w5000_b1.csv", "w");
 
   init_genrand((unsigned long)time(NULL));  // 乱数
 
