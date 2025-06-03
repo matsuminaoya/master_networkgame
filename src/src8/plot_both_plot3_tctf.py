@@ -11,28 +11,31 @@ from matplotlib.animation import FuncAnimation
 from datetime import datetime
 from statistics import mean
 
-names = ["7_leave_full_reset_t10_g10000_r100_w5000_b1",] #TODO:
+names = ["7_both_null_noreset_t10_g10000_r100_w5000_b1",
+         "7_both_null_reset_t10_g10000_r100_w5000_b1",
+         "7_form_null_noreset_t10_g10000_r100_w5000_b1",
+         "7_form_null_reset_t10_g10000_r100_w5000_b1"] #TODO:
 
 def Graph_plot_tc_tl_tf(csv, name, generation):
     data =pd.read_csv(csv)
     data_step = data[data["Generation"] == generation]
     # tcとtlの組み合わせごとの件数をカウント（ピボットテーブル形式）
-    heatmap_data = data_step.groupby(["tc","tl"]).size().unstack(fill_value=0)
+    heatmap_data = data_step.groupby(["tc","tf"]).size().unstack(fill_value=0)
 
     # 軸のラベル（順序）を設定
-    tl_labels = np.round(np.linspace(0.0, 1.1, num=12), 1)
+    tf_labels = np.round(np.linspace(0.0, 1.1, num=12), 1)
     tc_labels = np.round(np.linspace(1.1, 0.0, num=12), 1)
 
     # ラベルを明示的に並べ替え（不足分は自動で追加され0になる）
-    heatmap_data = heatmap_data.reindex(index=tc_labels, columns=tl_labels, fill_value=0)
+    heatmap_data = heatmap_data.reindex(index=tc_labels, columns=tf_labels, fill_value=0)
 
     plt.figure(figsize=(12,10))
-    sns.heatmap(heatmap_data, cmap="YlGnBu", annot=True, fmt='d', cbar=True)
-    plt.xlabel("tl")
+    sns.heatmap(heatmap_data, cmap="YlGnBu", annot=True, fmt='d', cbar=True, vmin=0, vmax=1000)
+    plt.xlabel("tf")
     plt.ylabel("tc")
     plt.title(f'generation {generation}')
 
-    plt.savefig("pic8/"+name+"_plot2_tctl_g"+str(generation)+".png") #TODO:
+    plt.savefig("pic8/"+name+"_plot3_tctf_g"+str(generation)+".png") #TODO:
     plt.close()
 
 for name in names:
