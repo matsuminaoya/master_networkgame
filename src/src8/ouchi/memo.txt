@@ -1,4 +1,4 @@
 コンパイル
-clang -g 7_base.c mt19937ar.c -o 7_base
+clang -g 7_full.c mt19937ar.c -o 7_full
 実行
-./7_base
+./7_full
