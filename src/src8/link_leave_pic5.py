@@ -11,13 +11,13 @@ from matplotlib.animation import FuncAnimation
 from datetime import datetime
 from statistics import mean
 
-names = ["7_anan_leave_full_noreset_t10_g10000_r100_w5000_b1",] #TODO:
+names = ["2_keepd_05_leave_or_t1_g10000_r100_w5000_b1",] #TODO:
 
 def Graph_avr_tc_tf(csv, name):
     #allavr
     data =pd.read_csv(csv)
-    #data_step = data[data["Generation"] % 100 ==0]
-    avr_ges_all = data.groupby("Generation")[["tc","tl","link_count"]].mean().reset_index()
+    data_step = data[data["Generation"] < 2000] #TODO:
+    avr_ges_all = data_step.groupby("Generation")[["tc","tl","link_count"]].mean().reset_index()
     
     df = avr_ges_all
     fig = plt.figure(figsize=(20,10))

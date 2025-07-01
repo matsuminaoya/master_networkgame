@@ -58,6 +58,7 @@ int main() {
 
     // マトリクス初期化
     int link_matrix[NUM_AGENTS][NUM_AGENTS];
+    memset(link_matrix, 0, sizeof(link_matrix));
     // 初期リンク密度によるリンク構築
     int max_possible_links = NUM_AGENTS * (NUM_AGENTS - 1) / 2;
     int target_link_count = (int)(density * max_possible_links);

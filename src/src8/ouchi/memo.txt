@@ -1,4 +1,4 @@
 コンパイル
-clang -g 7_full.c mt19937ar.c -o 7_full
+clang -g 2_keepd_form_an.c mt19937ar.c -o 2_keepd_form_an
 実行
 ./7_full

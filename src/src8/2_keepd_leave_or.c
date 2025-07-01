@@ -31,7 +31,7 @@ void shuffle(int *array, int n) {
 int main() {
   // CSVファイルを出力するための準備 TODO:
   FILE *csv_file =
-      fopen("1_keepd_05_leave_or_t10_g10000_r100_w5000_b1.csv", "w");
+      fopen("D:\\master\\src8\\2_keepd_05_leave_or_t1_g10000_r100_w5000_b1.csv", "w");
 
   init_genrand((unsigned long)time(NULL));  // 乱数
 
@@ -42,7 +42,7 @@ int main() {
   float beta = 1.0f;       // フェルミ関数の鋭さ TODO:
   float mutation = 0.01f;  // 突然変異確率
 
-  int trial = 10;          // TODO:
+  int trial = 1;          // TODO:
   int generation = 10000;  // TODO:
   int round = 100;         // TODO:
   int work = 5000;         // TODO:
@@ -58,6 +58,7 @@ int main() {
 
     // マトリクス初期化
     int link_matrix[NUM_AGENTS][NUM_AGENTS];
+    memset(link_matrix, 0, sizeof(link_matrix));
     // 初期リンク密度によるリンク構築
     int max_possible_links = NUM_AGENTS * (NUM_AGENTS - 1) / 2;
     int target_link_count = (int)(density * max_possible_links);
