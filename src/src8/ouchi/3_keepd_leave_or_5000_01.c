@@ -10,7 +10,7 @@
 
 typedef struct {
   float tc;
-  float tf;
+  float tl;
   int is_cooperator;
 } Agent;
 
@@ -26,16 +26,16 @@ void shuffle(int *array, int n) {
   }
 }
 
-#define MODEL_TYPE 1  // 0: 切る優先（モデルA）、1: 張る優先（モデルB）
+#define MODEL_TYPE 0  // 0: 切る優先（モデルA）、1: 張る優先（モデルB）
 
 int main() {
   // CSVファイルを出力するための準備 TODO:
   FILE *csv_file =
-      fopen("1_keepd_05_form_an_t10_g10000_r100_w5000_b1.csv", "w");
+      fopen("3_keepd_01_leave_or_t10_g10000_r100_w5000_b1.csv", "w");
 
   init_genrand((unsigned long)time(NULL));  // 乱数
 
-  float density = 0.5f;  // [0.0, 1.0] 初期ネットワーク密度 // TODO:
+  float density = 0.1f;  // [0.0, 1.0] 初期ネットワーク密度 // TODO:
 
   float benefit = 2.0f;    // 協力者が与える利得
   float cost = 1.0f;       // 協力にかかるコスト
@@ -52,7 +52,7 @@ int main() {
     Agent agents[NUM_AGENTS];
     for (int i = 0; i < NUM_AGENTS; i++) {
       agents[i].tc = 0.0f;
-      agents[i].tf = 0.0f;
+      agents[i].tl = 0.0f;
       agents[i].is_cooperator = 0;
     }  // tc,tl,tf,の初期化 // 0スタート特有 TODO:
 
@@ -189,20 +189,20 @@ int main() {
           int j = genrand_int32() % NUM_AGENTS;
           if (i == j) continue;  // 同じエージェント同士はスキップ
 
-          if (MODEL_TYPE == 1) {
-            // モデルB: 「張る条件を満たした場合のみ」→ 張ってからランダムに切る
-            if (link_matrix[i][j] == 0 && (coop_game_rate[i] >= agents[j].tf &&
-                                           coop_game_rate[j] >= agents[i].tf)) {
-              // リンクを張る
-              link_matrix[i][j] = 1;
-              link_matrix[j][i] = 1;
-              // ランダムな既存リンクペアを探して切る
+          if (MODEL_TYPE == 0) {
+            // モデルA: 「切る条件を満たした場合のみ」→ 切ってからランダムに張る
+            if (link_matrix[i][j] == 1 && (coop_game_rate[i] < agents[j].tl ||
+                                           coop_game_rate[j] < agents[i].tl)) {
+              // リンクを切る
+              link_matrix[i][j] = 0;
+              link_matrix[j][i] = 0;
+              // ランダムな未接続ペアを探して張る
               while (1) {
                 int u = genrand_int32() % NUM_AGENTS;
                 int v = genrand_int32() % NUM_AGENTS;
-                if (u != v && link_matrix[u][v] == 1) {
-                  link_matrix[u][v] = 0;
-                  link_matrix[v][u] = 0;
+                if (u != v && link_matrix[u][v] == 0) {
+                  link_matrix[u][v] = 1;
+                  link_matrix[v][u] = 1;
                   break;
                 }
               }
@@ -255,16 +255,16 @@ int main() {
         if (r_tc < prob) {
           agents[i].tc = agents[j].tc;
         }
-        float r_tf = (float)genrand_real1();  // [0,1]
-        if (r_tf < prob) {
-          agents[i].tf = agents[j].tf;
+        float r_tl = (float)genrand_real1();  // [0,1]
+        if (r_tl < prob) {
+          agents[i].tl = agents[j].tl;
         }
       }  // 社会学習終了
       // 突然変異（リンクなし社会学習含む）
       for (int i = 0; i < NUM_AGENTS; i++) {
         if (will_learn[i] == 1) continue;
         // tc, tl, tf のそれぞれを ±0.1 変化させる
-        float *traits[2] = {&agents[i].tc, &agents[i].tf};
+        float *traits[2] = {&agents[i].tc, &agents[i].tl};
         for (int t = 0; t < 2; t++) {
           float delta = ((genrand_int32() % 2 == 0) ? 0.1f : -0.1f);
           *traits[t] += delta;
@@ -276,11 +276,11 @@ int main() {
       // ここから、tr,ge,i,tc,tl,tf,link数を行としたcsvを出力したい。
       // ---- CSV出力部（世代ごとに都度書き込む） ----
       if (tr == 0 && ge == 0) {
-        fprintf(csv_file, "Trial,Generation,Agent,tc,tf,link_count\n");
+        fprintf(csv_file, "Trial,Generation,Agent,tc,tl,link_count\n");
       }
       for (int i = 0; i < NUM_AGENTS; i++) {
         fprintf(csv_file, "%d,%d,%d,%.2f,%.2f,%d\n", tr + 1, ge + 1, i,
-                agents[i].tc, agents[i].tf, final_link_count[i]);
+                agents[i].tc, agents[i].tl, final_link_count[i]);
       }
 
       // どこまで処理したか出力
