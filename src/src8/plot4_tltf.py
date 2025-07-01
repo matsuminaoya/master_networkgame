@@ -11,12 +11,7 @@ from matplotlib.animation import FuncAnimation
 from datetime import datetime
 from statistics import mean
 
-names = ["7_both_null_noreset_t10_g10000_r100_w5000_b1",
-         "7_both_null_reset_t10_g10000_r100_w5000_b1",
-         "6_both_full_noreset_t10_g10000_r100_w5000_b1",
-         "6_both_full_reset_t10_g10000_r100_w5000_b1",
-         "7_oror_both_null_noreset_t10_g10000_r100_w5000_b1",
-         "7_anan_both_null_noreset_t10_g10000_r100_w5000_b1",
+names = ["7_anor_both_null_noreset_t10_g10000_r100_w5000_b1",
          ] #TODO:
 
 def Graph_plot_tc_tl_tf(csv, name, generation):
