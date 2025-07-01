@@ -1,0 +1,22 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build C Program",
+      "type": "shell",
+      "command": "gcc",
+      "args": [
+        "-g",
+        "src\\src8\\2_keepd_leave_or_01.c",
+        "src\\src8\\mt19937ar.c",
+        "-o",
+        "src\\src8\\2_keepd_leave_or_01.exe"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": ["$gcc"]
+    }
+  ]
+}
