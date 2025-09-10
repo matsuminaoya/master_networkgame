@@ -1,4 +1,4 @@
 コンパイル
-clang -g 3_keepd_form_an_3000.c mt19937ar.c -o 3_keepd_form_an_3000
+clang -g 3_keepd_form_or_1000_3000_5000.c mt19937ar.c -o 3_keepd_form_or_1000_3000_5000
 実行
-./3_keepd_form_an_3000
+./3_keepd_form_or_1000_3000_5000
