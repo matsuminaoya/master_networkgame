@@ -10,31 +10,64 @@ import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 from datetime import datetime
 from statistics import mean
+from adjustText import adjust_text
 
-names = ["7_anor_both_null_noreset_t10_g10000_r100_w5000_b1",
-         ] #TODO:
+# name:7_both_null_noreset_t10_g10000_r100_w5000_b1
+# tc: 0.5808999999999999
+# ln: 95.914
+# name:7_both_null_reset_t10_g10000_r100_w5000_b1
+# tc: 0.0205
+# ln: 91.686
+# name:7_form_null_noreset_t10_g10000_r100_w5000_b1
+# tc: 1.0391
+# ln: 99.0
+# name:7_form_null_reset_t10_g10000_r100_w5000_b1
+# tc: 0.20619999999999997
+# ln: 87.102
+# name:7_leave_full_noreset_t10_g10000_r100_w5000_b1
+# tc: 0.5504000000000001
+# ln: 0.0
+# name:7_leave_full_reset_t10_g10000_r100_w5000_b1
+# tc: 0.7686
+# ln: 0.418
+# name:6_both_full_noreset_t10_g10000_r100_w5000_b1
+# tc: 0.5848
+# ln: 94.916
+# name:6_both_full_reset_t10_g10000_r100_w5000_b1
+# tc: 0.8991999999999999
+# ln: 13.954
 
-def Graph_plot_tc_tl_tf(csv, name, generation):
-    data =pd.read_csv(csv)
-    data_step = data[data["Generation"] == generation]
-    # tcとtlの組み合わせごとの件数をカウント（ピボットテーブル形式）
-    heatmap_data = data_step.groupby(["tl","tf"]).size().unstack(fill_value=0)
 
-    # 軸のラベル（順序）を設定
-    tf_labels = np.round(np.linspace(0.0, 1.1, num=12), 1)
-    tl_labels = np.round(np.linspace(1.1, 0.0, num=12), 1)
+# データ
+names = [
+    "both_null_noreset", "both_null_reset",
+    "form_null_noreset", "form_null_reset",
+    "leave_full_noreset", "leave_full_reset",
+    "both_full_noreset", "both_full_reset"
+]
 
-    # ラベルを明示的に並べ替え（不足分は自動で追加され0になる）
-    heatmap_data = heatmap_data.reindex(index=tl_labels, columns=tf_labels, fill_value=0)
+tc_values = [0.5809, 0.0205, 1.0391, 0.2062, 0.5504, 0.7686, 0.5848, 0.8992]
+ln_values = [95.914, 91.686, 99.0, 87.102, 0.0, 0.418, 94.916, 13.954]
 
-    plt.figure(figsize=(12,10))
-    sns.heatmap(heatmap_data, cmap="tab20", annot=True, fmt='d', cbar=True, vmin=0, vmax=1000)
-    plt.ylabel("tl")
-    plt.xlabel("tf")
-    plt.title(f'generation {generation}')
+# 色とマーカー（orangeに変更済み）
+colors = ['blue', 'blue', 'green', 'green', 'orange', 'orange', 'purple', 'purple']
+markers = ['x', 'o', 'x', 'o', 'x', 'o', 'x', 'o']
 
-    plt.savefig("pic81/"+name+"_plot4_tltf_g"+str(generation)+".png") #TODO:
-    plt.close()
+# プロット開始
+plt.figure(figsize=(6, 5))
 
-for name in names:
-    Graph_plot_tc_tl_tf("D:/master/src8/"+name+".csv", name=name, generation=10000) #TODO:
+for name, x, y, c, m in zip(names, ln_values, tc_values, colors, markers):
+    plt.scatter(x, y, color=c, marker=m, s=100)
+    plt.text(x + 3, y, name, fontsize=8, va='center')  # → 横にラベル、縦揃え
+
+# 軸設定
+plt.xlabel("link")
+plt.ylabel("tc")
+plt.title("tc vs ln")
+plt.xlim(0, 100)
+plt.ylim(0.0, 1.1)
+
+plt.tight_layout()
+plt.savefig("pic82/plot5_LinkTc_net.png")
+
+#plt.show()

@@ -66,29 +66,36 @@ names = ["3_keepd_09_form_or_t10_g10000_r100_w5000_b1",
          "3_keepd_05_form_an_t10_g10000_r100_w1000_b1",
          "3_keepd_03_form_an_t10_g10000_r100_w1000_b1",
          "3_keepd_01_form_an_t10_g10000_r100_w1000_b1",
+
+
+         "3_keepd_09_leave_an_t10_g10000_r100_w5000_b1",
+         "3_keepd_07_leave_an_t10_g10000_r100_w5000_b1",
+         "3_keepd_05_leave_an_t10_g10000_r100_w5000_b1",
+         "3_keepd_03_leave_an_t10_g10000_r100_w5000_b1",
+         "3_keepd_01_leave_an_t10_g10000_r100_w5000_b1",
+         
+         "3_keepd_09_leave_an_t10_g10000_r100_w3000_b1",
+         "3_keepd_07_leave_an_t10_g10000_r100_w3000_b1",
+         "3_keepd_05_leave_an_t10_g10000_r100_w3000_b1",
+         "3_keepd_03_leave_an_t10_g10000_r100_w3000_b1",
+         "3_keepd_01_leave_an_t10_g10000_r100_w3000_b1",
+
+         "3_keepd_09_leave_an_t10_g10000_r100_w1000_b1",
+         "3_keepd_07_leave_an_t10_g10000_r100_w1000_b1",
+         "3_keepd_05_leave_an_t10_g10000_r100_w1000_b1",
+         "3_keepd_03_leave_an_t10_g10000_r100_w1000_b1",
+         "3_keepd_01_leave_an_t10_g10000_r100_w1000_b1",
          ] #TODO:
 
-def Graph_plot_tc_tl_tf(csv, name, generation):
+def main(csv, name, generation):
     data =pd.read_csv(csv)
     data_step = data[data["Generation"] == generation]
-    # tcとtlの組み合わせごとの件数をカウント（ピボットテーブル形式）
-    heatmap_data = data_step.groupby(["tl","tf"]).size().unstack(fill_value=0)
+    
+    tc_mean = data_step["tc"].mean()
 
-    # 軸のラベル（順序）を設定
-    tf_labels = np.round(np.linspace(0.0, 1.1, num=12), 1)
-    tl_labels = np.round(np.linspace(1.1, 0.0, num=12), 1)
-
-    # ラベルを明示的に並べ替え（不足分は自動で追加され0になる）
-    heatmap_data = heatmap_data.reindex(index=tl_labels, columns=tf_labels, fill_value=0)
-
-    plt.figure(figsize=(12,10))
-    sns.heatmap(heatmap_data, cmap="tab20", annot=True, fmt='d', cbar=True, vmin=0, vmax=1000)
-    plt.ylabel("tl")
-    plt.xlabel("tf")
-    plt.title(f'generation {generation}')
-
-    plt.savefig("pic81/"+name+"_plot4_tltf_g"+str(generation)+".png") #TODO:
-    plt.close()
+    print(f"name:{name}")
+    print(f"tc: {tc_mean}")
 
 for name in names:
-    Graph_plot_tc_tl_tf("D:/master/src8/"+name+".csv", name=name, generation=10000) #TODO:
+    main("D:/master/src8/"+name+".csv", name=name, generation=10000) #TODO:
+

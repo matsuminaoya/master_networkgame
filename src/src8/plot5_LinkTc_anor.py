@@ -10,36 +10,7 @@ import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 from datetime import datetime
 from statistics import mean
-
-names = ["7_both_null_noreset_t10_g10000_r100_w5000_b1",
-         "7_both_null_reset_t10_g10000_r100_w5000_b1",
-         "7_form_null_noreset_t10_g10000_r100_w5000_b1",
-         "7_form_null_reset_t10_g10000_r100_w5000_b1",
-         "7_leave_full_noreset_t10_g10000_r100_w5000_b1",
-         "7_leave_full_reset_t10_g10000_r100_w5000_b1",
-         "6_both_full_noreset_t10_g10000_r100_w5000_b1",
-         "6_both_full_reset_t10_g10000_r100_w5000_b1",
-
-         "7_oror_form_null_noreset_t10_g10000_r100_w5000_b1",
-         "7_anan_leave_full_noreset_t10_g10000_r100_w5000_b1",
-         "7_oror_both_null_noreset_t10_g10000_r100_w5000_b1",
-         "7_anan_both_null_noreset_t10_g10000_r100_w5000_b1",
-         "7_anor_both_null_noreset_t10_g10000_r100_w5000_b1",
-         ] #TODO:
-
-def main(csv, name, generation):
-    data =pd.read_csv(csv)
-    data_step = data[data["Generation"] == generation]
-    
-    tc_mean = data_step["tc"].mean()
-    link_count_mean = data_step["link_count"].mean()
-
-    print(f"name:{name}")
-    print(f"tc: {tc_mean}")
-    print(f"ln: {link_count_mean}")
-
-for name in names:
-    main("D:/master/src8/"+name+".csv", name=name, generation=10000) #TODO:
+from adjustText import adjust_text
 
 # name:7_both_null_noreset_t10_g10000_r100_w5000_b1
 # tc: 0.5808999999999999
@@ -81,3 +52,31 @@ for name in names:
 # name:7_anor_both_null_noreset_t10_g10000_r100_w5000_b1
 # tc: 1.0383999999999998
 # ln: 62.352
+
+# データ
+names = [
+    "or:an",
+    "or:or", "an:an", "an:or"
+]
+
+tc_values = [0.5809, 1.037, 1.043, 1.0383999999999998]
+ln_values = [95.914, 96.524, 88.89, 62.352]
+
+# プロット開始
+plt.figure(figsize=(6, 5))
+
+for name, x, y in zip(names, ln_values, tc_values):
+    plt.scatter(x, y, color="blue", s=50)
+    plt.text(x - 3, y + 0.03, name, fontsize=8, va='center')  # → 横にラベル、縦揃え
+
+# 軸設定
+plt.xlabel("link")
+plt.ylabel("tc")
+plt.title("leave:form")
+plt.xlim(0, 100)
+plt.ylim(0.0, 1.1)
+
+plt.tight_layout()
+plt.savefig("pic82/plot5_LinkTc_anor.png")
+
+#plt.show()
