@@ -1,3 +1,4 @@
+# work*tc dencity別 折れ線グラフ
 import os
 import time
 import random

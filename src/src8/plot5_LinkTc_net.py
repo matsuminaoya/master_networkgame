@@ -1,3 +1,4 @@
+# tc*link network 有り無し プロット図
 import os
 import time
 import random

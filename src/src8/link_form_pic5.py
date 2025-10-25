@@ -11,21 +11,17 @@ from matplotlib.animation import FuncAnimation
 from datetime import datetime
 from statistics import mean
 
-names = ["3_keepd_01_form_or_t10_g10000_r100_w1000_b1",
-         "3_keepd_03_form_or_t10_g10000_r100_w1000_b1",
-         "3_keepd_05_form_or_t10_g10000_r100_w1000_b1",
-         "3_keepd_07_form_or_t10_g10000_r100_w1000_b1",
-         "3_keepd_09_form_or_t10_g10000_r100_w1000_b1",
-         "3_keepd_01_form_or_t10_g10000_r100_w3000_b1",
-         "3_keepd_03_form_or_t10_g10000_r100_w3000_b1",
-         "3_keepd_05_form_or_t10_g10000_r100_w3000_b1",
-         "3_keepd_07_form_or_t10_g10000_r100_w3000_b1",
-         "3_keepd_09_form_or_t10_g10000_r100_w3000_b1",
-         "3_keepd_01_form_or_t10_g10000_r100_w5000_b1",
-         "3_keepd_03_form_or_t10_g10000_r100_w5000_b1",
-         "3_keepd_05_form_or_t10_g10000_r100_w5000_b1",
-         "3_keepd_07_form_or_t10_g10000_r100_w5000_b1",
-         "3_keepd_09_form_or_t10_g10000_r100_w5000_b1",
+names = ["3_keepd_01_form_or_t10_g10000_r100_w10000_b1",
+         "3_keepd_03_form_or_t10_g10000_r100_w10000_b1",
+         "3_keepd_05_form_or_t10_g10000_r100_w10000_b1",
+         "3_keepd_07_form_or_t10_g10000_r100_w10000_b1",
+         "3_keepd_09_form_or_t10_g10000_r100_w10000_b1",
+
+         "3_keepd_01_form_an_t10_g10000_r100_w10000_b1",
+         "3_keepd_03_form_an_t10_g10000_r100_w10000_b1",
+         "3_keepd_05_form_an_t10_g10000_r100_w10000_b1",
+         "3_keepd_07_form_an_t10_g10000_r100_w10000_b1",
+         "3_keepd_09_form_an_t10_g10000_r100_w10000_b1"
          ] #TODO:
 
 def Graph_avr_tc_tf(csv, name):

@@ -1,3 +1,4 @@
+# link*tc anor4タイプ プロット図
 import os
 import time
 import random
