@@ -1886,7 +1886,7 @@ void part13() {
   printf("DONE\n");
 }  // main終了
 
-void part05() {
+void part15() {
   // CSVファイルを出力するための準備 TODO:
   FILE *csv_file =
       fopen("3_keepd_05_form_an_t10_g10000_r100_w10000_b1.csv", "w");
@@ -2151,7 +2151,7 @@ void part05() {
   printf("DONE\n");
 }  // main終了
 
-void part07() {
+void part17() {
   // CSVファイルを出力するための準備 TODO:
   FILE *csv_file =
       fopen("3_keepd_07_form_an_t10_g10000_r100_w10000_b1.csv", "w");
@@ -2416,7 +2416,7 @@ void part07() {
   printf("DONE\n");
 }  // main終了
 
-void part09() {
+void part19() {
   // CSVファイルを出力するための準備 TODO:
   FILE *csv_file =
       fopen("3_keepd_09_form_an_t10_g10000_r100_w10000_b1.csv", "w");

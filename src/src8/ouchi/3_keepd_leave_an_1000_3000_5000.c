@@ -4012,19 +4012,5 @@ void part59() {
 // main
 int main() {
   part11();
-  part13();
-  part15();
-  part17();
-  part19();
-  part31();
-  part33();
-  part35();
-  part37();
-  part39();
-  part51();
-  part53();
-  part55();
-  part57();
-  part59();
   return 0;
 }
