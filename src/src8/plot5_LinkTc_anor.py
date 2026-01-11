@@ -31,10 +31,10 @@ from adjustText import adjust_text
 # name:7_leave_full_reset_t10_g10000_r100_w5000_b1
 # tc: 0.7686
 # ln: 0.418
-# name:6_both_full_noreset_t10_g10000_r100_w5000_b1
+# name:7_both_full_noreset_t10_g10000_r100_w5000_b1
 # tc: 0.5848
 # ln: 94.916
-# name:6_both_full_reset_t10_g10000_r100_w5000_b1
+# name:7_both_full_reset_t10_g10000_r100_w5000_b1
 # tc: 0.8991999999999999
 # ln: 13.954
 
@@ -56,26 +56,44 @@ from adjustText import adjust_text
 
 # データ
 names = [
-    "or:an",
-    "or:or", "an:an", "an:or"
+    "OR-AND",
+    "OR-OR", "AND-AND", "AND-OR"
 ]
 
 tc_values = [0.5809, 1.037, 1.043, 1.0383999999999998]
 ln_values = [95.914, 96.524, 88.89, 62.352]
 
-# プロット開始
-plt.figure(figsize=(6, 5))
+# 色とマーカー
 
-for name, x, y in zip(names, ln_values, tc_values):
-    plt.scatter(x, y, color="blue", s=50)
-    plt.text(x - 3, y + 0.03, name, fontsize=8, va='center')  # → 横にラベル、縦揃え
+colors = ["b","b","b","b"]
+markers = ['o', 'x', 's', '^']
+
+# プロット開始
+plt.figure(figsize=(9, 6))
+
+for name, x, y, c, m in zip(names, ln_values, tc_values, colors, markers):
+    plt.scatter(x, y, color=c, marker=m, s=100, label=name)
+    # plt.text(x + 3, y, name, fontsize=8, va='center')  # → 横にラベル、縦揃え
 
 # 軸設定
-plt.xlabel("link")
-plt.ylabel("tc")
-plt.title("leave:form")
+plt.xlabel("link",fontsize=20)
+plt.ylabel("tc",fontsize=20)
+#plt.title("tc vs ln",)
 plt.xlim(0, 100)
 plt.ylim(0.0, 1.1)
+plt.xticks(fontsize=18)
+plt.yticks(fontsize=18)
+
+handles, labels = plt.gca().get_legend_handles_labels()
+order = [0,1,2,3]  # 表示したい順
+plt.legend(
+    [handles[i] for i in order],
+    [labels[i] for i in order],
+    bbox_to_anchor=(1.02, 1),
+    loc="upper left",
+    fontsize=18,
+    frameon=True
+)
 
 plt.tight_layout()
 plt.savefig("pic82/plot5_LinkTc_anor.png")

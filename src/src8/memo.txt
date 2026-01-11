@@ -17,10 +17,37 @@ C:/MYCORD/master_2/venv/Scripts/Activate.ps1
 "7_both_null_noreset_t10_g10000_r100_w5000_b1",
 "7_both_full_reset_t10_g10000_r100_w5000_b1",
 "7_both_full_noreset_t10_g10000_r100_w5000_b1",
-
 【最終結果まとめ】
 plot5_calculate_LinkTc.py→プロット場所計算
 plot5_LinkTc_net.py→グラフ生成
+
+3.2社会ルールの影響
+切断AND、ORは既に出力
+"7_anan_leave_full_noreset_t10_g10000_r100_w5000_b1",
+接続OR、ANDは既に出力
+"7_oror_form_null_noreset_t10_g10000_r100_w5000_b1",
+切断接続、OR-ANDは既に出力
+"7_oror_both_null_noreset_t10_g10000_r100_w5000_b1",
+"7_anan_both_null_noreset_t10_g10000_r100_w5000_b1",
+"7_anor_both_null_noreset_t10_g10000_r100_w5000_b1",
+【最終結果まとめ】
+plot5_calculate_LinkTc.py→プロット場所計算
+plot5_LinkTc_anor.py→グラフ作成
+
+4.2密度一定
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 【form or】
 

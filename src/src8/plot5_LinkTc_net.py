@@ -31,10 +31,10 @@ from adjustText import adjust_text
 # name:7_leave_full_reset_t10_g10000_r100_w5000_b1
 # tc: 0.7686
 # ln: 0.418
-# name:6_both_full_noreset_t10_g10000_r100_w5000_b1
+# name:7_both_full_noreset_t10_g10000_r100_w5000_b1
 # tc: 0.5848
 # ln: 94.916
-# name:6_both_full_reset_t10_g10000_r100_w5000_b1
+# name:7_both_full_reset_t10_g10000_r100_w5000_b1
 # tc: 0.8991999999999999
 # ln: 13.954
 

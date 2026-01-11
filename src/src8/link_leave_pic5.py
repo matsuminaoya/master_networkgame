@@ -11,6 +11,12 @@ from matplotlib.animation import FuncAnimation
 from datetime import datetime
 from statistics import mean
 
+# names = ["7_leave_full_reset_t10_g10000_r100_w5000_b1",
+#          "7_leave_full_noreset_t10_g10000_r100_w5000_b1",
+#          ]
+
+names = ["7_anan_leave_full_noreset_t10_g10000_r100_w5000_b1",]
+
 # names = ["3_keepd_01_leave_or_t10_g10000_r100_w10000_b1",
 #          "3_keepd_03_leave_or_t10_g10000_r100_w10000_b1",
 #          "3_keepd_05_leave_or_t10_g10000_r100_w10000_b1",
@@ -23,10 +29,6 @@ from statistics import mean
 #          "3_keepd_07_leave_an_t10_g10000_r100_w10000_b1",
 #          "3_keepd_09_leave_an_t10_g10000_r100_w10000_b1"
 #          ] #TODO:
-
-names = ["7_leave_full_reset_t10_g10000_r100_w5000_b1",
-         "7_leave_full_noreset_t10_g10000_r100_w5000_b1",
-         ]
 
 def Graph_avr_tc_tf(csv, name):
     #allavr

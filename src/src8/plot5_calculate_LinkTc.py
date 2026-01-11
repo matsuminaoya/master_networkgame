@@ -17,8 +17,8 @@ names = ["7_both_null_noreset_t10_g10000_r100_w5000_b1",
          "7_form_null_reset_t10_g10000_r100_w5000_b1",
          "7_leave_full_noreset_t10_g10000_r100_w5000_b1",
          "7_leave_full_reset_t10_g10000_r100_w5000_b1",
-         "6_both_full_noreset_t10_g10000_r100_w5000_b1",
-         "6_both_full_reset_t10_g10000_r100_w5000_b1",
+         "7_both_full_noreset_t10_g10000_r100_w5000_b1",
+         "7_both_full_reset_t10_g10000_r100_w5000_b1",
 
          "7_oror_form_null_noreset_t10_g10000_r100_w5000_b1",
          "7_anan_leave_full_noreset_t10_g10000_r100_w5000_b1",
@@ -59,10 +59,10 @@ for name in names:
 # name:7_leave_full_reset_t10_g10000_r100_w5000_b1
 # tc: 0.7686
 # ln: 0.418
-# name:6_both_full_noreset_t10_g10000_r100_w5000_b1
+# name:7_both_full_noreset_t10_g10000_r100_w5000_b1
 # tc: 0.5848
 # ln: 94.916
-# name:6_both_full_reset_t10_g10000_r100_w5000_b1
+# name:7_both_full_reset_t10_g10000_r100_w5000_b1
 # tc: 0.8991999999999999
 # ln: 13.954
 
