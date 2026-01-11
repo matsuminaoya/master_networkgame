@@ -40,41 +40,48 @@ from adjustText import adjust_text
 
 
 # データ
-# names = [
-#     "both_null_noreset", "both_null_reset",
-#     "form_null_noreset", "form_null_reset",
-#     "leave_full_noreset", "leave_full_reset",
-#     "both_full_noreset", "both_full_reset"
-# ]
-
 names = [
-    "both_null_noreset", "both_null_reset",
-    "both_full_noreset", "both_full_reset"
+    "Both / Null / NoReset", "Both / Null / Reset",
+    "Form / Null / NoReset", "Form / Null / Reset",
+    "Leave / Full / NoReset", "Leave / Full / Reset",
+    "Both / Full / NoReset", "Both / Full / Reset"
 ]
 
-# tc_values = [0.5809, 0.0205, 1.0391, 0.2062, 0.5504, 0.7686, 0.5848, 0.8992]
-# ln_values = [95.914, 91.686, 99.0, 87.102, 0.0, 0.418, 94.916, 13.954]
-
-tc_values = [0.5809, 0.0205, 0.5848, 0.8992]
-ln_values = [95.914, 91.686, 94.916, 13.954]
+tc_values = [0.5809, 0.0205, 1.0391, 0.2062, 0.5504, 0.7686, 0.5848, 0.8992]
+ln_values = [95.914, 91.686, 99.0, 87.102, 0.0, 0.418, 94.916, 13.954]
 
 # 色とマーカー
-colors = ['orange', 'orange', 'green', 'green']
-markers = ['x', 'o', 'x', 'o']
+colors = ["red","red","green","green","orange","orange","b","b"]
+markers = ['x', 'o', 'x', 'o','x', 'o', 'x', 'o',]
 
 # プロット開始
-plt.figure(figsize=(6, 5))
+plt.figure(figsize=(10, 6))
 
 for name, x, y, c, m in zip(names, ln_values, tc_values, colors, markers):
-    plt.scatter(x, y, color=c, marker=m, s=100)
+    plt.scatter(x, y, color=c, marker=m, s=100, label=name)
     # plt.text(x + 3, y, name, fontsize=8, va='center')  # → 横にラベル、縦揃え
 
 # 軸設定
-plt.xlabel("link")
-plt.ylabel("tc")
-plt.title("tc vs ln")
+plt.xlabel("link",fontsize=20)
+plt.ylabel("tc",fontsize=20)
+#plt.title("tc vs ln",)
 plt.xlim(0, 100)
 plt.ylim(0.0, 1.1)
+plt.xticks(fontsize=18)
+plt.yticks(fontsize=18)
+
+handles, labels = plt.gca().get_legend_handles_labels()
+order = [4, 5, 2, 3, 0, 1, 6, 7]  # 表示したい順
+plt.legend(
+    [handles[i] for i in order],
+    [labels[i] for i in order],
+    bbox_to_anchor=(1.02, 1),
+    loc="upper left",
+    fontsize=18,
+    frameon=True
+)
+
+
 
 plt.tight_layout()
 plt.savefig("pic82/plot5_LinkTc_net_onlyboth.png")

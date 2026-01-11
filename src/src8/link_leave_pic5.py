@@ -11,18 +11,22 @@ from matplotlib.animation import FuncAnimation
 from datetime import datetime
 from statistics import mean
 
-names = ["3_keepd_01_leave_or_t10_g10000_r100_w10000_b1",
-         "3_keepd_03_leave_or_t10_g10000_r100_w10000_b1",
-         "3_keepd_05_leave_or_t10_g10000_r100_w10000_b1",
-         "3_keepd_07_leave_or_t10_g10000_r100_w10000_b1",
-         "3_keepd_09_leave_or_t10_g10000_r100_w10000_b1",
+# names = ["3_keepd_01_leave_or_t10_g10000_r100_w10000_b1",
+#          "3_keepd_03_leave_or_t10_g10000_r100_w10000_b1",
+#          "3_keepd_05_leave_or_t10_g10000_r100_w10000_b1",
+#          "3_keepd_07_leave_or_t10_g10000_r100_w10000_b1",
+#          "3_keepd_09_leave_or_t10_g10000_r100_w10000_b1",
 
-         "3_keepd_01_leave_an_t10_g10000_r100_w10000_b1",
-         "3_keepd_03_leave_an_t10_g10000_r100_w10000_b1",
-         "3_keepd_05_leave_an_t10_g10000_r100_w10000_b1",
-         "3_keepd_07_leave_an_t10_g10000_r100_w10000_b1",
-         "3_keepd_09_leave_an_t10_g10000_r100_w10000_b1"
-         ] #TODO:
+#          "3_keepd_01_leave_an_t10_g10000_r100_w10000_b1",
+#          "3_keepd_03_leave_an_t10_g10000_r100_w10000_b1",
+#          "3_keepd_05_leave_an_t10_g10000_r100_w10000_b1",
+#          "3_keepd_07_leave_an_t10_g10000_r100_w10000_b1",
+#          "3_keepd_09_leave_an_t10_g10000_r100_w10000_b1"
+#          ] #TODO:
+
+names = ["7_leave_full_reset_t10_g10000_r100_w5000_b1",
+         "7_leave_full_noreset_t10_g10000_r100_w5000_b1",
+         ]
 
 def Graph_avr_tc_tf(csv, name):
     #allavr
@@ -31,20 +35,22 @@ def Graph_avr_tc_tf(csv, name):
     avr_ges_all = data.groupby("Generation")[["tc","tl","link_count"]].mean().reset_index()
     
     df = avr_ges_all
-    fig = plt.figure(figsize=(20,10))
+    fig = plt.figure(figsize=(10,6))
     ax1 = fig.add_subplot()
-    ax1.plot(df["Generation"],df["tc"],label="tc",color="tab:blue")
-    ax1.plot(df["Generation"],df["tl"],label="tl",color="tab:orange")
+    ax1.plot(df["Generation"],df["tc"],label="tc",color="tab:blue",linewidth=4)
+    ax1.plot(df["Generation"],df["tl"],label="tl",color="tab:orange",linewidth=4)
     ax1.set_ylim(0.0,1.1)
-    ax1.set_xlabel("generation")
-    ax1.set_ylabel("tc, tl")
+    ax1.set_xlabel("generation",fontsize=20)
+    ax1.set_ylabel("tc, tl",fontsize=20)
+    ax1.tick_params(axis='both',labelsize=18)
     ax2 = ax1.twinx()
     ax2.bar(df["Generation"],df["link_count"],color='lightblue',label="link")
     ax2.set_ylim(0.0,100.0)
-    ax2.set_ylabel("link")
-    h1, l1 = ax1.get_legend_handles_labels()
-    h2, l2 = ax2.get_legend_handles_labels()
-    ax1.legend(h1+h2, l1+l2 ,loc="upper right")
+    ax2.set_ylabel("link",fontsize=20)
+    ax2.tick_params(axis='y',labelsize=18)
+    #h1, l1 = ax1.get_legend_handles_labels()
+    #h2, l2 = ax2.get_legend_handles_labels()
+    #ax1.legend(h1+h2, l1+l2 ,loc="upper right")
     ax1.set_zorder(1)
     ax2.set_zorder(0)
     ax1.patch.set_alpha(0)

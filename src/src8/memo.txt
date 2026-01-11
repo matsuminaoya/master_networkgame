@@ -2,7 +2,25 @@ C:/MYCORD/master_2/venv/Scripts/Activate.ps1
 
 これでvenv入るはず
 
+以下には、グラフ生成に際してのcsvファイル名を列挙する。
+該当のcsvファイルを指定のpyファイルで実行してグラフ画像を作成可能。
 
+3.1世代でのネットワークリセットの有無
+【切断のみモデル】→link_leave_pic5.pyで実行
+"7_leave_full_reset_t10_g10000_r100_w5000_b1",
+"7_leave_full_noreset_t10_g10000_r100_w5000_b1",
+【接続のみモデル】→link_form_pic5.pyで実行
+"7_form_null_reset_t10_g10000_r100_w5000_b1",
+"7_form_null_noreset_t10_g10000_r100_w5000_b1",
+【切断・接続モデル】→link_both_pic5.pyで実行
+"7_both_null_reset_t10_g10000_r100_w5000_b1",
+"7_both_null_noreset_t10_g10000_r100_w5000_b1",
+"7_both_full_reset_t10_g10000_r100_w5000_b1",
+"7_both_full_noreset_t10_g10000_r100_w5000_b1",
+
+【最終結果まとめ】
+plot5_calculate_LinkTc.py→プロット場所計算
+plot5_LinkTc_net.py→グラフ生成
 
 【form or】
 
