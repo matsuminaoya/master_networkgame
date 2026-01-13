@@ -60,13 +60,28 @@ plt.figure(figsize=(6, 5))
 
 for label, values in data.items():
     y_values = [values[x] for x in x_values]
-    plt.plot(x_values, y_values, marker='o', label=label)
+    plt.plot(x_values, y_values, marker='o', linewidth=3, markersize=8, label=label)
 
-plt.title('leave or')
-plt.xlabel('work')
-plt.ylabel('tc')
+#plt.title('form an')
+# 軸ラベル
+plt.xlabel('w', fontsize=18)
+plt.ylabel('tc', fontsize=18)
+
+# 目盛り（メモリ）
+plt.xticks(x_values, fontsize=18)
+plt.yticks(fontsize=18)
+
+# 範囲
 plt.ylim(0.0, 1.1)
-plt.legend(title='dencity')
-plt.xticks(x_values)
+
+# 凡例
+plt.legend(
+    title='density',
+    fontsize=18,
+    title_fontsize=18,
+    frameon=True
+)
+
+plt.tight_layout()
 plt.savefig("pic82/plot5_keepdTc_lor.png")
 plt.show()
