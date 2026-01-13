@@ -110,7 +110,7 @@ void part1_01() {
         if (ro == 0) {
           for (int i = 0; i < NUM_AGENTS; i++) {
             float r_0rocd = (float)genrand_real1();  // [0,1]
-            if (agents[i].tc <= r_0rocd) {
+            if (agents[i].tc / 1.1 < r_0rocd) {
               agents[i].is_cooperator = 1;
             } else {
               agents[i].is_cooperator = 0;
@@ -375,7 +375,7 @@ void part1_03() {
         if (ro == 0) {
           for (int i = 0; i < NUM_AGENTS; i++) {
             float r_0rocd = (float)genrand_real1();  // [0,1]
-            if (agents[i].tc <= r_0rocd) {
+            if (agents[i].tc / 1.1 < r_0rocd) {
               agents[i].is_cooperator = 1;
             } else {
               agents[i].is_cooperator = 0;
@@ -640,7 +640,7 @@ void part1_05() {
         if (ro == 0) {
           for (int i = 0; i < NUM_AGENTS; i++) {
             float r_0rocd = (float)genrand_real1();  // [0,1]
-            if (agents[i].tc <= r_0rocd) {
+            if (agents[i].tc / 1.1 < r_0rocd) {
               agents[i].is_cooperator = 1;
             } else {
               agents[i].is_cooperator = 0;
@@ -905,7 +905,7 @@ void part1_07() {
         if (ro == 0) {
           for (int i = 0; i < NUM_AGENTS; i++) {
             float r_0rocd = (float)genrand_real1();  // [0,1]
-            if (agents[i].tc <= r_0rocd) {
+            if (agents[i].tc / 1.1 < r_0rocd) {
               agents[i].is_cooperator = 1;
             } else {
               agents[i].is_cooperator = 0;
@@ -1170,7 +1170,7 @@ void part1_09() {
         if (ro == 0) {
           for (int i = 0; i < NUM_AGENTS; i++) {
             float r_0rocd = (float)genrand_real1();  // [0,1]
-            if (agents[i].tc <= r_0rocd) {
+            if (agents[i].tc / 1.1 < r_0rocd) {
               agents[i].is_cooperator = 1;
             } else {
               agents[i].is_cooperator = 0;
@@ -1435,7 +1435,7 @@ void part2_01() {
         if (ro == 0) {
           for (int i = 0; i < NUM_AGENTS; i++) {
             float r_0rocd = (float)genrand_real1();  // [0,1]
-            if (agents[i].tc <= r_0rocd) {
+            if (agents[i].tc / 1.1 < r_0rocd) {
               agents[i].is_cooperator = 1;
             } else {
               agents[i].is_cooperator = 0;
@@ -1700,7 +1700,7 @@ void part2_03() {
         if (ro == 0) {
           for (int i = 0; i < NUM_AGENTS; i++) {
             float r_0rocd = (float)genrand_real1();  // [0,1]
-            if (agents[i].tc <= r_0rocd) {
+            if (agents[i].tc / 1.1 < r_0rocd) {
               agents[i].is_cooperator = 1;
             } else {
               agents[i].is_cooperator = 0;
@@ -1965,7 +1965,7 @@ void part2_05() {
         if (ro == 0) {
           for (int i = 0; i < NUM_AGENTS; i++) {
             float r_0rocd = (float)genrand_real1();  // [0,1]
-            if (agents[i].tc <= r_0rocd) {
+            if (agents[i].tc / 1.1 < r_0rocd) {
               agents[i].is_cooperator = 1;
             } else {
               agents[i].is_cooperator = 0;
@@ -2230,7 +2230,7 @@ void part2_07() {
         if (ro == 0) {
           for (int i = 0; i < NUM_AGENTS; i++) {
             float r_0rocd = (float)genrand_real1();  // [0,1]
-            if (agents[i].tc <= r_0rocd) {
+            if (agents[i].tc / 1.1 < r_0rocd) {
               agents[i].is_cooperator = 1;
             } else {
               agents[i].is_cooperator = 0;
@@ -2495,7 +2495,7 @@ void part2_09() {
         if (ro == 0) {
           for (int i = 0; i < NUM_AGENTS; i++) {
             float r_0rocd = (float)genrand_real1();  // [0,1]
-            if (agents[i].tc <= r_0rocd) {
+            if (agents[i].tc / 1.1 < r_0rocd) {
               agents[i].is_cooperator = 1;
             } else {
               agents[i].is_cooperator = 0;
@@ -2761,7 +2761,7 @@ void part3_01() {
         if (ro == 0) {
           for (int i = 0; i < NUM_AGENTS; i++) {
             float r_0rocd = (float)genrand_real1();  // [0,1]
-            if (agents[i].tc <= r_0rocd) {
+            if (agents[i].tc / 1.1 < r_0rocd) {
               agents[i].is_cooperator = 1;
             } else {
               agents[i].is_cooperator = 0;
@@ -3026,7 +3026,7 @@ void part3_03() {
         if (ro == 0) {
           for (int i = 0; i < NUM_AGENTS; i++) {
             float r_0rocd = (float)genrand_real1();  // [0,1]
-            if (agents[i].tc <= r_0rocd) {
+            if (agents[i].tc / 1.1 < r_0rocd) {
               agents[i].is_cooperator = 1;
             } else {
               agents[i].is_cooperator = 0;
@@ -3291,7 +3291,7 @@ void part3_05() {
         if (ro == 0) {
           for (int i = 0; i < NUM_AGENTS; i++) {
             float r_0rocd = (float)genrand_real1();  // [0,1]
-            if (agents[i].tc <= r_0rocd) {
+            if (agents[i].tc / 1.1 < r_0rocd) {
               agents[i].is_cooperator = 1;
             } else {
               agents[i].is_cooperator = 0;
@@ -3556,7 +3556,7 @@ void part3_07() {
         if (ro == 0) {
           for (int i = 0; i < NUM_AGENTS; i++) {
             float r_0rocd = (float)genrand_real1();  // [0,1]
-            if (agents[i].tc <= r_0rocd) {
+            if (agents[i].tc / 1.1 < r_0rocd) {
               agents[i].is_cooperator = 1;
             } else {
               agents[i].is_cooperator = 0;
@@ -3821,7 +3821,7 @@ void part3_09() {
         if (ro == 0) {
           for (int i = 0; i < NUM_AGENTS; i++) {
             float r_0rocd = (float)genrand_real1();  // [0,1]
-            if (agents[i].tc <= r_0rocd) {
+            if (agents[i].tc / 1.1 < r_0rocd) {
               agents[i].is_cooperator = 1;
             } else {
               agents[i].is_cooperator = 0;
@@ -4086,7 +4086,7 @@ void part4_01() {
         if (ro == 0) {
           for (int i = 0; i < NUM_AGENTS; i++) {
             float r_0rocd = (float)genrand_real1();  // [0,1]
-            if (agents[i].tc <= r_0rocd) {
+            if (agents[i].tc / 1.1 < r_0rocd) {
               agents[i].is_cooperator = 1;
             } else {
               agents[i].is_cooperator = 0;
@@ -4351,7 +4351,7 @@ void part4_03() {
         if (ro == 0) {
           for (int i = 0; i < NUM_AGENTS; i++) {
             float r_0rocd = (float)genrand_real1();  // [0,1]
-            if (agents[i].tc <= r_0rocd) {
+            if (agents[i].tc / 1.1 < r_0rocd) {
               agents[i].is_cooperator = 1;
             } else {
               agents[i].is_cooperator = 0;
@@ -4616,7 +4616,7 @@ void part4_05() {
         if (ro == 0) {
           for (int i = 0; i < NUM_AGENTS; i++) {
             float r_0rocd = (float)genrand_real1();  // [0,1]
-            if (agents[i].tc <= r_0rocd) {
+            if (agents[i].tc / 1.1 < r_0rocd) {
               agents[i].is_cooperator = 1;
             } else {
               agents[i].is_cooperator = 0;
@@ -4881,7 +4881,7 @@ void part4_07() {
         if (ro == 0) {
           for (int i = 0; i < NUM_AGENTS; i++) {
             float r_0rocd = (float)genrand_real1();  // [0,1]
-            if (agents[i].tc <= r_0rocd) {
+            if (agents[i].tc / 1.1 < r_0rocd) {
               agents[i].is_cooperator = 1;
             } else {
               agents[i].is_cooperator = 0;
@@ -5146,7 +5146,7 @@ void part4_09() {
         if (ro == 0) {
           for (int i = 0; i < NUM_AGENTS; i++) {
             float r_0rocd = (float)genrand_real1();  // [0,1]
-            if (agents[i].tc <= r_0rocd) {
+            if (agents[i].tc / 1.1 < r_0rocd) {
               agents[i].is_cooperator = 1;
             } else {
               agents[i].is_cooperator = 0;

@@ -17,7 +17,7 @@ typedef struct {
 // エージェントのインデックスをシャッフルするユーティリティ
 // 社会学習の処理順を変えるためだけ問題なし
 // Fisher-Yatesアルゴリズム/Knuthシャッフル
-void shuffle(int *array, int n) {
+void shuffle(int* array, int n) {
   for (int i = n - 1; i > 0; i--) {     // iを後ろから前に1ずつ動かす
     int j = genrand_int32() % (i + 1);  // 0からiまでの数字をランダムにj
     int temp = array[i];                // arrayのi番目を
@@ -31,7 +31,7 @@ void shuffle(int *array, int n) {
 // and
 void part11() {
   // CSVファイルを出力するための準備 TODO:
-  FILE *csv_file =
+  FILE* csv_file =
       fopen("3_keepd_01_leave_an_t10_g10000_r100_w10000_b1.csv", "w");
 
   init_genrand((unsigned long)time(NULL));  // 乱数
@@ -46,7 +46,7 @@ void part11() {
   int trial = 10;          // TODO:
   int generation = 10000;  // TODO:
   int round = 100;         // TODO:
-  int work = 10000;         // TODO:
+  int work = 10000;        // TODO:
 
   for (int tr = 0; tr < trial; tr++) {  // トライアル開始
     printf("Trial %d:\n", tr);
@@ -109,7 +109,7 @@ void part11() {
         if (ro == 0) {
           for (int i = 0; i < NUM_AGENTS; i++) {
             float r_0rocd = (float)genrand_real1();  // [0,1]
-            if (agents[i].tc <= r_0rocd) {
+            if (agents[i].tc / 1.1 < r_0rocd) {
               agents[i].is_cooperator = 1;
             } else {
               agents[i].is_cooperator = 0;
@@ -265,7 +265,7 @@ void part11() {
       for (int i = 0; i < NUM_AGENTS; i++) {
         if (will_learn[i] == 1) continue;
         // tc, tl, tf のそれぞれを ±0.1 変化させる
-        float *traits[2] = {&agents[i].tc, &agents[i].tl};
+        float* traits[2] = {&agents[i].tc, &agents[i].tl};
         for (int t = 0; t < 2; t++) {
           float delta = ((genrand_int32() % 2 == 0) ? 0.1f : -0.1f);
           *traits[t] += delta;
@@ -296,7 +296,7 @@ void part11() {
 
 void part13() {
   // CSVファイルを出力するための準備 TODO:
-  FILE *csv_file =
+  FILE* csv_file =
       fopen("3_keepd_03_leave_an_t10_g10000_r100_w10000_b1.csv", "w");
 
   init_genrand((unsigned long)time(NULL));  // 乱数
@@ -311,7 +311,7 @@ void part13() {
   int trial = 10;          // TODO:
   int generation = 10000;  // TODO:
   int round = 100;         // TODO:
-  int work = 10000;         // TODO:
+  int work = 10000;        // TODO:
 
   for (int tr = 0; tr < trial; tr++) {  // トライアル開始
     printf("Trial %d:\n", tr);
@@ -374,7 +374,7 @@ void part13() {
         if (ro == 0) {
           for (int i = 0; i < NUM_AGENTS; i++) {
             float r_0rocd = (float)genrand_real1();  // [0,1]
-            if (agents[i].tc <= r_0rocd) {
+            if (agents[i].tc / 1.1 < r_0rocd) {
               agents[i].is_cooperator = 1;
             } else {
               agents[i].is_cooperator = 0;
@@ -530,7 +530,7 @@ void part13() {
       for (int i = 0; i < NUM_AGENTS; i++) {
         if (will_learn[i] == 1) continue;
         // tc, tl, tf のそれぞれを ±0.1 変化させる
-        float *traits[2] = {&agents[i].tc, &agents[i].tl};
+        float* traits[2] = {&agents[i].tc, &agents[i].tl};
         for (int t = 0; t < 2; t++) {
           float delta = ((genrand_int32() % 2 == 0) ? 0.1f : -0.1f);
           *traits[t] += delta;
@@ -561,7 +561,7 @@ void part13() {
 
 void part15() {
   // CSVファイルを出力するための準備 TODO:
-  FILE *csv_file =
+  FILE* csv_file =
       fopen("3_keepd_05_leave_an_t10_g10000_r100_w10000_b1.csv", "w");
 
   init_genrand((unsigned long)time(NULL));  // 乱数
@@ -576,7 +576,7 @@ void part15() {
   int trial = 10;          // TODO:
   int generation = 10000;  // TODO:
   int round = 100;         // TODO:
-  int work = 10000;         // TODO:
+  int work = 10000;        // TODO:
 
   for (int tr = 0; tr < trial; tr++) {  // トライアル開始
     printf("Trial %d:\n", tr);
@@ -639,7 +639,7 @@ void part15() {
         if (ro == 0) {
           for (int i = 0; i < NUM_AGENTS; i++) {
             float r_0rocd = (float)genrand_real1();  // [0,1]
-            if (agents[i].tc <= r_0rocd) {
+            if (agents[i].tc / 1.1 < r_0rocd) {
               agents[i].is_cooperator = 1;
             } else {
               agents[i].is_cooperator = 0;
@@ -795,7 +795,7 @@ void part15() {
       for (int i = 0; i < NUM_AGENTS; i++) {
         if (will_learn[i] == 1) continue;
         // tc, tl, tf のそれぞれを ±0.1 変化させる
-        float *traits[2] = {&agents[i].tc, &agents[i].tl};
+        float* traits[2] = {&agents[i].tc, &agents[i].tl};
         for (int t = 0; t < 2; t++) {
           float delta = ((genrand_int32() % 2 == 0) ? 0.1f : -0.1f);
           *traits[t] += delta;
@@ -826,7 +826,7 @@ void part15() {
 
 void part17() {
   // CSVファイルを出力するための準備 TODO:
-  FILE *csv_file =
+  FILE* csv_file =
       fopen("3_keepd_07_leave_an_t10_g10000_r100_w10000_b1.csv", "w");
 
   init_genrand((unsigned long)time(NULL));  // 乱数
@@ -841,7 +841,7 @@ void part17() {
   int trial = 10;          // TODO:
   int generation = 10000;  // TODO:
   int round = 100;         // TODO:
-  int work = 10000;         // TODO:
+  int work = 10000;        // TODO:
 
   for (int tr = 0; tr < trial; tr++) {  // トライアル開始
     printf("Trial %d:\n", tr);
@@ -904,7 +904,7 @@ void part17() {
         if (ro == 0) {
           for (int i = 0; i < NUM_AGENTS; i++) {
             float r_0rocd = (float)genrand_real1();  // [0,1]
-            if (agents[i].tc <= r_0rocd) {
+            if (agents[i].tc / 1.1 < r_0rocd) {
               agents[i].is_cooperator = 1;
             } else {
               agents[i].is_cooperator = 0;
@@ -1060,7 +1060,7 @@ void part17() {
       for (int i = 0; i < NUM_AGENTS; i++) {
         if (will_learn[i] == 1) continue;
         // tc, tl, tf のそれぞれを ±0.1 変化させる
-        float *traits[2] = {&agents[i].tc, &agents[i].tl};
+        float* traits[2] = {&agents[i].tc, &agents[i].tl};
         for (int t = 0; t < 2; t++) {
           float delta = ((genrand_int32() % 2 == 0) ? 0.1f : -0.1f);
           *traits[t] += delta;
@@ -1091,7 +1091,7 @@ void part17() {
 
 void part19() {
   // CSVファイルを出力するための準備 TODO:
-  FILE *csv_file =
+  FILE* csv_file =
       fopen("3_keepd_09_leave_an_t10_g10000_r100_w10000_b1.csv", "w");
 
   init_genrand((unsigned long)time(NULL));  // 乱数
@@ -1106,7 +1106,7 @@ void part19() {
   int trial = 10;          // TODO:
   int generation = 10000;  // TODO:
   int round = 100;         // TODO:
-  int work = 10000;         // TODO:
+  int work = 10000;        // TODO:
 
   for (int tr = 0; tr < trial; tr++) {  // トライアル開始
     printf("Trial %d:\n", tr);
@@ -1169,7 +1169,7 @@ void part19() {
         if (ro == 0) {
           for (int i = 0; i < NUM_AGENTS; i++) {
             float r_0rocd = (float)genrand_real1();  // [0,1]
-            if (agents[i].tc <= r_0rocd) {
+            if (agents[i].tc / 1.1 < r_0rocd) {
               agents[i].is_cooperator = 1;
             } else {
               agents[i].is_cooperator = 0;
@@ -1325,7 +1325,7 @@ void part19() {
       for (int i = 0; i < NUM_AGENTS; i++) {
         if (will_learn[i] == 1) continue;
         // tc, tl, tf のそれぞれを ±0.1 変化させる
-        float *traits[2] = {&agents[i].tc, &agents[i].tl};
+        float* traits[2] = {&agents[i].tc, &agents[i].tl};
         for (int t = 0; t < 2; t++) {
           float delta = ((genrand_int32() % 2 == 0) ? 0.1f : -0.1f);
           *traits[t] += delta;
@@ -1357,7 +1357,7 @@ void part19() {
 // or
 void part01() {
   // CSVファイルを出力するための準備 TODO:
-  FILE *csv_file =
+  FILE* csv_file =
       fopen("3_keepd_01_leave_or_t10_g10000_r100_w10000_b1.csv", "w");
 
   init_genrand((unsigned long)time(NULL));  // 乱数
@@ -1372,7 +1372,7 @@ void part01() {
   int trial = 10;          // TODO:
   int generation = 10000;  // TODO:
   int round = 100;         // TODO:
-  int work = 10000;         // TODO:
+  int work = 10000;        // TODO:
 
   for (int tr = 0; tr < trial; tr++) {  // トライアル開始
     printf("Trial %d:\n", tr);
@@ -1435,7 +1435,7 @@ void part01() {
         if (ro == 0) {
           for (int i = 0; i < NUM_AGENTS; i++) {
             float r_0rocd = (float)genrand_real1();  // [0,1]
-            if (agents[i].tc <= r_0rocd) {
+            if (agents[i].tc / 1.1 < r_0rocd) {
               agents[i].is_cooperator = 1;
             } else {
               agents[i].is_cooperator = 0;
@@ -1591,7 +1591,7 @@ void part01() {
       for (int i = 0; i < NUM_AGENTS; i++) {
         if (will_learn[i] == 1) continue;
         // tc, tl, tf のそれぞれを ±0.1 変化させる
-        float *traits[2] = {&agents[i].tc, &agents[i].tl};
+        float* traits[2] = {&agents[i].tc, &agents[i].tl};
         for (int t = 0; t < 2; t++) {
           float delta = ((genrand_int32() % 2 == 0) ? 0.1f : -0.1f);
           *traits[t] += delta;
@@ -1622,7 +1622,7 @@ void part01() {
 
 void part03() {
   // CSVファイルを出力するための準備 TODO:
-  FILE *csv_file =
+  FILE* csv_file =
       fopen("3_keepd_03_leave_or_t10_g10000_r100_w10000_b1.csv", "w");
 
   init_genrand((unsigned long)time(NULL));  // 乱数
@@ -1637,7 +1637,7 @@ void part03() {
   int trial = 10;          // TODO:
   int generation = 10000;  // TODO:
   int round = 100;         // TODO:
-  int work = 10000;         // TODO:
+  int work = 10000;        // TODO:
 
   for (int tr = 0; tr < trial; tr++) {  // トライアル開始
     printf("Trial %d:\n", tr);
@@ -1700,7 +1700,7 @@ void part03() {
         if (ro == 0) {
           for (int i = 0; i < NUM_AGENTS; i++) {
             float r_0rocd = (float)genrand_real1();  // [0,1]
-            if (agents[i].tc <= r_0rocd) {
+            if (agents[i].tc / 1.1 < r_0rocd) {
               agents[i].is_cooperator = 1;
             } else {
               agents[i].is_cooperator = 0;
@@ -1856,7 +1856,7 @@ void part03() {
       for (int i = 0; i < NUM_AGENTS; i++) {
         if (will_learn[i] == 1) continue;
         // tc, tl, tf のそれぞれを ±0.1 変化させる
-        float *traits[2] = {&agents[i].tc, &agents[i].tl};
+        float* traits[2] = {&agents[i].tc, &agents[i].tl};
         for (int t = 0; t < 2; t++) {
           float delta = ((genrand_int32() % 2 == 0) ? 0.1f : -0.1f);
           *traits[t] += delta;
@@ -1887,7 +1887,7 @@ void part03() {
 
 void part05() {
   // CSVファイルを出力するための準備 TODO:
-  FILE *csv_file =
+  FILE* csv_file =
       fopen("3_keepd_05_leave_or_t10_g10000_r100_w10000_b1.csv", "w");
 
   init_genrand((unsigned long)time(NULL));  // 乱数
@@ -1902,7 +1902,7 @@ void part05() {
   int trial = 10;          // TODO:
   int generation = 10000;  // TODO:
   int round = 100;         // TODO:
-  int work = 10000;         // TODO:
+  int work = 10000;        // TODO:
 
   for (int tr = 0; tr < trial; tr++) {  // トライアル開始
     printf("Trial %d:\n", tr);
@@ -1965,7 +1965,7 @@ void part05() {
         if (ro == 0) {
           for (int i = 0; i < NUM_AGENTS; i++) {
             float r_0rocd = (float)genrand_real1();  // [0,1]
-            if (agents[i].tc <= r_0rocd) {
+            if (agents[i].tc / 1.1 < r_0rocd) {
               agents[i].is_cooperator = 1;
             } else {
               agents[i].is_cooperator = 0;
@@ -2121,7 +2121,7 @@ void part05() {
       for (int i = 0; i < NUM_AGENTS; i++) {
         if (will_learn[i] == 1) continue;
         // tc, tl, tf のそれぞれを ±0.1 変化させる
-        float *traits[2] = {&agents[i].tc, &agents[i].tl};
+        float* traits[2] = {&agents[i].tc, &agents[i].tl};
         for (int t = 0; t < 2; t++) {
           float delta = ((genrand_int32() % 2 == 0) ? 0.1f : -0.1f);
           *traits[t] += delta;
@@ -2152,7 +2152,7 @@ void part05() {
 
 void part07() {
   // CSVファイルを出力するための準備 TODO:
-  FILE *csv_file =
+  FILE* csv_file =
       fopen("3_keepd_07_leave_or_t10_g10000_r100_w10000_b1.csv", "w");
 
   init_genrand((unsigned long)time(NULL));  // 乱数
@@ -2167,7 +2167,7 @@ void part07() {
   int trial = 10;          // TODO:
   int generation = 10000;  // TODO:
   int round = 100;         // TODO:
-  int work = 10000;         // TODO:
+  int work = 10000;        // TODO:
 
   for (int tr = 0; tr < trial; tr++) {  // トライアル開始
     printf("Trial %d:\n", tr);
@@ -2230,7 +2230,7 @@ void part07() {
         if (ro == 0) {
           for (int i = 0; i < NUM_AGENTS; i++) {
             float r_0rocd = (float)genrand_real1();  // [0,1]
-            if (agents[i].tc <= r_0rocd) {
+            if (agents[i].tc / 1.1 < r_0rocd) {
               agents[i].is_cooperator = 1;
             } else {
               agents[i].is_cooperator = 0;
@@ -2386,7 +2386,7 @@ void part07() {
       for (int i = 0; i < NUM_AGENTS; i++) {
         if (will_learn[i] == 1) continue;
         // tc, tl, tf のそれぞれを ±0.1 変化させる
-        float *traits[2] = {&agents[i].tc, &agents[i].tl};
+        float* traits[2] = {&agents[i].tc, &agents[i].tl};
         for (int t = 0; t < 2; t++) {
           float delta = ((genrand_int32() % 2 == 0) ? 0.1f : -0.1f);
           *traits[t] += delta;
@@ -2417,7 +2417,7 @@ void part07() {
 
 void part09() {
   // CSVファイルを出力するための準備 TODO:
-  FILE *csv_file =
+  FILE* csv_file =
       fopen("3_keepd_09_leave_or_t10_g10000_r100_w10000_b1.csv", "w");
 
   init_genrand((unsigned long)time(NULL));  // 乱数
@@ -2432,7 +2432,7 @@ void part09() {
   int trial = 10;          // TODO:
   int generation = 10000;  // TODO:
   int round = 100;         // TODO:
-  int work = 10000;         // TODO:
+  int work = 10000;        // TODO:
 
   for (int tr = 0; tr < trial; tr++) {  // トライアル開始
     printf("Trial %d:\n", tr);
@@ -2495,7 +2495,7 @@ void part09() {
         if (ro == 0) {
           for (int i = 0; i < NUM_AGENTS; i++) {
             float r_0rocd = (float)genrand_real1();  // [0,1]
-            if (agents[i].tc <= r_0rocd) {
+            if (agents[i].tc / 1.1 < r_0rocd) {
               agents[i].is_cooperator = 1;
             } else {
               agents[i].is_cooperator = 0;
@@ -2651,7 +2651,7 @@ void part09() {
       for (int i = 0; i < NUM_AGENTS; i++) {
         if (will_learn[i] == 1) continue;
         // tc, tl, tf のそれぞれを ±0.1 変化させる
-        float *traits[2] = {&agents[i].tc, &agents[i].tl};
+        float* traits[2] = {&agents[i].tc, &agents[i].tl};
         for (int t = 0; t < 2; t++) {
           float delta = ((genrand_int32() % 2 == 0) ? 0.1f : -0.1f);
           *traits[t] += delta;

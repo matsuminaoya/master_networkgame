@@ -113,7 +113,7 @@ void part1() {
         if (ro == 0) {
           for (int i = 0; i < NUM_AGENTS; i++) {
             float r_0rocd = (float)genrand_real1();  // [0,1]
-            if (agents[i].tc <= r_0rocd) {
+            if (agents[i].tc / 1.1 < r_0rocd) {
               agents[i].is_cooperator = 1;
             } else {
               agents[i].is_cooperator = 0;
@@ -381,7 +381,7 @@ void part2() {
         if (ro == 0) {
           for (int i = 0; i < NUM_AGENTS; i++) {
             float r_0rocd = (float)genrand_real1();  // [0,1]
-            if (agents[i].tc <= r_0rocd) {
+            if (agents[i].tc / 1.1 < r_0rocd) {
               agents[i].is_cooperator = 1;
             } else {
               agents[i].is_cooperator = 0;
@@ -650,7 +650,7 @@ void part3() {
         if (ro == 0) {
           for (int i = 0; i < NUM_AGENTS; i++) {
             float r_0rocd = (float)genrand_real1();  // [0,1]
-            if (agents[i].tc <= r_0rocd) {
+            if (agents[i].tc / 1.1 < r_0rocd) {
               agents[i].is_cooperator = 1;
             } else {
               agents[i].is_cooperator = 0;
@@ -919,7 +919,7 @@ void part4() {
         if (ro == 0) {
           for (int i = 0; i < NUM_AGENTS; i++) {
             float r_0rocd = (float)genrand_real1();  // [0,1]
-            if (agents[i].tc <= r_0rocd) {
+            if (agents[i].tc / 1.1 < r_0rocd) {
               agents[i].is_cooperator = 1;
             } else {
               agents[i].is_cooperator = 0;
@@ -1188,7 +1188,7 @@ void part5() {
         if (ro == 0) {
           for (int i = 0; i < NUM_AGENTS; i++) {
             float r_0rocd = (float)genrand_real1();  // [0,1]
-            if (agents[i].tc <= r_0rocd) {
+            if (agents[i].tc / 1.1 < r_0rocd) {
               agents[i].is_cooperator = 1;
             } else {
               agents[i].is_cooperator = 0;
@@ -1457,7 +1457,7 @@ void part6() {
         if (ro == 0) {
           for (int i = 0; i < NUM_AGENTS; i++) {
             float r_0rocd = (float)genrand_real1();  // [0,1]
-            if (agents[i].tc <= r_0rocd) {
+            if (agents[i].tc / 1.1 < r_0rocd) {
               agents[i].is_cooperator = 1;
             } else {
               agents[i].is_cooperator = 0;
