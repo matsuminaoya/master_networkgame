@@ -37,7 +37,7 @@ void part01() {
 
   init_genrand((unsigned long)time(NULL));
 
-  float density = 0.1f;  // [0.0, 1.0] Initial network density
+  float density = 0.1f;  // Initial network density
 
   float benefit = 2.0f;    // Benefit
   float cost = 1.0f;       // Cost
@@ -56,7 +56,7 @@ void part01() {
       agents[i].tc = 0.0f;          // 0.0 (Cooperator) ~ 1.1 (Defector)
       agents[i].tl = 0.0f;          // 0.0 (Hard to leave) ~ 1.1 (Easy to leave)
       agents[i].is_cooperator = 0;  // Cooperator=1, Defector=0
-    }  // Initialize tc,tl,tf
+    }  // Initialize tc,tl
 
     // initialize the matrix as follows
     int link_matrix[NUM_AGENTS][NUM_AGENTS];
@@ -190,7 +190,7 @@ void part01() {
           int j = genrand_int32() % NUM_AGENTS;
           if (i == j) continue;
 
-          if (MODEL_TYPE == 0) { // Only-leave model
+          if (MODEL_TYPE == 0) {  // Only-leave model
             // "Only if the cut conditioin is met"
             // → cut first, then create a link randomly
             if (link_matrix[i][j] == 1 &&
