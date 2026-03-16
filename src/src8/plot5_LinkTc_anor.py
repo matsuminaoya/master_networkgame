@@ -54,13 +54,42 @@ from adjustText import adjust_text
 # tc: 1.0383999999999998
 # ln: 62.352
 
+
+#tl
+# name:7_oror_both_null_noreset_t10_g10000_r100_w5000_b1
+# tl: 0.0023000000000000004
+# ln: 96.524
+# name:7_anan_both_null_noreset_t10_g10000_r100_w5000_b1
+# tl: 0.0055
+# ln: 88.89
+# name:7_anor_both_null_noreset_t10_g10000_r100_w5000_b1
+# tl: 0.011800000000000001
+# ln: 62.352
+
+#tf
+# name:7_oror_both_null_noreset_t10_g10000_r100_w5000_b1
+# tf: 0.0818
+# ln: 96.524
+# name:7_anan_both_null_noreset_t10_g10000_r100_w5000_b1
+# tf: 0.09639999999999999
+# ln: 88.89
+# name:7_anor_both_null_noreset_t10_g10000_r100_w5000_b1
+# tf: 0.39969999999999994
+# ln: 62.352
+
 # データ
 names = [
     "OR-AND",
     "OR-OR", "AND-AND", "AND-OR"
 ]
 
-tc_values = [0.5809, 1.037, 1.043, 1.0383999999999998]
+# tc_values = [0.5809, 1.037, 1.043, 1.0383999999999998]
+# ln_values = [95.914, 96.524, 88.89, 62.352]
+
+# tl_values = [0.4583, 0.0023, 0.0055, 0.0118]
+# ln_values = [95.914, 96.524, 88.89, 62.352]
+
+tf_values = [0.3123, 0.0818, 0.0964, 0.3997]
 ln_values = [95.914, 96.524, 88.89, 62.352]
 
 # 色とマーカー
@@ -71,13 +100,13 @@ markers = ['o', 'x', 's', '^']
 # プロット開始
 plt.figure(figsize=(9, 6))
 
-for name, x, y, c, m in zip(names, ln_values, tc_values, colors, markers):
+for name, x, y, c, m in zip(names, ln_values, tf_values, colors, markers):
     plt.scatter(x, y, color=c, marker=m, s=100, label=name)
     # plt.text(x + 3, y, name, fontsize=8, va='center')  # → 横にラベル、縦揃え
 
 # 軸設定
 plt.xlabel("link",fontsize=20)
-plt.ylabel("tc",fontsize=20)
+plt.ylabel("tf",fontsize=20)
 #plt.title("tc vs ln",)
 plt.xlim(0, 100)
 plt.ylim(0.0, 1.1)
@@ -96,6 +125,6 @@ plt.legend(
 )
 
 plt.tight_layout()
-plt.savefig("pic82/plot5_LinkTc_anor.png")
+plt.savefig("pic82/plot5_LinkTf_anor.png")
 
 #plt.show()

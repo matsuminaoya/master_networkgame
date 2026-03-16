@@ -27,11 +27,11 @@ void shuffle(int *array, int n) {
   }
 }
 
-// 6_both_full_noreset_t10_g10000_r100_w5000_b1
+// 7_both_full_noreset_t10_g10000_r100_w5000_b1
 void part1() {
   // CSVファイルを出力するための準備 TODO:
   FILE *csv_file =
-      fopen("6_both_full_noreset_t10_g10000_r100_w5000_b1.csv", "w");
+      fopen("7_both_full_noreset_t10_g10000_r100_w5000_b1.csv", "w");
 
   init_genrand((unsigned long)time(NULL));  // 乱数
 
@@ -296,10 +296,10 @@ void part1() {
   printf("DONE\n");
 }  // main終了
 
-// 6_both_full_reset_t10_g10000_r100_w5000_b1
+// 7_both_full_reset_t10_g10000_r100_w5000_b1
 void part2() {
   // CSVファイルを出力するための準備 TODO:
-  FILE *csv_file = fopen("6_both_full_reset_t10_g10000_r100_w5000_b1.csv", "w");
+  FILE *csv_file = fopen("7_both_full_reset_t10_g10000_r100_w5000_b1.csv", "w");
 
   init_genrand((unsigned long)time(NULL));  // 乱数
 
@@ -564,11 +564,11 @@ void part2() {
   printf("DONE\n");
 }  // main終了
 
-// 6_oror_both_full_noreset_t10_g10000_r100_w5000_b1
+// 7_oror_both_full_noreset_t10_g10000_r100_w5000_b1
 void part3() {
   // CSVファイルを出力するための準備 TODO:
   FILE *csv_file =
-      fopen("6_oror_both_full_noreset_t10_g10000_r100_w5000_b1.csv", "w");
+      fopen("7_oror_both_full_noreset_t10_g10000_r100_w5000_b1.csv", "w");
 
   init_genrand((unsigned long)time(NULL));  // 乱数
 
@@ -833,11 +833,11 @@ void part3() {
   printf("DONE\n");
 }  // main終了
 
-// 6_oror_both_full_reset_t10_g10000_r100_w5000_b1
+// 7_oror_both_full_reset_t10_g10000_r100_w5000_b1
 void part4() {
   // CSVファイルを出力するための準備 TODO:
   FILE *csv_file =
-      fopen("6_oror_both_full_reset_t10_g10000_r100_w5000_b1.csv", "w");
+      fopen("7_oror_both_full_reset_t10_g10000_r100_w5000_b1.csv", "w");
 
   init_genrand((unsigned long)time(NULL));  // 乱数
 
@@ -1102,11 +1102,11 @@ void part4() {
   printf("DONE\n");
 }  // main終了
 
-// 6_anan_both_full_noreset_t10_g10000_r100_w5000_b1
+// 7_anan_both_full_noreset_t10_g10000_r100_w5000_b1
 void part5() {
   // CSVファイルを出力するための準備 TODO:
   FILE *csv_file =
-      fopen("6_anan_both_full_noreset_t10_g10000_r100_w5000_b1.csv", "w");
+      fopen("7_anan_both_full_noreset_t10_g10000_r100_w5000_b1.csv", "w");
 
   init_genrand((unsigned long)time(NULL));  // 乱数
 

@@ -11,17 +11,17 @@ from matplotlib.animation import FuncAnimation
 from datetime import datetime
 from statistics import mean
 
-names = ["7_both_null_noreset_t10_g10000_r100_w5000_b1",
-         "7_both_null_reset_t10_g10000_r100_w5000_b1",
-         "7_form_null_noreset_t10_g10000_r100_w5000_b1",
-         "7_form_null_reset_t10_g10000_r100_w5000_b1",
-         "7_leave_full_noreset_t10_g10000_r100_w5000_b1",
-         "7_leave_full_reset_t10_g10000_r100_w5000_b1",
-         "7_both_full_noreset_t10_g10000_r100_w5000_b1",
-         "7_both_full_reset_t10_g10000_r100_w5000_b1",
+names = [#"7_both_null_noreset_t10_g10000_r100_w5000_b1",
+         #"7_both_null_reset_t10_g10000_r100_w5000_b1",
+         #"7_form_null_noreset_t10_g10000_r100_w5000_b1",
+         #"7_form_null_reset_t10_g10000_r100_w5000_b1",
+         #"7_leave_full_noreset_t10_g10000_r100_w5000_b1",
+         #"7_leave_full_reset_t10_g10000_r100_w5000_b1",
+         #"7_both_full_noreset_t10_g10000_r100_w5000_b1",
+         #"7_both_full_reset_t10_g10000_r100_w5000_b1",
 
-         "7_oror_form_null_noreset_t10_g10000_r100_w5000_b1",
-         "7_anan_leave_full_noreset_t10_g10000_r100_w5000_b1",
+         #"7_oror_form_null_noreset_t10_g10000_r100_w5000_b1",
+         #"7_anan_leave_full_noreset_t10_g10000_r100_w5000_b1",
          "7_oror_both_null_noreset_t10_g10000_r100_w5000_b1",
          "7_anan_both_null_noreset_t10_g10000_r100_w5000_b1",
          "7_anor_both_null_noreset_t10_g10000_r100_w5000_b1",
@@ -31,11 +31,11 @@ def main(csv, name, generation):
     data =pd.read_csv(csv)
     data_step = data[data["Generation"] == generation]
     
-    tc_mean = data_step["tc"].mean()
+    tc_mean = data_step["tf"].mean()
     link_count_mean = data_step["link_count"].mean()
 
     print(f"name:{name}")
-    print(f"tc: {tc_mean}")
+    print(f"tf: {tc_mean}")
     print(f"ln: {link_count_mean}")
 
 for name in names:
